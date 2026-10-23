@@ -65,7 +65,7 @@ import {createClient} from 'https://esm.sh/@supabase/supabase-js@2';
 const CFG=window.CLE_SUPABASE_CONFIG||{};
 const $=id=>document.getElementById(id), uid=()=>crypto.randomUUID?crypto.randomUUID():String(Date.now())+Math.random();
 const ACCESS_CODE=(window.CLE_ACCESS_CODE||'BUHAY NA WALANG HANGGAN');
-let supa=null,user=null,isAdmin=false,songs=read('cle_songs'),playlists=read('cle_playlists'),currentSong=null,editingList=null,channel=null,deferred=null;
+let supa=null,user=null,isAdmin=false,isSuperAdmin=false,userRole='user',songs=read('cle_songs'),playlists=read('cle_playlists'),currentSong=null,editingList=null,channel=null,deferred=null;
 function read(k){try{return JSON.parse(localStorage.getItem(k))||[]}catch{return []}}
 function cache(){localStorage.setItem('cle_songs',JSON.stringify(songs));localStorage.setItem('cle_playlists',JSON.stringify(playlists))}
 function esc(s=''){return String(s).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]))}
