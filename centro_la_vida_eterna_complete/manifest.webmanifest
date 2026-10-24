@@ -1,9 +1,0 @@
-{
-  "name": "CENTRO LA VIDA ETERNA Songbook",
-  "short_name": "CLE Songbook",
-  "start_url": "./",
-  "display": "standalone",
-  "background_color": "#fff8e9",
-  "theme_color": "#071d63",
-  "description": "Church songbook and worship playlists"
-}
