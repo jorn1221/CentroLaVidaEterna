@@ -1,8 +1,8 @@
 {
   "id": "./",
-  "name": "UECF Worship Songbook — Centro La Vida Eterna",
-  "short_name": "UECF Songbook",
-  "description": "UECF Worship Songbook — search, read, transpose, and organize worship songs.",
+  "name": "UECFI Worship Songbook — Centro La Vida Eterna",
+  "short_name": "UECFI Songbook",
+  "description": "UECFI Worship Songbook — search, read, transpose, and organize worship songs.",
   "lang": "en",
   "start_url": "./",
   "scope": "./",
