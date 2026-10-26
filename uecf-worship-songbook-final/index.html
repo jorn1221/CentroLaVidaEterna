@@ -842,8 +842,28 @@ $("lyricColor").onchange=e=>wrapLyricsSelection({color:e.target.value});
 $("lyricSize").onchange=e=>wrapLyricsSelection({fontSize:Number(e.target.value)+"px"});
 $("lyricHighlight").onchange=e=>{lyricBox.dataset.highlight=e.target.value;wrapLyricsSelection({backgroundColor:e.target.value,color:"#111827",borderRadius:"3px"})};
 $("lyricBold").onclick=()=>wrapLyricsSelection({fontWeight:"800"});$("lyricItalic").onclick=()=>wrapLyricsSelection({fontStyle:"italic"});$("lyricUnderline").onclick=()=>wrapLyricsSelection({textDecoration:"underline"});$("lyricStrike").onclick=()=>wrapLyricsSelection({textDecoration:"line-through"});$("lyricHighlightBtn").onclick=()=>wrapLyricsSelection({backgroundColor:$("lyricHighlight").value,color:"#111827",borderRadius:"3px"});
-// Alignment and line spacing are paragraph-level controls, so they affect only paragraphs touched by the selection.
-const styleSelectedParagraphs=(styles)=>{if(!canEdit()){toast("Lyrics editing is available only to approved Admin, Editor, and Super Admin accounts.");return}const range=restoreLyricSelection();if(!range)return;rememberLyricChange();let node=range.startContainer.nodeType===Node.ELEMENT_NODE?range.startContainer:range.startContainer.parentElement;while(node&&node.parentElement!==lyricBox&&!node.classList?.contains("chord"))node=node.parentElement;if(!node||node===lyricBox){toast("Piliin muna ang text sa paragraph na gusto mong baguhin.");return}let end=range.endContainer.nodeType===Node.ELEMENT_NODE?range.endContainer:range.endContainer.parentElement;while(end&&end.parentElement!==lyricBox&&!end.classList?.contains("chord"))end=end.parentElement;Object.assign(node.style,styles);if(end&&end!==node)Object.assign(end.style,styles)};
+// Alignment applies to the selected lyric text itself (not just its parent, which is often the whole lyrics box).
+// A full-width block wrapper makes left/center/right alignment visible for selections separated by <br> lines.
+const styleSelectedParagraphs=(styles)=>{
+  if(!canEdit()){toast("Lyrics editing is available only to approved Admin, Editor, and Super Admin accounts.");return}
+  const ranges=(savedLyricRanges.length?savedLyricRanges:[restoreLyricSelection()]).filter(r=>r&&!r.collapsed&&lyricBox.contains(r.commonAncestorContainer));
+  if(!ranges.length){toast("Piliin muna ang lyrics na gusto mong i-align.");return}
+  rememberLyricChange();
+  const ordered=ranges.map(r=>r.cloneRange()).sort((a,b)=>b.compareBoundaryPoints(Range.START_TO_START,a));
+  let last=null;
+  for(const range of ordered){
+    try{
+      const block=document.createElement("div");
+      block.className="lyric-aligned-selection";
+      block.style.display="block";block.style.width="100%";block.style.boxSizing="border-box";
+      Object.assign(block.style,styles);
+      block.appendChild(range.extractContents());
+      range.insertNode(block);last=block;
+    }catch(err){console.warn("Could not align selected lyric range",err)}
+  }
+  if(last){const sel=window.getSelection();const keep=document.createRange();keep.selectNodeContents(last);sel.removeAllRanges();sel.addRange(keep);savedLyricRange=keep.cloneRange();}
+  savedLyricRanges=[];if(window.CSS&&CSS.highlights)CSS.highlights.delete("lyric-multi-selection");
+};
 $("lyricAlignLeft").onclick=()=>styleSelectedParagraphs({textAlign:"left"});$("lyricAlignCenter").onclick=()=>styleSelectedParagraphs({textAlign:"center"});$("lyricAlignRight").onclick=()=>styleSelectedParagraphs({textAlign:"right"});
 $("lyricLineSpace").onclick=()=>{if(!canEdit()){toast("Lyrics editing is available only to approved Admin, Editor, and Super Admin accounts.");return}const range=restoreLyricSelection();if(!range)return;rememberLyricChange();const node=range.startContainer.nodeType===Node.ELEMENT_NODE?range.startContainer:range.startContainer.parentElement;let block=node;while(block&&block.parentElement!==lyricBox)block=block.parentElement;if(block&&block!==lyricBox){const cur=parseFloat(getComputedStyle(block).lineHeight)/parseFloat(getComputedStyle(block).fontSize);block.style.lineHeight=String(cur>2.2?1.5:cur>1.7?2.4:2)}};
 $("lyricClearFormat").onclick=()=>{if(!canEdit()){toast("Lyrics editing is available only to approved Admin, Editor, and Super Admin accounts.");return}const range=restoreLyricSelection();if(!range||range.collapsed){toast("Piliin muna ang text na gusto mong i-reset.");return}rememberLyricChange();const text=range.extractContents();const clean=document.createDocumentFragment();const walker=document.createTreeWalker(text,NodeFilter.SHOW_TEXT);let n;while(n=walker.nextNode())clean.appendChild(document.createTextNode(n.nodeValue));range.insertNode(clean);const sel=window.getSelection();sel.removeAllRanges();savedLyricRange=null};
