@@ -1,4 +1,4 @@
-const CACHE_NAME = "uecfi-songbook-print-final-v11";
+const CACHE_NAME = "uecfi-songbook-admin-editor-mobile-v14";
 const APP_SHELL = [
   "./",
   "./index.html",
@@ -41,7 +41,7 @@ self.addEventListener("activate", event => {
     const keys = await caches.keys();
     await Promise.all(
       keys.filter(key =>
-        key.startsWith("uecfi-songbook-shell-") && key !== CACHE_NAME
+        key.startsWith("uecfi-songbook-") && key !== CACHE_NAME
       ).map(key => caches.delete(key))
     );
     await self.clients.claim();
