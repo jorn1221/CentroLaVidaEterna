@@ -3,12 +3,12 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
-<meta name="theme-color" content="#173b75">
+<meta name="theme-color" content="#10285b">
 <link rel="manifest" href="manifest.json">
 
 
-<meta name="description" content="UECFI Worship Songbook — Centro La Vida Eterna. Search, read, transpose, and organize worship songs.">
-<title>UECFI Worship Songbook — Centro La Vida Eterna</title>
+<meta name="description" content="Centro La Vida Eterna Worship Songbook. Search, read, transpose, and organize worship songs.">
+<title>Centro La Vida Eterna — Worship Songbook</title>
 <script src="https://cdn.tailwindcss.com"></script>
 <script>tailwind.config={darkMode:'class',theme:{extend:{colors:{navy:'#173b75',gold:'#f5b51b'}}}}</script>
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
@@ -22,6 +22,107 @@
 .chord-line{display:block;white-space:pre-wrap;line-height:1.9}.chord{color:#b45309;font-weight:800}.dark .chord{color:#fbbf24}.hide-chords .chord{display:none!important}.lyrics{font-family:ui-monospace,SFMono-Regular,Menlo,monospace}
 dialog{border:0;border-radius:1rem;padding:0;max-width:min(94vw,500px);width:100%;box-shadow:0 20px 70px #0005}dialog::backdrop{background:#0f172a99}
 @media print{.no-print,aside,header,.sidebar,.mobile-nav,button{display:none!important}body,.card{background:white!important;color:black!important;box-shadow:none!important;border:0!important}.print-only{display:block!important}main{padding:0!important}.lyrics{font-size:12pt!important}}
+
+/* ===== CLVE full interface redesign v2 ===== */
+:root{--clve-navy:#10285b;--clve-deep:#08183c;--clve-blue:#173b75;--clve-gold:#f4b91f;--clve-cream:#fffaf0;--clve-ink:#17243b;--clve-muted:#69758a}
+html{scroll-behavior:smooth}
+body{font-family:Inter,ui-sans-serif,system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;background:#f6f4ed!important;color:var(--clve-ink);letter-spacing:-.012em}
+body.dark,html.dark body{background:#0b1220!important;color:#e7edf8}
+header.bg-navy{background:linear-gradient(115deg,#08183c 0%,#10285b 55%,#173b75 100%)!important;border-bottom:3px solid var(--clve-gold);box-shadow:0 5px 20px #0a1a3c22}
+header .max-w-\[1600px\]{min-height:74px;padding-top:.8rem;padding-bottom:.8rem}
+header img{border:2px solid #f4b91f;box-shadow:0 3px 12px #0003}
+header .font-extrabold{letter-spacing:.055em;font-size:.95rem}
+header a{color:#dbeafe}
+.sidebar{background:linear-gradient(180deg,#10285b,#08183c)!important;color:#f8fafc;border:0!important}
+.sidebar .rounded-xl.overflow-hidden{border:1px solid #ffffff24;border-radius:14px;box-shadow:0 8px 20px #0002}
+.sidebar .rounded-xl.overflow-hidden img{height:132px}
+.sidebar .rounded-xl.overflow-hidden div{background:var(--clve-gold)!important;color:#10285b!important;font-weight:900;letter-spacing:.045em}
+.sidebar .navitem{color:#e8eefb;padding:.78rem .85rem;border-radius:11px;font-weight:650;transition:background .15s,color .15s}
+.sidebar .navitem.active,.sidebar .navitem:hover{background:var(--clve-gold)!important;color:#10285b!important}
+.mobile-nav{background:#fffdf7!important;border-top:1px solid #e8dfcc!important;box-shadow:0 -8px 28px #10285b12;padding:.45rem .55rem calc(.45rem + env(safe-area-inset-bottom))}
+.mobile-nav .navitem{min-height:52px;border-radius:12px;color:#67738a;font-weight:650}
+.mobile-nav .navitem.active,.mobile-nav .navitem:hover{background:#fff0bc!important;color:#10285b!important}
+.dark .mobile-nav{background:#101b2e!important;border-color:#28374e!important}
+.dark .mobile-nav .navitem{color:#aab8ce}
+.dark .mobile-nav .navitem.active{background:#433719!important;color:#ffcf4b!important}
+main{min-width:0}
+.card{background:#fffefa!important;border:1px solid #e8e1d3!important;border-radius:17px!important;box-shadow:0 6px 24px rgba(23,37,64,.055)!important}
+.dark .card{background:#141f33!important;border-color:#293951!important;box-shadow:0 8px 24px #0002!important}
+.btn{border-radius:11px!important;font-weight:750;transition:transform .15s,box-shadow .15s,background .15s}
+.btn:hover{transform:translateY(-1px)}
+.btn-primary{background:linear-gradient(135deg,#173b75,#10285b)!important;color:#fff!important;box-shadow:0 4px 10px #10285b20}
+.btn-primary:hover{background:#214b8c!important}
+.btn-gold{background:linear-gradient(135deg,#ffda70,#f4b91f)!important;color:#172b50!important;box-shadow:0 4px 10px #d79a1820}
+.btn-gold:hover{background:#ffd04b!important}
+.btn-ghost{border:1px solid #e2dacb!important;background:#fffdf8!important;color:#344158!important}
+.dark .btn-ghost{background:#172338!important;border-color:#3a4961!important;color:#e2e8f0!important}
+.field{border:1px solid #e0d9cb!important;border-radius:11px!important;min-height:44px;padding:.72rem .85rem!important;background:#fff!important;color:#172033!important}
+.field:focus{outline:none!important;border-color:#d9a51a!important;box-shadow:0 0 0 3px #f4b91f30!important}
+.dark .field{background:#0f172a!important;color:#f8fafc!important;border-color:#3a4961!important}
+.hero-banner-wrap{overflow:hidden;border-radius:18px;border:1px solid #dfc987;box-shadow:0 10px 30px #10285b17;background:#0a1b40}
+.hero-banner{display:block;width:100%;height:auto;aspect-ratio:1670/941;object-fit:contain;background:#071a3e}
+#stats .card{position:relative;overflow:hidden;padding:1rem 1.1rem!important}
+#stats .card:before{content:"";position:absolute;left:0;top:0;bottom:0;width:4px;background:var(--clve-gold)}
+#stats .card .text-xs{font-weight:700;letter-spacing:.035em}
+#stats [id^="stat"]{color:#173b75}
+.dark #stats [id^="stat"]{color:#f4c64e}
+#view-home h2,#view-playlists h2,#view-favorites h2,#view-admin h2{color:#10285b;letter-spacing:-.035em}
+.dark #view-home h2,.dark #view-playlists h2,.dark #view-favorites h2,.dark #view-admin h2{color:#f4c64e}
+#view-home .card.p-3{padding:12px!important}
+#songsList .card{min-height:198px;transition:transform .18s,box-shadow .18s}
+#songsList .card:hover{transform:translateY(-2px);box-shadow:0 12px 28px #10285b12!important}
+#songsList .w-11.h-11{background:#fff1bf!important;color:#805700!important;border-radius:13px!important}
+.dark #songsList .w-11.h-11{background:#433719!important;color:#ffce4d!important}
+#songsList .rounded-full.bg-blue-100{background:#e7efff;color:#234b85}
+#songsList .rounded-full.bg-amber-100{background:#fff0bc;color:#795300}
+#songsList .rounded-full.bg-slate-100{background:#edf0f5;color:#475569}
+#view-song h2{color:#10285b}
+.dark #view-song h2{color:#f4c64e}
+.lyrics{line-height:2!important;overflow-wrap:anywhere}
+dialog{max-width:min(94vw,900px)!important;border:1px solid #e5dcc8!important;border-radius:20px!important;background:#fffefa!important;color:#172033!important;overflow:hidden}
+dialog::backdrop{background:#071633b8;backdrop-filter:blur(4px)}
+dialog form{padding:clamp(1.2rem,3vw,2rem)!important;max-height:88dvh;overflow:auto}
+.dark dialog{background:#141f33!important;color:#e7edf8!important;border-color:#293951!important}
+#authDialog[open]{display:grid;grid-template-columns:minmax(0,.9fr) minmax(0,1fr);padding:0}
+#authDialog .auth-art{position:relative;min-height:490px;background:linear-gradient(180deg,#06183a30,#06183ae8),url("assets/centro-la-vida-eterna.jpg") center/cover no-repeat;display:flex;align-items:flex-end;padding:2rem;color:#fff}
+.auth-art-copy{width:100%;text-align:center}
+.auth-mark{margin:0 auto 1rem;width:78px;height:78px;display:grid;place-items:center;border:2px solid #f4c24c;border-radius:50%;font-size:2rem;color:#f4c24c;background:#10285bd9}
+.auth-brand{font-family:Georgia,serif;font-weight:800;letter-spacing:.07em;font-size:clamp(1.15rem,2vw,1.7rem);text-shadow:0 2px 8px #000}
+.auth-subtitle{font-family:Georgia,serif;font-style:italic;color:#ffd15a;font-size:1.3rem;margin-top:.3rem}
+.auth-art-copy p{margin-top:1.2rem;font-family:Georgia,serif;font-style:italic;color:#fff0c5}
+#authDialog #authForm{min-width:0}
+#authDialog #authTitle{color:#10285b;font-size:1.6rem}
+.dark #authDialog #authTitle{color:#f4c64e}
+@media(min-width:768px){main{padding:1.5rem 1.65rem!important}#hero{margin-bottom:1.25rem!important}#songsList{grid-template-columns:repeat(3,minmax(0,1fr))}}
+@media(max-width:767px){
+  header .max-w-\[1600px\]{padding:.65rem .8rem;gap:.55rem}
+  header img{width:42px;height:42px}
+  header .font-extrabold{font-size:.77rem;line-height:1.25}
+  header .text-xs{font-size:.62rem;line-height:1rem}
+  header .text-\[10px\]{display:none}
+  #themeBtn{padding:.5rem .6rem}
+  #authBtn{padding:.55rem .68rem;font-size:.78rem;white-space:nowrap}
+  main{padding:.75rem!important;padding-bottom:6rem!important}
+  .hero-banner-wrap{border-radius:14px;margin-bottom:1rem!important}
+  .hero-banner{aspect-ratio:16/9;object-fit:cover}
+  #stats{gap:.55rem;margin-bottom:1.1rem}
+  #stats .card{padding:.8rem .85rem!important;border-radius:13px!important}
+  #stats .card>div:nth-child(2){font-size:1.35rem}
+  #view-home h2,#view-playlists h2,#view-favorites h2,#view-admin h2{font-size:1.3rem}
+  #view-home .flex.flex-col.lg\:flex-row{gap:.8rem}
+  #view-home .card.p-3{grid-template-columns:1fr;gap:.55rem}
+  #songsList{grid-template-columns:1fr}
+  #songsList .card{min-height:0;padding:1rem!important}
+  #view-song .card{padding:1rem!important}
+  #view-song h2{font-size:1.5rem;line-height:1.15}
+  #view-song .btn{padding:.58rem .7rem;font-size:.82rem}
+  .mobile-nav{grid-template-columns:repeat(4,minmax(0,1fr))}
+  #authDialog[open]{display:block;max-width:min(94vw,460px)!important}
+  #authDialog .auth-art{display:none}
+  #authDialog #authForm{max-height:88dvh}
+}
+@media(prefers-reduced-motion:reduce){*,*::before,*::after{transition:none!important;scroll-behavior:auto!important}}
+
 </style>
 </head>
 <body class="bg-slate-50 text-slate-900 dark:bg-slate-900 dark:text-slate-100 min-h-screen">
@@ -30,7 +131,7 @@ dialog{border:0;border-radius:1rem;padding:0;max-width:min(94vw,500px);width:100
 <header class="no-print sticky top-0 z-30 bg-navy text-white shadow-lg">
   <div class="max-w-[1600px] mx-auto px-4 py-3 flex items-center gap-3">
     <img src="assets/uecfi-logo.png" alt="UECFI logo" class="w-11 h-11 rounded-full bg-white object-contain p-0.5">
-    <div class="min-w-0 flex-1"><div class="font-extrabold tracking-wide leading-tight">UECFI WORSHIP SONGBOOK</div><div class="text-xs text-blue-100"><a href="https://uecfi.net/" target="_blank" rel="noopener noreferrer" class="hover:underline">Union Espiritista Cristiana de Filipinas, Inc. (UECFI)</a></div><div class="text-[10px] text-blue-100 mt-1">Created by: Jorn-Borg Carigao · Created: October 24, 2026</div></div>
+    <div class="min-w-0 flex-1"><div class="font-extrabold tracking-wide leading-tight">CENTRO LA VIDA ETERNA</div><div class="text-xs text-amber-300 font-bold tracking-[.16em]">WORSHIP SONGBOOK</div><div class="text-xs text-blue-100"><a href="https://uecfi.net/" target="_blank" rel="noopener noreferrer" class="hover:underline">Union Espiritista Cristiana de Filipinas, Inc. (UECFI)</a></div><div class="text-[10px] text-blue-100 mt-1">Created by: Jorn-Borg Carigao · Created: October 24, 2026</div></div>
     <button id="themeBtn" class="btn btn-ghost !border-white/30 text-white" title="Toggle dark mode"><i class="fa-solid fa-moon"></i><span class="hidden sm:inline ml-2">Theme</span></button>
     <button id="authBtn" class="btn btn-gold"><i class="fa-solid fa-right-to-bracket mr-1"></i><span id="authBtnText">Login</span></button>
   </div>
@@ -38,16 +139,15 @@ dialog{border:0;border-radius:1rem;padding:0;max-width:min(94vw,500px);width:100
 <div class="max-w-[1600px] mx-auto flex min-h-[calc(100vh-68px)]">
   <aside class="sidebar no-print hidden md:flex w-60 shrink-0 flex-col border-r border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-800 p-4 gap-2">
     <div class="rounded-xl overflow-hidden mb-3"><img src="assets/centro-la-vida-eterna.jpg" alt="Centro La Vida Eterna chapel" class="w-full h-28 object-cover"><div class="bg-navy text-white text-center text-xs font-bold py-2">CENTRO LA VIDA ETERNA</div></div>
-    <button class="navitem active" data-view="home"><i class="fa-solid fa-house w-4"></i> Home / Songs</button>
+    <button class="navitem active" data-view="home"><i class="fa-solid fa-house w-4"></i> Home</button>
     <button class="navitem" data-view="playlists"><i class="fa-solid fa-list-music w-4"></i> Playlists</button>
     <button class="navitem" data-view="favorites"><i class="fa-solid fa-heart w-4"></i> Favorites</button>
     <button class="navitem" data-view="admin"><i class="fa-solid fa-shield-halved w-4"></i> Admin Panel</button>
     <div class="mt-auto text-xs text-slate-500 dark:text-slate-400 px-2" id="roleLabel">Read-only mode</div>
   </aside>
   <main class="flex-1 min-w-0 p-4 sm:p-6 pb-24 md:pb-8">
-    <section id="hero" class="card overflow-hidden mb-5 grid md:grid-cols-[1.2fr_1fr]">
-      <img src="assets/centro-la-vida-eterna.jpg" alt="Centro La Vida Eterna chapel" class="h-44 md:h-56 w-full object-cover">
-      <div class="p-5 sm:p-7 flex flex-col justify-center"><div class="text-xs uppercase tracking-[.2em] text-amber-600 font-bold">Worship • Fellowship • Praise</div><h1 class="text-2xl sm:text-3xl font-black mt-2">Your Worship Songbook</h1><p class="mt-2 text-slate-600 dark:text-slate-300">Find songs quickly, follow lyrics and chords, transpose keys, and prepare worship playlists.</p><div class="mt-4 flex flex-wrap gap-2"><span class="bg-amber-100 text-amber-900 rounded-full px-3 py-1 text-xs font-bold">Tagalog</span><span class="bg-blue-100 text-blue-900 rounded-full px-3 py-1 text-xs font-bold">English</span><span class="bg-purple-100 text-purple-900 rounded-full px-3 py-1 text-xs font-bold">Pangasinense</span><span class="bg-emerald-100 text-emerald-900 rounded-full px-3 py-1 text-xs font-bold">Ilokano</span><span class="bg-slate-100 text-slate-800 rounded-full px-3 py-1 text-xs font-bold">ChordPro</span></div></div>
+    <section id="hero" class="hero-banner-wrap mb-5" aria-label="Centro La Vida Eterna Worship Songbook banner">
+      <img src="assets/clve-church-banner.webp" alt="Centro La Vida Eterna, Urbiztondo Pangasinan — church and Worship Songbook banner" class="hero-banner">
     </section>
     <section id="stats" class="grid grid-cols-2 lg:grid-cols-4 gap-3 mb-5">
       <div class="card p-4"><div class="text-xs text-slate-500">Songs</div><div id="statSongs" class="text-2xl font-black mt-1">0</div></div>
@@ -57,7 +157,7 @@ dialog{border:0;border-radius:1rem;padding:0;max-width:min(94vw,500px);width:100
     </section>
     <section id="view-home">
       <div class="flex flex-col lg:flex-row lg:items-end gap-3 justify-between mb-4">
-        <div><h2 class="text-2xl font-extrabold">Song Library</h2><p class="text-sm text-slate-500 dark:text-slate-400">Search by title, artist, key, category, or lyrics.</p></div>
+        <div><h2 class="text-2xl font-extrabold">Songs</h2><p class="text-sm text-slate-500 dark:text-slate-400">Search by title, artist, key, category, or lyrics.</p></div>
         <div class="flex flex-wrap gap-2"><button id="addSongBtn" class="btn btn-primary hidden"><i class="fa-solid fa-plus mr-1"></i> Add Song</button><button id="newPlaylistBtn" class="btn btn-gold"><i class="fa-solid fa-list mr-1"></i> New Playlist</button></div>
       </div>
       <div class="card p-3 mb-4 grid sm:grid-cols-2 lg:grid-cols-[1fr_160px_160px_140px] gap-2">
@@ -80,7 +180,7 @@ dialog{border:0;border-radius:1rem;padding:0;max-width:min(94vw,500px);width:100
 </nav>
 </div>
 
-<dialog id="authDialog"><form id="authForm" class="p-6 space-y-4"><div class="flex items-center justify-between"><h2 class="text-xl font-extrabold" id="authTitle">Login</h2><button type="button" class="closeDialog text-slate-500 text-xl" aria-label="Close">&times;</button></div><p class="text-sm text-slate-500">Sign in or create an account. New accounts are read-only until approved.</p><div id="authNameWrap" class="hidden"><label class="text-sm font-semibold">Full name</label><input id="authName" class="field mt-1" autocomplete="name" required></div><div id="authPurposeWrap" class="hidden"><label class="text-sm font-semibold">Reason / Purpose for creating this account <span class="text-rose-600">*</span></label><textarea id="authPurpose" class="field mt-1" rows="3" minlength="10" maxlength="500" placeholder="Hal. Gagamitin ko ang songbook para sa paghahanda ng mga awit sa pagsamba." required></textarea><p class="text-xs text-slate-500 mt-1">Ipaliwanag kung bakit kailangan mo ng account (10–500 characters).</p></div><div><label class="text-sm font-semibold">Email</label><input id="authEmail" type="email" required class="field mt-1" autocomplete="email"></div><div><label class="text-sm font-semibold">Password</label><input id="authPassword" type="password" required minlength="6" class="field mt-1" autocomplete="current-password"></div><div id="authMessage" class="text-sm"></div><div class="flex gap-2"><button id="authSubmit" class="btn btn-primary flex-1" type="submit">Login</button><button id="signupToggle" type="button" class="btn btn-ghost">Sign up</button></div></form></dialog>
+<dialog id="authDialog"><div class="auth-art" aria-label="Centro La Vida Eterna chapel"><div class="auth-art-copy"><div class="auth-mark">✦</div><div class="auth-brand">CENTRO LA VIDA ETERNA</div><div class="auth-subtitle">Worship Songbook</div><p>“Alang sa Pagdayeg sa Dios<br>sa Tanang Panahon”</p></div></div><form id="authForm" class="p-6 space-y-4"><div class="flex items-center justify-between"><h2 class="text-xl font-extrabold" id="authTitle">Login</h2><button type="button" class="closeDialog text-slate-500 text-xl" aria-label="Close">&times;</button></div><p class="text-sm text-slate-500">Sign in or create an account. New accounts are read-only until approved.</p><div id="authNameWrap" class="hidden"><label class="text-sm font-semibold">Full name</label><input id="authName" class="field mt-1" autocomplete="name" required></div><div id="authPurposeWrap" class="hidden"><label class="text-sm font-semibold">Reason / Purpose for creating this account <span class="text-rose-600">*</span></label><textarea id="authPurpose" class="field mt-1" rows="3" minlength="10" maxlength="500" placeholder="Hal. Gagamitin ko ang songbook para sa paghahanda ng mga awit sa pagsamba." required></textarea><p class="text-xs text-slate-500 mt-1">Ipaliwanag kung bakit kailangan mo ng account (10–500 characters).</p></div><div><label class="text-sm font-semibold">Email</label><input id="authEmail" type="email" required class="field mt-1" autocomplete="email"></div><div><label class="text-sm font-semibold">Password</label><input id="authPassword" type="password" required minlength="6" class="field mt-1" autocomplete="current-password"></div><div id="authMessage" class="text-sm"></div><div class="flex gap-2"><button id="authSubmit" class="btn btn-primary flex-1" type="submit">Login</button><button id="signupToggle" type="button" class="btn btn-ghost">Sign up</button></div></form></dialog>
 <dialog id="songDialog"><form id="songForm" class="p-6 space-y-3"><div class="flex items-center justify-between"><h2 id="songFormTitle" class="text-xl font-extrabold">Add song</h2><button type="button" class="closeDialog text-xl">&times;</button></div><input type="hidden" id="songId"><label class="block text-sm font-semibold">Title *<input id="songTitle" required class="field mt-1"></label><label class="block text-sm font-semibold">Artist<input id="songArtist" class="field mt-1" placeholder="Unknown"></label><div class="grid grid-cols-2 gap-3"><label class="block text-sm font-semibold">Key<select id="songKey" class="field mt-1"><option>N/A</option><option>A</option><option>A#</option><option>B</option><option>C</option><option>C#</option><option>D</option><option>D#</option><option>E</option><option>F</option><option>F#</option><option>G</option><option>G#</option></select></label><label class="block text-sm font-semibold">Tempo<select id="songTempo" class="field mt-1"><option>N/A</option><option>Fast</option><option>Medium</option><option>Slow</option></select></label></div><div class="grid grid-cols-2 gap-3"><label class="block text-sm font-semibold">Category<select id="songCategory" class="field mt-1"><option>N/A</option><option>Praise</option><option>Worship</option><option>Special</option></select></label><label class="block text-sm font-semibold">Language<select id="songLanguage" class="field mt-1"><option>Tagalog</option><option>English</option><option>Pangasinense</option><option>Ilokano</option><option>Spanish</option><option>Other</option></select></label></div><label class="block text-sm font-semibold">Lyrics / ChordPro *<textarea id="songLyrics" required rows="9" class="field mt-1 font-mono" placeholder="{title: Song title}\n{key: G}\n[Verse 1]\n[G]Sample lyric line"></textarea></label><p class="text-xs text-slate-500">ChordPro example: [G]Walang hanggan ang [D]pagmamahal. Store only lyrics your organization has permission to use.</p><div id="songMessage" class="text-sm"></div><button class="btn btn-primary w-full" type="submit">Save song</button></form></dialog>
 <dialog id="playlistDialog"><form id="playlistForm" class="p-6 space-y-4"><div class="flex items-center justify-between"><h2 class="text-xl font-extrabold">Create playlist</h2><button type="button" class="closeDialog text-xl">&times;</button></div><label class="block text-sm font-semibold">Playlist name<input id="playlistTitle" required class="field mt-1" placeholder="Sunday Service"></label><label class="block text-sm font-semibold">Description<input id="playlistDescription" class="field mt-1" placeholder="Opening, praise, worship…"></label><button class="btn btn-primary w-full">Create playlist</button></form></dialog>
 <div id="toast" class="fixed bottom-20 md:bottom-5 left-1/2 -translate-x-1/2 z-50 hidden rounded-xl bg-slate-900 text-white px-4 py-3 shadow-xl text-sm max-w-[90vw]"></div>
@@ -152,7 +252,7 @@ function renderSongs(){const q=$("search").value.toLowerCase(),lang=$("langFilte
 function wireSongCards(){document.querySelectorAll("[data-open]").forEach(b=>b.onclick=()=>openSong(b.dataset.open));document.querySelectorAll("[data-fav]").forEach(b=>b.onclick=()=>{const id=b.dataset.fav;state.favorites.has(id)?state.favorites.delete(id):state.favorites.add(id);localStorage.setItem("uecf_favorites",JSON.stringify([...state.favorites]));renderSongs();renderStats()});document.querySelectorAll("[data-edit]").forEach(b=>b.onclick=()=>editSong(b.dataset.edit));document.querySelectorAll("[data-delete]").forEach(b=>b.onclick=()=>deleteSong(b.dataset.delete))}
 ["search","langFilter","categoryFilter","sortSongs"].forEach(id=>$(id).addEventListener(id==="search"?"input":"change",renderSongs));
 function chordTranspose(text,steps){const notes=["C","C#","D","D#","E","F","F#","G","G#","A","A#","B"];const map={"Db":"C#","Eb":"D#","Gb":"F#","Ab":"G#","Bb":"A#"};return text.replace(/\[([A-G](?:#|b)?(?:m|maj|min|dim|aug|sus|add)?\d*(?:\/[A-G](?:#|b)?)?)\]/g,(all,chord)=>{const m=chord.match(/^([A-G](?:#|b)?)(.*)$/);if(!m)return all;let n=map[m[1]]||m[1],i=notes.indexOf(n);if(i<0)return all;let shifted=notes[(i+steps%12+12)%12];return "["+shifted+m[2]+"]"})}
-function renderChordPro(raw,steps=0){return esc(chordTranspose(raw,steps)).replace(/\[([A-G](?:#|b)?(?:m|maj|min|dim|aug|sus|add)?\d*(?:\/[A-G](?:#|b)?)?)\]/g,'<span class="chord">[$1]</span>').replace(/\{(?:title|artist|key|tempo|time|capo):\s*([^}]+)\}/gi,'').replace(/\[(Verse[^\\]]*|Chorus|Bridge|Pre-Chorus|Intro|Outro)\]/gi,'<strong class="block text-sm text-amber-600 mt-4 mb-1">[$1]</strong>').replace(/\n/g,'<br>')}
+function renderChordPro(raw,steps=0){return esc(chordTranspose(raw,steps)).replace(/\[([A-G](?:#|b)?(?:m|maj|min|dim|aug|sus|add)?\d*(?:\/[A-G](?:#|b)?)?)\]/g,'<span class="chord">[$1]</span>').replace(/\{(?:title|artist|key|tempo|time|capo):\s*([^}]+)\}/gi,'').replace(/\[(Verse[^\]]*|Chorus|Bridge|Pre-Chorus|Intro|Outro)\]/gi,'<strong class="block text-sm text-amber-600 mt-4 mb-1">[$1]</strong>').replace(/\n/g,'<br>')}
 function openSong(id){const s=state.songs.find(x=>x.id===id);if(!s)return;state.currentSong=s;state.transpose=0;state.chordsVisible=true;showView("song");const v=$("view-song");v.innerHTML=`<div class="no-print flex items-center justify-between mb-4"><button id="backSongs" class="btn btn-ghost"><i class="fa-solid fa-arrow-left mr-1"></i> Back to Songs</button><button id="songFav" class="btn btn-ghost text-rose-600"><i class="fa-regular fa-heart"></i> Favorite</button></div><article class="card p-5 sm:p-8"><div class="flex flex-wrap justify-between gap-3"><div><div class="text-xs uppercase tracking-wider text-amber-600 font-bold">${esc(s.category||"N/A")} • ${esc(s.language||"Other")}</div><h2 class="text-3xl font-black mt-1">${esc(s.title)}</h2><p class="text-slate-500 mt-1">${esc(s.artist||"Unknown artist")}</p></div><div class="flex gap-2 items-start no-print"><button id="transposeDown" class="btn btn-ghost" title="Transpose down"><i class="fa-solid fa-minus"></i></button><span id="transposeLabel" class="px-2 py-2 text-sm font-bold">Key: ${esc(s.key_signature||"N/A")}</span><button id="transposeUp" class="btn btn-ghost" title="Transpose up"><i class="fa-solid fa-plus"></i></button></div></div><div class="flex flex-wrap gap-2 mt-5 no-print"><button id="chordToggle" class="btn btn-gold"><i class="fa-solid fa-eye-slash mr-1"></i> Hide Chords</button><button id="fontDown" class="btn btn-ghost">A−</button><button id="fontUp" class="btn btn-ghost">A+</button><button id="printSong" class="btn btn-ghost"><i class="fa-solid fa-print mr-1"></i> Print / PDF</button>${canEdit()?`<button id="editCurrent" class="btn btn-ghost"><i class="fa-solid fa-pen mr-1"></i> Edit</button>`:""}</div><div id="songLyricsView" class="lyrics mt-6 text-lg leading-8" style="font-size:${state.fontSize}px">${renderChordPro(s.lyrics_chordpro||"",0)}</div></article>`;
 $("backSongs").onclick=()=>showView("home");$("songFav").onclick=()=>{state.favorites.has(s.id)?state.favorites.delete(s.id):state.favorites.add(s.id);localStorage.setItem("uecf_favorites",JSON.stringify([...state.favorites]));renderStats();toast("Favorites updated")};$("chordToggle").onclick=()=>{state.chordsVisible=!state.chordsVisible;const lyrics=$("songLyricsView");lyrics.classList.toggle("hide-chords",!state.chordsVisible);lyrics.querySelectorAll(".chord").forEach(chord=>chord.style.display=state.chordsVisible?"inline":"none");$("chordToggle").innerHTML=state.chordsVisible?'<i class="fa-solid fa-eye-slash mr-1"></i> Hide Chords':'<i class="fa-solid fa-eye mr-1"></i> Show Chords'};$("transposeDown").onclick=()=>transpose(-1);$("transposeUp").onclick=()=>transpose(1);$("fontDown").onclick=()=>{state.fontSize=Math.max(12,state.fontSize-1);$("songLyricsView").style.fontSize=state.fontSize+"px"};$("fontUp").onclick=()=>{state.fontSize=Math.min(32,state.fontSize+1);$("songLyricsView").style.fontSize=state.fontSize+"px"};$("printSong").onclick=()=>window.print();if(canEdit())$("editCurrent").onclick=()=>editSong(s.id)}
 function transpose(n){state.transpose+=n;const s=state.currentSong;$("songLyricsView").innerHTML=renderChordPro(s.lyrics_chordpro||"",state.transpose);$("songLyricsView").classList.toggle("hide-chords",!state.chordsVisible);const keys=["C","C#","D","D#","E","F","F#","G","G#","A","A#","B"],orig=keys.indexOf(s.key_signature);$("transposeLabel").textContent="Key: "+(orig<0?"N/A":keys[(orig+state.transpose%12+12)%12])}
