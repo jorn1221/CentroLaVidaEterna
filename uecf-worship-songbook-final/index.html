@@ -123,6 +123,83 @@ dialog form{padding:clamp(1.2rem,3vw,2rem)!important;max-height:88dvh;overflow:a
 }
 @media(prefers-reduced-motion:reduce){*,*::before,*::after{transition:none!important;scroll-behavior:auto!important}}
 
+
+/* Login dialog refinement: desktop split layout; mobile keeps the branded image above the form */
+.auth-art-copy p{
+  font-family:Georgia,"Times New Roman",serif!important;
+  font-style:normal!important;
+  font-weight:800!important;
+  letter-spacing:.12em!important;
+  text-transform:uppercase;
+  color:#ffd66b!important;
+  text-shadow:0 2px 8px #000,0 0 18px #0008;
+  line-height:1.45;
+  font-size:clamp(.82rem,1.5vw,1.08rem);
+}
+.auth-brand{
+  font-family:Georgia,"Times New Roman",serif!important;
+  letter-spacing:.045em!important;
+  line-height:1.15;
+}
+@media(max-width:767px){
+  #authDialog[open]{
+    display:flex!important;
+    flex-direction:column!important;
+    width:min(94vw,460px)!important;
+    max-width:min(94vw,460px)!important;
+    max-height:94dvh!important;
+    overflow:auto!important;
+    padding:0!important;
+    border-radius:22px!important;
+  }
+  #authDialog .auth-art{
+    display:flex!important;
+    flex:0 0 auto!important;
+    min-height:0!important;
+    height:190px!important;
+    padding:1rem 1rem .9rem!important;
+    align-items:flex-end!important;
+    background-position:center 43%!important;
+    background-size:cover!important;
+  }
+  #authDialog .auth-mark{
+    width:43px!important;height:43px!important;
+    font-size:1.2rem!important;
+    margin:0 auto .45rem!important;
+    border-width:1.5px!important;
+  }
+  #authDialog .auth-brand{
+    font-size:clamp(1rem,4.2vw,1.3rem)!important;
+    text-wrap:balance;
+  }
+  #authDialog .auth-subtitle{
+    font-size:1.05rem!important;
+    margin-top:.2rem!important;
+  }
+  #authDialog .auth-art-copy p{
+    margin-top:.45rem!important;
+    font-size:.69rem!important;
+    letter-spacing:.09em!important;
+  }
+  #authDialog #authForm{
+    display:block!important;
+    width:100%!important;
+    min-width:0!important;
+    max-height:none!important;
+    overflow:visible!important;
+    padding:1rem 1.15rem 1.2rem!important;
+  }
+  #authDialog #authTitle{font-size:1.35rem!important}
+  #authDialog #authForm>p{font-size:.82rem!important;line-height:1.45!important}
+  #authDialog #authForm .field{width:100%;min-height:46px}
+  #authDialog #authForm button{min-height:44px}
+}
+@media(max-width:380px){
+  #authDialog .auth-art{height:165px!important}
+  #authDialog #authForm{padding:.85rem .95rem 1rem!important}
+  #authDialog .auth-art-copy p{font-size:.62rem!important}
+}
+
 </style>
 </head>
 <body class="bg-slate-50 text-slate-900 dark:bg-slate-900 dark:text-slate-100 min-h-screen">
@@ -180,7 +257,7 @@ dialog form{padding:clamp(1.2rem,3vw,2rem)!important;max-height:88dvh;overflow:a
 </nav>
 </div>
 
-<dialog id="authDialog"><div class="auth-art" aria-label="Centro La Vida Eterna chapel"><div class="auth-art-copy"><div class="auth-mark">✦</div><div class="auth-brand">CENTRO LA VIDA ETERNA</div><div class="auth-subtitle">Worship Songbook</div><p>“Alang sa Pagdayeg sa Dios<br>sa Tanang Panahon”</p></div></div><form id="authForm" class="p-6 space-y-4"><div class="flex items-center justify-between"><h2 class="text-xl font-extrabold" id="authTitle">Login</h2><button type="button" class="closeDialog text-slate-500 text-xl" aria-label="Close">&times;</button></div><p class="text-sm text-slate-500">Sign in or create an account. New accounts are read-only until approved.</p><div id="authNameWrap" class="hidden"><label class="text-sm font-semibold">Full name</label><input id="authName" class="field mt-1" autocomplete="name" required></div><div id="authPurposeWrap" class="hidden"><label class="text-sm font-semibold">Reason / Purpose for creating this account <span class="text-rose-600">*</span></label><textarea id="authPurpose" class="field mt-1" rows="3" minlength="10" maxlength="500" placeholder="Hal. Gagamitin ko ang songbook para sa paghahanda ng mga awit sa pagsamba." required></textarea><p class="text-xs text-slate-500 mt-1">Ipaliwanag kung bakit kailangan mo ng account (10–500 characters).</p></div><div><label class="text-sm font-semibold">Email</label><input id="authEmail" type="email" required class="field mt-1" autocomplete="email"></div><div><label class="text-sm font-semibold">Password</label><input id="authPassword" type="password" required minlength="6" class="field mt-1" autocomplete="current-password"></div><div id="authMessage" class="text-sm"></div><div class="flex gap-2"><button id="authSubmit" class="btn btn-primary flex-1" type="submit">Login</button><button id="signupToggle" type="button" class="btn btn-ghost">Sign up</button></div></form></dialog>
+<dialog id="authDialog"><div class="auth-art" aria-label="Centro La Vida Eterna chapel"><div class="auth-art-copy"><div class="auth-mark">✦</div><div class="auth-brand">CENTRO LA VIDA ETERNA</div><div class="auth-subtitle">Worship Songbook</div><p>BUHAY NA WALANG HANGGAN</p></div></div><form id="authForm" class="p-6 space-y-4"><div class="flex items-center justify-between"><h2 class="text-xl font-extrabold" id="authTitle">Login</h2><button type="button" class="closeDialog text-slate-500 text-xl" aria-label="Close">&times;</button></div><p class="text-sm text-slate-500">Sign in or create an account. New accounts are read-only until approved.</p><div id="authNameWrap" class="hidden"><label class="text-sm font-semibold">Full name</label><input id="authName" class="field mt-1" autocomplete="name" required></div><div id="authPurposeWrap" class="hidden"><label class="text-sm font-semibold">Reason / Purpose for creating this account <span class="text-rose-600">*</span></label><textarea id="authPurpose" class="field mt-1" rows="3" minlength="10" maxlength="500" placeholder="Hal. Gagamitin ko ang songbook para sa paghahanda ng mga awit sa pagsamba." required></textarea><p class="text-xs text-slate-500 mt-1">Ipaliwanag kung bakit kailangan mo ng account (10–500 characters).</p></div><div><label class="text-sm font-semibold">Email</label><input id="authEmail" type="email" required class="field mt-1" autocomplete="email"></div><div><label class="text-sm font-semibold">Password</label><input id="authPassword" type="password" required minlength="6" class="field mt-1" autocomplete="current-password"></div><div id="authMessage" class="text-sm"></div><div class="flex gap-2"><button id="authSubmit" class="btn btn-primary flex-1" type="submit">Login</button><button id="signupToggle" type="button" class="btn btn-ghost">Sign up</button></div></form></dialog>
 <dialog id="songDialog"><form id="songForm" class="p-6 space-y-3"><div class="flex items-center justify-between"><h2 id="songFormTitle" class="text-xl font-extrabold">Add song</h2><button type="button" class="closeDialog text-xl">&times;</button></div><input type="hidden" id="songId"><label class="block text-sm font-semibold">Title *<input id="songTitle" required class="field mt-1"></label><label class="block text-sm font-semibold">Artist<input id="songArtist" class="field mt-1" placeholder="Unknown"></label><div class="grid grid-cols-2 gap-3"><label class="block text-sm font-semibold">Key<select id="songKey" class="field mt-1"><option>N/A</option><option>A</option><option>A#</option><option>B</option><option>C</option><option>C#</option><option>D</option><option>D#</option><option>E</option><option>F</option><option>F#</option><option>G</option><option>G#</option></select></label><label class="block text-sm font-semibold">Tempo<select id="songTempo" class="field mt-1"><option>N/A</option><option>Fast</option><option>Medium</option><option>Slow</option></select></label></div><div class="grid grid-cols-2 gap-3"><label class="block text-sm font-semibold">Category<select id="songCategory" class="field mt-1"><option>N/A</option><option>Praise</option><option>Worship</option><option>Special</option></select></label><label class="block text-sm font-semibold">Language<select id="songLanguage" class="field mt-1"><option>Tagalog</option><option>English</option><option>Pangasinense</option><option>Ilokano</option><option>Spanish</option><option>Other</option></select></label></div><label class="block text-sm font-semibold">Lyrics / ChordPro *<textarea id="songLyrics" required rows="9" class="field mt-1 font-mono" placeholder="{title: Song title}\n{key: G}\n[Verse 1]\n[G]Sample lyric line"></textarea></label><p class="text-xs text-slate-500">ChordPro example: [G]Walang hanggan ang [D]pagmamahal. Store only lyrics your organization has permission to use.</p><div id="songMessage" class="text-sm"></div><button class="btn btn-primary w-full" type="submit">Save song</button></form></dialog>
 <dialog id="playlistDialog"><form id="playlistForm" class="p-6 space-y-4"><div class="flex items-center justify-between"><h2 class="text-xl font-extrabold">Create playlist</h2><button type="button" class="closeDialog text-xl">&times;</button></div><label class="block text-sm font-semibold">Playlist name<input id="playlistTitle" required class="field mt-1" placeholder="Sunday Service"></label><label class="block text-sm font-semibold">Description<input id="playlistDescription" class="field mt-1" placeholder="Opening, praise, worship…"></label><button class="btn btn-primary w-full">Create playlist</button></form></dialog>
 <div id="toast" class="fixed bottom-20 md:bottom-5 left-1/2 -translate-x-1/2 z-50 hidden rounded-xl bg-slate-900 text-white px-4 py-3 shadow-xl text-sm max-w-[90vw]"></div>
