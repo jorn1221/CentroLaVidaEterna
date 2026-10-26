@@ -69,7 +69,16 @@ main{min-width:0}
 #view-home h2,#view-playlists h2,#view-favorites h2,#view-admin h2{color:#10285b;letter-spacing:-.035em}
 .dark #view-home h2,.dark #view-playlists h2,.dark #view-favorites h2,.dark #view-admin h2{color:#f4c64e}
 #view-home .card.p-3{padding:12px!important}
-#songsList .card{min-height:198px;transition:transform .18s,box-shadow .18s}
+#songsList{grid-template-columns:minmax(0,1fr)!important;gap:.55rem!important}
+#songsList .card{min-height:0;padding:.65rem .8rem!important;display:grid!important;grid-template-columns:minmax(180px,1.25fr) minmax(150px,.8fr) minmax(150px,.7fr);align-items:center;gap:.75rem!important;transition:box-shadow .18s}
+#songsList .card>div:first-child{min-width:0;align-items:center}
+#songsList .card>div:nth-child(2){align-items:center}
+#songsList .card>div:last-child{margin-top:0!important;align-items:center}
+#songsList .card .w-11.h-11{width:2.35rem;height:2.35rem;border-radius:10px!important}
+#songsList .card h3{font-size:.95rem;line-height:1.25}
+#songsList .card .text-sm{font-size:.78rem}
+#songsList .card .rounded-full{padding:.2rem .5rem;font-size:.68rem}
+#songsList .card .btn{padding:.48rem .7rem;font-size:.8rem;white-space:nowrap}
 #songsList .card:hover{transform:translateY(-2px);box-shadow:0 12px 28px #10285b12!important}
 #songsList .w-11.h-11{background:#fff1bf!important;color:#805700!important;border-radius:13px!important}
 .dark #songsList .w-11.h-11{background:#433719!important;color:#ffce4d!important}
@@ -93,7 +102,7 @@ dialog form{padding:clamp(1.2rem,3vw,2rem)!important;max-height:88dvh;overflow:a
 #authDialog #authForm{min-width:0}
 #authDialog #authTitle{color:#10285b;font-size:1.6rem}
 .dark #authDialog #authTitle{color:#f4c64e}
-@media(min-width:768px){main{padding:1.5rem 1.65rem!important}#hero{margin-bottom:1.25rem!important}#songsList{grid-template-columns:repeat(3,minmax(0,1fr))}}
+@media(min-width:768px){main{padding:1.5rem 1.65rem!important}#hero{margin-bottom:1.25rem!important}}
 @media(max-width:767px){
   header .max-w-\[1600px\]{padding:.65rem .8rem;gap:.55rem}
   header img{width:42px;height:42px}
@@ -111,8 +120,19 @@ dialog form{padding:clamp(1.2rem,3vw,2rem)!important;max-height:88dvh;overflow:a
   #view-home h2,#view-playlists h2,#view-favorites h2,#view-admin h2{font-size:1.3rem}
   #view-home .flex.flex-col.lg\:flex-row{gap:.8rem}
   #view-home .card.p-3{grid-template-columns:1fr;gap:.55rem}
-  #songsList{grid-template-columns:1fr}
-  #songsList .card{min-height:0;padding:1rem!important}
+  /* Mobile song directory: compact single-song rows, not oversized cards */
+  #songsList{display:grid!important;grid-template-columns:minmax(0,1fr)!important;gap:.42rem!important}
+  #songsList .card{min-width:0;min-height:0;padding:.55rem .6rem!important;display:grid!important;grid-template-columns:minmax(0,1fr) auto!important;grid-template-rows:auto auto;align-items:center;column-gap:.55rem!important;row-gap:.28rem!important;border-radius:12px!important}
+  #songsList .card>div:first-child{grid-column:1;grid-row:1;min-width:0;gap:.5rem!important;align-items:center!important}
+  #songsList .card>div:first-child .w-11.h-11{width:2rem;height:2rem;min-width:2rem;border-radius:8px!important;font-size:.9rem!important}
+  #songsList .card h3{font-size:.85rem!important;line-height:1.15!important;display:-webkit-box;-webkit-line-clamp:1;-webkit-box-orient:vertical;overflow:hidden}
+  #songsList .card>div:first-child p{font-size:.72rem!important;line-height:1.1!important;margin-top:.12rem!important;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+  #songsList .card>div:first-child [data-fav]{padding:.25rem!important;align-self:center}
+  #songsList .card>div:nth-child(2){grid-column:1;grid-row:2;min-width:0;justify-content:flex-start;gap:.25rem!important;flex-wrap:nowrap!important;overflow:hidden}
+  #songsList .card .rounded-full{font-size:.61rem!important;padding:.12rem .38rem!important;white-space:nowrap}
+  #songsList .card>div:last-child{grid-column:2;grid-row:1 / span 2;align-self:center;justify-content:flex-end;gap:.25rem!important;margin:0!important}
+  #songsList .card .btn{flex:none!important;padding:.42rem .55rem!important;font-size:.7rem!important;line-height:1.1!important;white-space:nowrap}
+  #songsList .card .btn i{margin-right:.15rem!important}
   #view-song .card{padding:1rem!important}
   #view-song h2{font-size:1.5rem;line-height:1.15}
   #view-song .btn{padding:.58rem .7rem;font-size:.82rem}
