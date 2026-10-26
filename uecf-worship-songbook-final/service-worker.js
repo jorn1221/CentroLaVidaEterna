@@ -1,4 +1,4 @@
-const CACHE_NAME = "uecfi-songbook-shell-v5";
+const CACHE_NAME = "uecfi-songbook-print-final-v11";
 const APP_SHELL = [
   "./",
   "./index.html",
