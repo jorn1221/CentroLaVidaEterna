@@ -1,10 +1,11 @@
-const CACHE_NAME = "uecfi-songbook-shell-v2";
+const CACHE_NAME = "uecfi-songbook-shell-v4";
 const APP_SHELL = [
   "./",
   "./index.html",
   "./manifest.json",
   "./assets/uecfi-logo.png",
   "./assets/centro-la-vida-eterna.jpg",
+  "./assets/clve-church-banner.webp",
   "./assets/icons/centro-icon-192.png",
   "./assets/icons/centro-icon-512.png"
 ];
