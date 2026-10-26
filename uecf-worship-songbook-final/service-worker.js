@@ -1,4 +1,4 @@
-const CACHE_NAME = "uecfi-songbook-admin-editor-mobile-v14";
+const CACHE_NAME = "uecfi-songbook-admin-editor-mobile-v16";
 const APP_SHELL = [
   "./",
   "./index.html",
