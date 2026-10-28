@@ -1,4 +1,4 @@
-const CACHE_NAME = "uecfi-songbook-admin-editor-mobile-v20-lyrics-scroll-fix";
+const CACHE_NAME = "uecfi-songbook-admin-editor-mobile-v21-section-navigation-playlist-categories";
 const APP_SHELL = [
   "./",
   "./index.html",
