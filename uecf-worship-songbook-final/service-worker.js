@@ -1,4 +1,4 @@
-const CACHE_NAME = "uecfi-songbook-v23-favorites-cloud-sync";
+const CACHE_NAME = "uecfi-songbook-v22-playlists-offline";
 const APP_SHELL = [
   "./",
   "./index.html",
