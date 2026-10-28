@@ -1,4 +1,4 @@
-const CACHE_NAME = "uecfi-songbook-admin-editor-mobile-v21-section-navigation-playlist-categories";
+const CACHE_NAME = "uecfi-songbook-v22-playlists-offline";
 const APP_SHELL = [
   "./",
   "./index.html",
@@ -7,7 +7,18 @@ const APP_SHELL = [
   "./assets/centro-la-vida-eterna.jpg",
   "./assets/clve-church-banner.webp",
   "./assets/icons/centro-icon-192.png",
-  "./assets/icons/centro-icon-512.png"
+  "./assets/icons/centro-icon-512.png",
+  "./assets/icons/apple-touch-icon.png"
+];
+
+// Third-party files the app needs to draw itself. They are saved on the first online
+// visit so the app also opens with no signal (airplane mode, no data).
+const CDN_SHELL = [
+  "https://cdn.tailwindcss.com",
+  "https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css",
+  "https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/webfonts/fa-solid-900.woff2",
+  "https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/webfonts/fa-regular-400.woff2",
+  "https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"
 ];
 
 // Never cache Supabase/auth/database API traffic, including cross-origin requests.
@@ -30,6 +41,14 @@ self.addEventListener("install", event => {
         if (response.ok) await cache.put(path, response);
       } catch (error) {
         // A missing asset will be fetched on a later online visit.
+      }
+    }
+    for (const url of CDN_SHELL) {
+      try {
+        const response = await fetch(new Request(url, { mode: "no-cors" }));
+        if (response && (response.ok || response.type === "opaque")) await cache.put(url, response);
+      } catch (error) {
+        // Will be cached automatically the next time the app is opened online.
       }
     }
     await self.skipWaiting();
@@ -55,24 +74,31 @@ self.addEventListener("fetch", event => {
   const url = new URL(request.url);
   if (isSensitiveApi(url)) return;
 
-  // Navigations: network first, cached app shell as offline fallback.
+  // Navigations: try the network briefly, then fall back to the saved app shell so the
+  // app opens instantly even on a weak or missing connection.
   if (request.mode === "navigate") {
     event.respondWith((async () => {
+      const cache = await caches.open(CACHE_NAME);
+      const fromCache = async () =>
+        (await cache.match(request, { ignoreSearch: true })) ||
+        (await cache.match("./index.html")) ||
+        (await cache.match("./")) ||
+        new Response(
+          "UECFI Songbook is offline. Open the app online once to save its files and song library.",
+          { headers: { "Content-Type": "text/plain; charset=utf-8" }, status: 200 }
+        );
+      if (self.navigator && self.navigator.onLine === false) return fromCache();
       try {
-        const response = await fetch(request);
-        if (response && response.ok && url.origin === self.location.origin) {
-          const cache = await caches.open(CACHE_NAME);
-          await cache.put("./index.html", response.clone());
-        }
-        return response;
+        const network = fetch(request).then(async response => {
+          if (response && response.ok && url.origin === self.location.origin) {
+            await cache.put("./index.html", response.clone());
+          }
+          return response;
+        });
+        const timeout = new Promise((_, reject) => setTimeout(() => reject(new Error("timeout")), 4000));
+        return await Promise.race([network, timeout]);
       } catch (error) {
-        const cache = await caches.open(CACHE_NAME);
-        return (await cache.match(request)) ||
-               (await cache.match("./index.html")) ||
-               new Response(
-                 "UECFI Songbook is offline. Open the app online once to save its files and song library.",
-                 { headers: { "Content-Type": "text/plain; charset=utf-8" }, status: 200 }
-               );
+        return fromCache();
       }
     })());
     return;
