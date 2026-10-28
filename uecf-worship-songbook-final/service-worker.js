@@ -1,4 +1,4 @@
-const CACHE_NAME = "uecfi-songbook-admin-editor-mobile-v19-full-offline-edit";
+const CACHE_NAME = "uecfi-songbook-admin-editor-mobile-v20-lyrics-scroll-fix";
 const APP_SHELL = [
   "./",
   "./index.html",
