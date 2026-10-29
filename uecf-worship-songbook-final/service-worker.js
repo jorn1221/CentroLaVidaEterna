@@ -1,4 +1,4 @@
-const CACHE_NAME = "uecfi-songbook-v24-favorites-cross-device";
+const CACHE_NAME = "uecfi-songbook-v25-favorites-row-category-remove-editor-superadmin-remove";
 const APP_SHELL = [
   "./",
   "./index.html",
