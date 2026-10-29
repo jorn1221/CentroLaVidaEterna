@@ -1,46 +1,59 @@
 name: Build Centro La Vida Eterna Android APK
+
 on:
   workflow_dispatch:
   push:
     paths:
       - 'uecf-worship-songbook-final/android-app/**'
       - '.github/workflows/build-android-apk.yml'
+
 permissions:
   contents: read
+
 jobs:
   build:
     runs-on: ubuntu-latest
+
     steps:
       - name: Checkout repository
         uses: actions/checkout@v4
+
+      - name: Verify Android project files
+        shell: bash
+        run: |
+          echo "Checking Android project..."
+          test -f uecf-worship-songbook-final/android-app/app/src/main/AndroidManifest.xml
+          find uecf-worship-songbook-final/android-app/app/src/main -name "MainActivity.java" -print
+          grep -R -n "hideSystemBars" uecf-worship-songbook-final/android-app/app/src/main/java || true
+          echo "Manifest and source file check completed."
+
       - name: Set up Java
         uses: actions/setup-java@v4
         with:
           distribution: temurin
           java-version: '17'
+
       - name: Set up Android SDK
         uses: android-actions/setup-android@v3
         with:
           packages: 'platform-tools platforms;android-35 build-tools;35.0.0'
-      - name: Verify Android SDK
-        shell: bash
-        run: |
-          echo "ANDROID_HOME=$ANDROID_HOME"
-          command -v sdkmanager
-          sdkmanager --list_installed
+
       - name: Set up Gradle
         uses: gradle/actions/setup-gradle@v4
         with:
           gradle-version: '8.9'
+
       - name: Generate Gradle Wrapper
         working-directory: uecf-worship-songbook-final/android-app
         shell: bash
         run: |
           gradle wrapper --gradle-version 8.9
           chmod +x gradlew
+
       - name: Build debug APK
         working-directory: uecf-worship-songbook-final/android-app
         run: ./gradlew assembleDebug
+
       - name: Upload APK
         uses: actions/upload-artifact@v4
         with:
