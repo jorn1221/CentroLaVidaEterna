@@ -601,6 +601,15 @@ dialog form{padding:clamp(1.2rem,3vw,2rem)!important;max-height:88dvh;overflow:a
 #categoryAddDialog .cat-pick .btn{padding:.4rem .75rem;font-size:.8rem;white-space:nowrap}
 #categoryPickList{max-height:52dvh;overflow:auto;-webkit-overflow-scrolling:touch}
 
+#categoryRemoveDialog .cat-pick{display:flex;align-items:center;gap:.6rem;padding:.55rem 0;border-top:1px solid #e8e1d3}
+.dark #categoryRemoveDialog .cat-pick{border-color:#293951}
+#categoryRemoveDialog .cat-pick .t{min-width:0;flex:1}
+#categoryRemoveDialog .cat-pick .t b{display:block;font-size:.9rem;line-height:1.2;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+#categoryRemoveDialog .cat-pick .t span{font-size:.72rem;color:#69758a}
+#categoryRemoveDialog .cat-pick .btn{padding:.4rem .65rem;font-size:.8rem;white-space:nowrap}
+#categoryRemoveList{max-height:52dvh;overflow:auto;-webkit-overflow-scrolling:touch}
+#categoryActionButtons{margin-left:auto}
+@media(max-width:640px){#categoryHead{gap:.45rem}#categoryActionButtons{width:100%;margin-left:0;display:flex}#categoryActionButtons .btn{flex:1;justify-content:center;padding:.55rem .65rem;font-size:.84rem;white-space:nowrap}#categoryHead h3{flex:1 1 100%;order:2}#categoryBack{order:1}#categoryActionButtons{order:3}}
 /* Favorites use the same compact horizontal row layout on desktop and mobile. */
 #favoritesList .card{min-height:0;padding:.7rem .85rem!important;display:grid!important;grid-template-columns:minmax(0,1fr) auto!important;grid-template-rows:auto auto;align-items:center;column-gap:.65rem!important;row-gap:.35rem!important;border-radius:14px!important}
 #favoritesList .card>div:first-child{grid-column:1;grid-row:1;min-width:0;gap:.6rem!important;align-items:center!important}
@@ -660,7 +669,7 @@ dialog form{padding:clamp(1.2rem,3vw,2rem)!important;max-height:88dvh;overflow:a
       <div id="songsList" class="grid sm:grid-cols-2 xl:grid-cols-3 gap-3"></div>
       <div id="emptySongs" class="hidden card p-8 text-center"><i class="fa-solid fa-music text-3xl text-amber-500"></i><h3 class="font-bold mt-3">No songs found</h3><p class="text-sm text-slate-500 mt-1">Try another search or add songs after logging in with an approved account.</p></div>
     </section>
-    <section id="view-playlists" class="hidden"><div id="categoryListWrap"><div class="mb-4"><h2 class="text-2xl font-extrabold">Playlists</h2><p class="text-sm text-slate-500 dark:text-slate-400">Tap a playlist to open its songs.</p></div><div id="categoryList"></div></div><div id="categoryDetail" class="hidden"><div id="categoryHead"><button id="categoryBack" class="btn btn-ghost" type="button"><i class="fa-solid fa-arrow-left mr-1"></i> Playlists</button><h3 id="categoryTitle"></h3><button id="categoryAddBtn" class="btn btn-gold hidden" type="button"><i class="fa-solid fa-plus mr-1"></i> Add song</button></div><p id="categoryCount" class="text-sm text-slate-500 dark:text-slate-400 mb-3"></p><div id="categorySongs" class="grid gap-3"></div><div id="emptyCategory" class="hidden card p-8 text-center"><i class="fa-solid fa-music text-3xl text-amber-500"></i><h3 class="font-bold mt-3">No songs in this playlist yet</h3><p class="text-sm text-slate-500 mt-1" id="emptyCategoryHint">Approved editors and admins can add songs here.</p></div></div><button id="newPlaylistBtn2" class="hidden" aria-hidden="true" tabindex="-1"></button></section>
+    <section id="view-playlists" class="hidden"><div id="categoryListWrap"><div class="mb-4"><h2 class="text-2xl font-extrabold">Playlists</h2><p class="text-sm text-slate-500 dark:text-slate-400">Tap a playlist to open its songs.</p></div><div id="categoryList"></div></div><div id="categoryDetail" class="hidden"><div id="categoryHead"><button id="categoryBack" class="btn btn-ghost" type="button"><i class="fa-solid fa-arrow-left mr-1"></i> Playlists</button><h3 id="categoryTitle"></h3><div id="categoryActionButtons" class="flex items-center gap-2 flex-wrap"><button id="categoryAddBtn" class="btn btn-gold hidden" type="button"><i class="fa-solid fa-plus mr-1"></i> Add song</button><button id="categoryRemoveBtn" class="btn btn-ghost hidden" type="button"><i class="fa-solid fa-folder-minus mr-1"></i> Remove song</button></div></div><p id="categoryCount" class="text-sm text-slate-500 dark:text-slate-400 mb-3"></p><div id="categorySongs" class="grid gap-3"></div><div id="emptyCategory" class="hidden card p-8 text-center"><i class="fa-solid fa-music text-3xl text-amber-500"></i><h3 class="font-bold mt-3">No songs in this playlist yet</h3><p class="text-sm text-slate-500 mt-1" id="emptyCategoryHint">Approved editors and admins can add songs here.</p></div></div><button id="newPlaylistBtn2" class="hidden" aria-hidden="true" tabindex="-1"></button></section>
     <section id="view-favorites" class="hidden"><h2 class="text-2xl font-extrabold mb-4">Favorite Songs</h2><div id="favoritesList" class="grid gap-3"></div></section>
     <section id="view-admin" class="hidden"><div class="flex flex-wrap justify-between gap-3 mb-4"><div><h2 class="text-2xl font-extrabold">Admin Panel</h2><p class="text-sm text-slate-500">Manage songs and review account requests.</p></div><span id="adminBadge" class="rounded-full px-3 py-1 bg-slate-200 dark:bg-slate-700 text-sm h-fit">Sign in required</span></div><div id="adminContent" class="card p-5"><p>Sign in with your Supabase account. Only approved admins can manage songs; only a configured Super Admin can approve accounts.</p></div></section>
     <section id="view-song" class="hidden"></section>
@@ -675,6 +684,7 @@ dialog form{padding:clamp(1.2rem,3vw,2rem)!important;max-height:88dvh;overflow:a
 <dialog id="songDialog"><form id="songForm" class="p-6 space-y-3"><div class="flex items-center justify-between"><h2 id="songFormTitle" class="text-xl font-extrabold">Add song</h2><button type="button" class="closeDialog text-xl">&times;</button></div><input type="hidden" id="songId"><label class="block text-sm font-semibold">Title *<input id="songTitle" required class="field mt-1"></label><label class="block text-sm font-semibold">Artist<input id="songArtist" class="field mt-1" placeholder="Unknown"></label><div class="grid grid-cols-2 gap-3"><label class="block text-sm font-semibold">Key<select id="songKey" class="field mt-1"><option>N/A</option><option>A</option><option>A#</option><option>B</option><option>C</option><option>C#</option><option>D</option><option>D#</option><option>E</option><option>F</option><option>F#</option><option>G</option><option>G#</option></select></label><label class="block text-sm font-semibold">Tempo<select id="songTempo" class="field mt-1"><option>N/A</option><option>Fast</option><option>Medium</option><option>Slow</option></select></label></div><div class="grid grid-cols-2 gap-3"><label class="block text-sm font-semibold">Category<select id="songCategory" class="field mt-1"><option>N/A</option><option>Praise</option><option>Worship</option><option>Special</option></select></label><label class="block text-sm font-semibold">Language<select id="songLanguage" class="field mt-1"><option>Tagalog</option><option>English</option><option>Pangasinense</option><option>Ilokano</option><option>Spanish</option><option>Other</option></select></label></div><label class="block text-sm font-semibold">Lyrics / ChordPro *<div class="flex flex-wrap gap-2 mt-2 mb-1"><button id="modalCaseUpper" type="button" class="btn btn-ghost">ABC UPPERCASE</button><button id="modalCaseLower" type="button" class="btn btn-ghost">abc lowercase</button><button id="modalCaseTitle" type="button" class="btn btn-ghost">Title Case</button></div><textarea id="songLyrics" required rows="9" class="field mt-1 font-mono" placeholder="{title: Song title}\n{key: G}\n[Verse 1]\n[G]Sample lyric line"></textarea></label><p class="text-xs text-slate-500">ChordPro example: [G]Walang hanggan ang [D]pagmamahal. Store only lyrics your organization has permission to use.</p><div id="songMessage" class="text-sm"></div><button class="btn btn-primary w-full" type="submit">Save song</button></form></dialog>
 <dialog id="playlistDialog"><form id="playlistForm" class="p-6 space-y-4"><div class="flex items-center justify-between"><h2 class="text-xl font-extrabold">Create playlist</h2><button type="button" class="closeDialog text-xl">&times;</button></div><label class="block text-sm font-semibold">Playlist name<input id="playlistTitle" required class="field mt-1" placeholder="Sunday Service"></label><label class="block text-sm font-semibold">Description<input id="playlistDescription" class="field mt-1" placeholder="Opening, praise, worship…"></label><button class="btn btn-primary w-full">Create playlist</button></form></dialog>
 <dialog id="categoryAddDialog"><div class="p-5 sm:p-6"><div class="flex items-center justify-between mb-3"><h2 class="text-xl font-extrabold" id="categoryAddTitle">Add song</h2><button type="button" class="closeDialog text-xl" aria-label="Close">&times;</button></div><input id="categoryPickSearch" class="field mb-2" placeholder="Search songs to add…" autocomplete="off"><div id="categoryPickList"></div></div></dialog>
+<dialog id="categoryRemoveDialog"><div class="p-5 sm:p-6"><div class="flex items-center justify-between mb-3"><h2 class="text-xl font-extrabold" id="categoryRemoveTitle">Remove song</h2><button type="button" class="closeDialog text-xl" aria-label="Close">&times;</button></div><p class="text-sm text-slate-500 mb-3">Choose a song to remove from this category. The song will remain in the songbook.</p><input id="categoryRemoveSearch" class="field mb-2" placeholder="Search songs in this category…" autocomplete="off"><div id="categoryRemoveList"></div></div></dialog>
 <div id="toast" class="fixed bottom-20 md:bottom-5 left-1/2 -translate-x-1/2 z-50 hidden rounded-xl bg-slate-900 text-white px-4 py-3 shadow-xl text-sm max-w-[90vw]"></div>
 
 
@@ -1128,16 +1138,13 @@ function renderPlaylists(){
   $("categoryTitle").textContent=name;
   $("categoryCount").textContent=`${songs.length} song${songs.length===1?"":"s"}`;
   $("categoryAddBtn").classList.toggle("hidden",!canEdit());
-  $("categorySongs").innerHTML=songs.map(song=>{
-    const card=songCard(song);
-    if(!canRemoveFromCategory()||name==="N/A")return card;
-    return card.replace('</div></article>', `<button type="button" class="btn btn-ghost text-rose-600 category-remove-btn" data-remove-category="${esc(song.id)}" title="Remove this song from ${esc(name)} only"><i class="fa-solid fa-folder-minus mr-1"></i> Remove from category</button></div></article>`);
-  }).join("");
+  $("categoryRemoveBtn").classList.toggle("hidden",!canRemoveFromCategory()||name==="N/A");
+  $("categorySongs").innerHTML=songs.map(song=>songCard(song)).join("");
   $("emptyCategory").classList.toggle("hidden",songs.length>0);
   $("emptyCategoryHint").textContent=canEdit()?"Tap “Add song” to put songs in this playlist.":"Approved editors and admins can add songs here.";
   wireSongCards();
-  document.querySelectorAll("[data-remove-category]").forEach(b=>b.onclick=()=>{void removeSongFromCategory(b.dataset.removeCategory)});
 }
+
 $("categoryBack").onclick=()=>{state.openCategory=null;renderPlaylists();window.scrollTo({top:0,behavior:"auto"})};
 function renderCategoryPicker(){
   const cat=state.openCategory;if(!cat)return;
@@ -1146,6 +1153,15 @@ function renderCategoryPicker(){
   $("categoryPickList").innerHTML=list.slice(0,200).map(x=>`<div class="cat-pick"><div class="t"><b>${esc(x.title)}</b><span>${esc(songCategory(x))}${x.artist?" • "+esc(x.artist):""}</span></div><button type="button" class="btn btn-primary" data-pick="${esc(x.id)}"><i class="fa-solid fa-plus mr-1"></i>Add</button></div>`).join("")||'<p class="text-sm text-slate-500 py-4 text-center">No songs found.</p>';
   $("categoryPickList").querySelectorAll("[data-pick]").forEach(b=>b.onclick=()=>addSongToCategory(b.dataset.pick));
 }
+function renderCategoryRemovePicker(){
+  const cat=state.openCategory;if(!cat)return;
+  const q=$("categoryRemoveSearch").value.trim().toLocaleLowerCase();
+  const list=categorySongsList(cat).filter(x=>!q||String(x.title||"").toLocaleLowerCase().includes(q)||String(x.artist||"").toLocaleLowerCase().includes(q));
+  $("categoryRemoveList").innerHTML=list.slice(0,250).map(x=>`<div class="cat-pick"><div class="t"><b>${esc(x.title)}</b><span>${esc(x.artist||"Unknown artist")}</span></div><button type="button" class="btn btn-ghost text-rose-600" data-remove-pick="${esc(x.id)}"><i class="fa-solid fa-folder-minus mr-1"></i>Remove</button></div>`).join("")||'<p class="text-sm text-slate-500 py-4 text-center">No songs found in this category.</p>';
+  $("categoryRemoveList").querySelectorAll("[data-remove-pick]").forEach(b=>b.onclick=async()=>{await removeSongFromCategory(b.dataset.removePick);if(!$ ("categoryRemoveDialog").open) return;renderCategoryRemovePicker();});
+}
+$("categoryRemoveBtn").onclick=()=>{if(!canRemoveFromCategory()){toast("Only approved Editor and Super Admin accounts can remove songs from a category.");return;}if(!state.openCategory||state.openCategory==="N/A")return;$("categoryRemoveTitle").textContent="Remove song from "+state.openCategory;$("categoryRemoveSearch").value="";renderCategoryRemovePicker();$("categoryRemoveDialog").showModal()};
+$("categoryRemoveSearch").addEventListener("input",renderCategoryRemovePicker);
 $("categoryAddBtn").onclick=()=>{if(!canEdit()){toast("Approved editor access required.");return}$("categoryAddTitle").textContent="Add song to "+state.openCategory;$("categoryPickSearch").value="";renderCategoryPicker();$("categoryAddDialog").showModal()};
 $("categoryPickSearch").addEventListener("input",renderCategoryPicker);
 async function addSongToCategory(id){
