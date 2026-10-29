@@ -14,65 +14,50 @@ jobs:
   build:
     runs-on: ubuntu-latest
 
-    env:
-      ANDROID_HOME: /usr/local/lib/android/sdk
-      ANDROID_SDK_ROOT: /usr/local/lib/android/sdk
-
     steps:
       - name: Checkout repository
         uses: actions/checkout@v4
 
-      - name: Set up Java 17
+      - name: Set up Java
         uses: actions/setup-java@v4
         with:
           distribution: temurin
           java-version: '17'
 
-      - name: Configure Android SDK
-        run: |
-          echo "$ANDROID_HOME/cmdline-tools/latest/bin" >> "$GITHUB_PATH"
-          echo "$ANDROID_HOME/platform-tools" >> "$GITHUB_PATH"
-          echo "ANDROID_HOME=$ANDROID_HOME" >> "$GITHUB_ENV"
-          echo "ANDROID_SDK_ROOT=$ANDROID_SDK_ROOT" >> "$GITHUB_ENV"
-          sdkmanager --version
+      - name: Set up Android SDK
+        uses: android-actions/setup-android@v3
+        with:
+          packages: 'platform-tools platforms;android-35 build-tools;35.0.0'
 
-      - name: Accept Android SDK licenses
+      - name: Verify Android SDK
+        shell: bash
         run: |
-          yes | sdkmanager --licenses || true
-
-      - name: Install required Android SDK packages
-        run: |
-          sdkmanager --install "platform-tools"
-          sdkmanager --install "platforms;android-35"
-          sdkmanager --install "build-tools;35.0.0"
+          echo "ANDROID_HOME=$ANDROID_HOME"
+          echo "PATH=$PATH"
+          command -v sdkmanager
+          sdkmanager --list_installed
 
       - name: Set up Gradle
         uses: gradle/actions/setup-gradle@v4
-        with:
-          gradle-version: '8.9'
 
-      - name: Check Android project files
+      - name: Check Android project
+        working-directory: uecf-worship-songbook-final/android-app
         run: |
-          test -f uecf-worship-songbook-final/android-app/settings.gradle
-          test -f uecf-worship-songbook-final/android-app/app/build.gradle
-          test -f uecf-worship-songbook-final/android-app/app/src/main/AndroidManifest.xml
+          ls -la
+          test -f gradlew || {
+            echo "ERROR: gradlew file is missing from android-app."
+            exit 1
+          }
 
       - name: Build debug APK
         working-directory: uecf-worship-songbook-final/android-app
-        run: gradle assembleDebug
-
-      - name: Verify APK
         run: |
-          test -f uecf-worship-songbook-final/android-app/app/build/outputs/apk/debug/app-debug.apk
-          ls -lh uecf-worship-songbook-final/android-app/app/build/outputs/apk/debug/app-debug.apk
+          chmod +x gradlew
+          ./gradlew assembleDebug
 
-      - name: Rename APK
-        run: |
-          cp uecf-worship-songbook-final/android-app/app/build/outputs/apk/debug/app-debug.apk CentroLaVidaEterna-Songbook.apk
-
-      - name: Upload APK artifact
+      - name: Upload APK
         uses: actions/upload-artifact@v4
         with:
-          name: CentroLaVidaEterna-Songbook-APK
-          path: CentroLaVidaEterna-Songbook.apk
+          name: Centro-La-Vida-Eterna-APK
+          path: uecf-worship-songbook-final/android-app/**/build/outputs/apk/debug/*.apk
           if-no-files-found: error
