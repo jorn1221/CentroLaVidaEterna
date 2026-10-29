@@ -600,6 +600,19 @@ dialog form{padding:clamp(1.2rem,3vw,2rem)!important;max-height:88dvh;overflow:a
 #categoryAddDialog .cat-pick .t span{font-size:.72rem;color:#69758a}
 #categoryAddDialog .cat-pick .btn{padding:.4rem .75rem;font-size:.8rem;white-space:nowrap}
 #categoryPickList{max-height:52dvh;overflow:auto;-webkit-overflow-scrolling:touch}
+
+/* Favorites use the same compact horizontal row layout on desktop and mobile. */
+#favoritesList .card{min-height:0;padding:.7rem .85rem!important;display:grid!important;grid-template-columns:minmax(0,1fr) auto!important;grid-template-rows:auto auto;align-items:center;column-gap:.65rem!important;row-gap:.35rem!important;border-radius:14px!important}
+#favoritesList .card>div:first-child{grid-column:1;grid-row:1;min-width:0;gap:.6rem!important;align-items:center!important}
+#favoritesList .card>div:first-child .w-11.h-11{width:2.25rem;height:2.25rem;min-width:2.25rem;border-radius:9px!important}
+#favoritesList .card h3{font-size:.92rem!important;line-height:1.2!important;overflow-wrap:anywhere}
+#favoritesList .card>div:first-child p{font-size:.78rem!important;line-height:1.15!important}
+#favoritesList .card>div:nth-child(2){grid-column:1;grid-row:2;min-width:0;gap:.3rem!important;flex-wrap:wrap}
+#favoritesList .card>div:last-child{grid-column:2;grid-row:1 / span 2;align-self:center;justify-content:flex-end;gap:.35rem!important;margin:0!important}
+#favoritesList .card .btn{flex:none!important;padding:.5rem .65rem!important;font-size:.78rem!important;white-space:nowrap}
+#favoritesList .card .btn[data-open]{flex:0 0 auto!important}
+#categorySongs .category-remove-btn{white-space:nowrap}
+@media(max-width:640px){#favoritesList .card{padding:.6rem!important;column-gap:.4rem!important}#favoritesList .card h3{font-size:.82rem!important}#favoritesList .card>div:first-child p{font-size:.7rem!important}#favoritesList .card .btn{padding:.42rem .5rem!important;font-size:.68rem!important}#favoritesList .card .w-11.h-11{width:1.9rem;height:1.9rem;min-width:1.9rem}}
 </style>
 </head>
 <body class="bg-slate-50 text-slate-900 dark:bg-slate-900 dark:text-slate-100 min-h-screen">
@@ -648,7 +661,7 @@ dialog form{padding:clamp(1.2rem,3vw,2rem)!important;max-height:88dvh;overflow:a
       <div id="emptySongs" class="hidden card p-8 text-center"><i class="fa-solid fa-music text-3xl text-amber-500"></i><h3 class="font-bold mt-3">No songs found</h3><p class="text-sm text-slate-500 mt-1">Try another search or add songs after logging in with an approved account.</p></div>
     </section>
     <section id="view-playlists" class="hidden"><div id="categoryListWrap"><div class="mb-4"><h2 class="text-2xl font-extrabold">Playlists</h2><p class="text-sm text-slate-500 dark:text-slate-400">Tap a playlist to open its songs.</p></div><div id="categoryList"></div></div><div id="categoryDetail" class="hidden"><div id="categoryHead"><button id="categoryBack" class="btn btn-ghost" type="button"><i class="fa-solid fa-arrow-left mr-1"></i> Playlists</button><h3 id="categoryTitle"></h3><button id="categoryAddBtn" class="btn btn-gold hidden" type="button"><i class="fa-solid fa-plus mr-1"></i> Add song</button></div><p id="categoryCount" class="text-sm text-slate-500 dark:text-slate-400 mb-3"></p><div id="categorySongs" class="grid gap-3"></div><div id="emptyCategory" class="hidden card p-8 text-center"><i class="fa-solid fa-music text-3xl text-amber-500"></i><h3 class="font-bold mt-3">No songs in this playlist yet</h3><p class="text-sm text-slate-500 mt-1" id="emptyCategoryHint">Approved editors and admins can add songs here.</p></div></div><button id="newPlaylistBtn2" class="hidden" aria-hidden="true" tabindex="-1"></button></section>
-    <section id="view-favorites" class="hidden"><h2 class="text-2xl font-extrabold mb-4">Favorite Songs</h2><div id="favoritesList" class="grid sm:grid-cols-2 xl:grid-cols-3 gap-3"></div></section>
+    <section id="view-favorites" class="hidden"><h2 class="text-2xl font-extrabold mb-4">Favorite Songs</h2><div id="favoritesList" class="grid gap-3"></div></section>
     <section id="view-admin" class="hidden"><div class="flex flex-wrap justify-between gap-3 mb-4"><div><h2 class="text-2xl font-extrabold">Admin Panel</h2><p class="text-sm text-slate-500">Manage songs and review account requests.</p></div><span id="adminBadge" class="rounded-full px-3 py-1 bg-slate-200 dark:bg-slate-700 text-sm h-fit">Sign in required</span></div><div id="adminContent" class="card p-5"><p>Sign in with your Supabase account. Only approved admins can manage songs; only a configured Super Admin can approve accounts.</p></div></section>
     <section id="view-song" class="hidden"></section>
   </main>
@@ -741,6 +754,12 @@ function roleDisplay(){
   return state.profile?.is_approved ? "MEMBER" : "MEMBER • PENDING APPROVAL";
 }
 function cachedOfflineProfile(){try{const x=JSON.parse(localStorage.getItem("uecf_offline_profile_v1")||"null");return x&&x.userId&&x.profile?x:null}catch(e){return null}}
+function canRemoveFromCategory(){
+  // Only approved Editors and Super Admins can remove a song from a category.
+  if(state.user && state.profile?.is_approved===true && ["editor","super_admin"].includes(state.profile?.role)) return true;
+  if(!navigator.onLine){const cached=cachedOfflineProfile();return !!cached&&cached.profile?.is_approved===true&&["editor","super_admin"].includes(cached.profile?.role)&&(!state.user||cached.userId===state.user.id)}
+  return false;
+}
 function canEdit(){
   const roles=["admin","editor","super_admin"];
   if(state.user && state.profile?.is_approved===true && roles.includes(state.profile?.role)) return true;
@@ -1109,10 +1128,15 @@ function renderPlaylists(){
   $("categoryTitle").textContent=name;
   $("categoryCount").textContent=`${songs.length} song${songs.length===1?"":"s"}`;
   $("categoryAddBtn").classList.toggle("hidden",!canEdit());
-  $("categorySongs").innerHTML=songs.map(songCard).join("");
+  $("categorySongs").innerHTML=songs.map(song=>{
+    const card=songCard(song);
+    if(!canRemoveFromCategory()||name==="N/A")return card;
+    return card.replace('</div></article>', `<button type="button" class="btn btn-ghost text-rose-600 category-remove-btn" data-remove-category="${esc(song.id)}" title="Remove this song from ${esc(name)} only"><i class="fa-solid fa-folder-minus mr-1"></i> Remove from category</button></div></article>`);
+  }).join("");
   $("emptyCategory").classList.toggle("hidden",songs.length>0);
   $("emptyCategoryHint").textContent=canEdit()?"Tap “Add song” to put songs in this playlist.":"Approved editors and admins can add songs here.";
   wireSongCards();
+  document.querySelectorAll("[data-remove-category]").forEach(b=>b.onclick=()=>{void removeSongFromCategory(b.dataset.removeCategory)});
 }
 $("categoryBack").onclick=()=>{state.openCategory=null;renderPlaylists();window.scrollTo({top:0,behavior:"auto"})};
 function renderCategoryPicker(){
@@ -1137,6 +1161,25 @@ async function addSongToCategory(id){
     }else{saveSongLocallyAndQueue(song.id,row);toast(db?"Na-save sa device; isi-sync kapag online.":`“${song.title}” added to ${cat}.`);if(!db)saveDemoSongs()}
     renderStats();renderPlaylists();renderCategoryPicker();scrollBox.scrollTop=keep;
   }catch(e){toast(e.message||"Could not add song.")}
+}
+async function removeSongFromCategory(id){
+  if(!canRemoveFromCategory()) {toast("Remove from category is available only to approved Editor and Super Admin accounts.");return;}
+  const cat=state.openCategory;
+  const song=state.songs.find(x=>String(x.id)===String(id));
+  if(!cat||!song||cat==="N/A")return;
+  if(!confirm(`Remove “${song.title}” from the ${cat} category?\n\nThe song will remain in the songbook; only its category will change to N/A.`))return;
+  const updated={...song,category:"N/A"};
+  try{
+    if(db&&navigator.onLine&&state.user&&!String(song.id).startsWith("offline-")){
+      const {error}=await db.from("songs").update({category:"N/A"}).eq("id",song.id);
+      if(error)throw error;
+      const idx=state.songs.findIndex(x=>String(x.id)===String(song.id));if(idx>=0)state.songs[idx]={...state.songs[idx],category:"N/A"};
+      cacheSongs();
+    }else if(db){saveSongLocallyAndQueue(song.id,updated)}
+    else{const idx=state.songs.findIndex(x=>String(x.id)===String(song.id));if(idx>=0)state.songs[idx]={...state.songs[idx],category:"N/A"};saveDemoSongs()}
+    renderStats();renderSongs();renderPlaylists();renderFavorites();
+    toast(`“${song.title}” removed from ${cat}. The song was not deleted.`);
+  }catch(e){toast(e.message||"Could not remove song from category.")}
 }
 async function addSongToPlaylist(id){if(!canEdit())return;const s=state.songs;if(!s.length){toast("Add songs first.");return}const choice=prompt("Enter song number from this list:\n"+s.map((x,i)=>`${i+1}. ${x.title}`).join("\n"));const ix=Number(choice)-1;if(!Number.isInteger(ix)||ix<0||ix>=s.length)return;const song=s[ix];try{if(db&&navigator.onLine){const {data:existing}=await db.from("playlist_songs").select("position").eq("playlist_id",id).order("position",{ascending:false}).limit(1);const {error}=await db.from("playlist_songs").insert({playlist_id:id,song_id:song.id,position:(existing?.[0]?.position??-1)+1});if(error)throw error;await loadData()}else if(db){const p=state.playlists.find(x=>x.id===id);if(!p)throw new Error("Playlist not found on this device.");p.playlist_songs=p.playlist_songs||[];if(!(p.playlist_songs||[]).some(x=>x.song_id===song.id)){const position=p.playlist_songs.length;p.playlist_songs.push({song_id:song.id,position,songs:{id:song.id,title:song.title,artist:song.artist}});cachePlaylists();queueOffline("playlist_add_song",id,{playlist_id:id,song_id:song.id,position})}renderStats();renderPlaylists()}else{const p=state.playlists.find(x=>x.id===id);p.songs=p.songs||[];if(!p.songs.some(x=>x.id===song.id))p.songs.push(song);localStorage.setItem("uecf_demo_playlists",JSON.stringify(state.playlists));renderPlaylists()}toast(db&&!navigator.onLine?"Song added locally; will sync online.":"Song added to playlist.")}catch(e){toast(e.message||"Could not add song.")}}
 async function deletePlaylist(id){if(!canEdit()||!confirm("Delete this playlist?"))return;try{if(db&&navigator.onLine){const {error}=await db.from("playlists").delete().eq("id",id);if(error)throw error;await loadData()}else if(db){state.playlists=state.playlists.filter(p=>p.id!==id);cachePlaylists();queueOffline("playlist_delete",id);renderStats();renderPlaylists()}else{state.playlists=state.playlists.filter(p=>p.id!==id);localStorage.setItem("uecf_demo_playlists",JSON.stringify(state.playlists));renderPlaylists()}toast(db&&!navigator.onLine?"Playlist deleted locally; deletion will sync online.":"Playlist deleted.")}catch(e){toast(e.message||"Delete failed.")}}
