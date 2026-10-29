@@ -663,8 +663,8 @@ dialog form{padding:clamp(1.2rem,3vw,2rem)!important;max-height:88dvh;overflow:a
       <div class="card p-3 mb-4 grid sm:grid-cols-2 lg:grid-cols-[1fr_160px_160px_140px] gap-2">
         <label class="relative"><i class="fa-solid fa-magnifying-glass absolute left-3 top-3.5 text-slate-400"></i><input id="search" class="field pl-9" placeholder="Search songs, artist, lyrics…"></label>
         <select id="langFilter" class="field"><option value="">All languages</option><option>Tagalog</option><option>English</option><option>Pangasinense</option><option>Ilokano</option><option>Spanish</option><option>Other</option></select>
-        <select id="categoryFilter" class="field"><option value="">All categories</option><option>Praise</option><option>Worship</option><option>Special</option><option>N/A</option></select>
-        <select id="sortSongs" class="field"><option value="title">Title A–Z</option><option value="recent">Recently added</option><option value="artist">Artist A–Z</option></select>
+        <select id="categoryFilter" class="field hidden" aria-hidden="true" tabindex="-1"><option value="">All categories</option><option>Praise</option><option>Worship</option><option>Special</option><option>N/A</option></select>
+        <select id="sortSongs" class="field hidden" aria-hidden="true" tabindex="-1"><option value="title">Title A–Z</option><option value="recent">Recently added</option><option value="artist">Artist A–Z</option></select>
       </div>
       <div id="songsList" class="grid sm:grid-cols-2 xl:grid-cols-3 gap-3"></div>
       <div id="emptySongs" class="hidden card p-8 text-center"><i class="fa-solid fa-music text-3xl text-amber-500"></i><h3 class="font-bold mt-3">No songs found</h3><p class="text-sm text-slate-500 mt-1">Try another search or add songs after logging in with an approved account.</p></div>
