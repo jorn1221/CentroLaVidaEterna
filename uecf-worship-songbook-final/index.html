@@ -600,17 +600,6 @@ dialog form{padding:clamp(1.2rem,3vw,2rem)!important;max-height:88dvh;overflow:a
 #categoryAddDialog .cat-pick .t span{font-size:.72rem;color:#69758a}
 #categoryAddDialog .cat-pick .btn{padding:.4rem .75rem;font-size:.8rem;white-space:nowrap}
 #categoryPickList{max-height:52dvh;overflow:auto;-webkit-overflow-scrolling:touch}
-
-/* Favorites display as compact song rows on desktop and mobile */
-#favoritesList{display:flex;flex-direction:column;gap:.55rem}
-#favoritesList article{display:flex;flex-direction:row;align-items:center;gap:.65rem;padding:.7rem .85rem!important}
-#favoritesList article>div:first-child{align-items:center;flex:1;min-width:0}
-#favoritesList article>div:first-child .w-11{width:2.35rem;height:2.35rem}
-#favoritesList article>div:nth-child(2){display:none}
-#favoritesList article>div:last-child{margin-top:0;flex-wrap:nowrap;flex-shrink:0}
-#favoritesList article [data-open]{flex:0 0 auto;padding:.45rem .65rem}
-#favoritesList article [data-edit],#favoritesList article [data-delete]{display:none}
-@media(max-width:520px){#favoritesList article{padding:.6rem!important;gap:.4rem}#favoritesList article [data-open]{font-size:.75rem;padding:.4rem .5rem}#favoritesList article>div:first-child .w-11{display:none}}
 </style>
 </head>
 <body class="bg-slate-50 text-slate-900 dark:bg-slate-900 dark:text-slate-100 min-h-screen">
@@ -691,6 +680,43 @@ const supabaseReady = !!(window.supabase && SUPABASE_URL.startsWith("https://") 
 const db = supabaseReady ? window.supabase.createClient(SUPABASE_URL,SUPABASE_ANON_KEY) : null;
 const $ = id => document.getElementById(id);
 const state = {user:null,profile:null,songs:[],playlists:[],favorites:new Set(JSON.parse(localStorage.getItem("uecf_favorites")||"[]")),view:"home",currentSong:null,transpose:0,chordsVisible:true,fontSize:17,authMode:"login",playlistSongs:{},openCategory:null,prevView:"home"};
+const FAVORITES_TABLE="uecfi_songbook_favorites";
+function persistFavorites(){try{localStorage.setItem("uecf_favorites",JSON.stringify([...state.favorites]))}catch(e){}}
+async function syncUserFavorites(){
+  if(!db||!state.user||!navigator.onLine)return;
+  try{
+    const {data:remote,error}=await db.from(FAVORITES_TABLE).select("song_id").eq("user_id",state.user.id);
+    if(error){console.warn("Favorites cloud sync unavailable:",error.message);return}
+    const remoteIds=new Set((remote||[]).map(r=>String(r.song_id)));
+    const localIds=new Set([...state.favorites].map(String));
+    // Merge this device's existing favorites with the account's cloud favorites.
+    const merged=new Set([...remoteIds,...localIds]);
+    state.favorites=merged;
+    persistFavorites();
+    const missing=[...localIds].filter(id=>!remoteIds.has(id)).map(song_id=>({user_id:state.user.id,song_id:id}));
+    if(missing.length){
+      const {error:upsertError}=await db.from(FAVORITES_TABLE).upsert(missing,{onConflict:"user_id,song_id",ignoreDuplicates:true});
+      if(upsertError)console.warn("Could not upload local favorites:",upsertError.message);
+    }
+  }catch(e){console.warn("Favorites sync failed:",e)}
+}
+async function toggleFavorite(songId){
+  const id=String(songId),wasFavorite=state.favorites.has(id);
+  if(wasFavorite)state.favorites.delete(id);else state.favorites.add(id);
+  persistFavorites();
+  if(!state.user){toast("Na-save ang Favorites sa device na ito. Mag-Login gamit ang parehong account sa computer at cellphone para mag-sync.")}
+  if(db&&state.user&&navigator.onLine){
+    try{
+      const result=wasFavorite
+        ? await db.from(FAVORITES_TABLE).delete().eq("user_id",state.user.id).eq("song_id",id)
+        : await db.from(FAVORITES_TABLE).upsert({user_id:state.user.id,song_id:id},{onConflict:"user_id,song_id"});
+      if(result.error)console.warn("Favorite cloud update failed:",result.error.message);
+    }catch(e){console.warn("Favorite cloud update failed:",e)}
+  }
+  if(state.view==="playlists")renderPlaylists();else if(state.view==="favorites")renderFavorites();else if(state.view==="song"&&state.currentSong?.id===songId){const b=$("songFav");if(b)b.innerHTML=`<i class="fa-${state.favorites.has(id)?"solid":"regular"} fa-heart"></i> ${state.favorites.has(id)?"Favorited":"Favorite"}`;renderStats()}else renderSongs();
+  renderStats();
+}
+
 const DEMO_KEY="uecf_songbook_demo_songs_v1";
 const CATEGORIES=[{name:"Worship",icon:"fa-hands-praying"},{name:"Praise",icon:"fa-music"},{name:"Special",icon:"fa-star"},{name:"N/A",icon:"fa-folder-open"}];
 function songCategory(song){const c=String(song.category||"").trim();return CATEGORIES.some(x=>x.name===c)?c:"N/A"}
@@ -768,11 +794,11 @@ else if(item.op==="playlist_delete"){const {error}=await db.from("playlists").de
 else if(item.op==="playlist_add_song"){const {data:existing,error:checkError}=await db.from("playlist_songs").select("playlist_id").eq("playlist_id",item.row.playlist_id).eq("song_id",item.row.song_id).maybeSingle();if(checkError)throw checkError;if(!existing){const {error}=await db.from("playlist_songs").insert(item.row);if(error)throw error}}
 synced++;
 }catch(e){remaining.push(item);console.warn("Offline change remains queued:",item.op,e.message)}}localStorage.setItem(OFFLINE_QUEUE_KEY,JSON.stringify(remaining));if(synced){const {data:s,error:se}=await db.from("songs").select("*").order("title");if(!se){state.songs=mergeQueuedSongs(s||[]);cacheSongs()}const {data:p,error:pe}=await db.from("playlists").select("*,playlist_songs(song_id,position,songs(id,title,artist))").order("created_at",{ascending:false});if(!pe){state.playlists=p||[];cachePlaylists()}renderStats();renderSongs();renderPlaylists();toast(`Synced ${synced} offline change(s).`)}updateOfflineStatus()}
-async function loadData(){if(db&&navigator.onLine){const {data:s,error:se}=await db.from("songs").select("*").order("title");if(!se){state.songs=mergeQueuedSongs(s||[]);cacheSongs()}else{state.songs=mergeQueuedSongs(cachedSongs()||[]);console.warn("Using saved songs:",se.message)}const {data:p,error:pe}=await db.from("playlists").select("*,playlist_songs(song_id,position,songs(id,title,artist))").order("created_at",{ascending:false});if(!pe){state.playlists=p||[];cachePlaylists()}else{try{state.playlists=JSON.parse(localStorage.getItem(OFFLINE_PLAYLISTS_KEY)||"[]")}catch{state.playlists=[]}}await syncOfflineQueue()}else if(db){state.songs=cachedSongs()||[];try{state.playlists=JSON.parse(localStorage.getItem(OFFLINE_PLAYLISTS_KEY)||"[]")}catch{state.playlists=[]}if(!state.songs.length)toast("No songs saved on this device yet. Connect once to download the song library.")}else{state.songs=demoSongs();try{state.playlists=JSON.parse(localStorage.getItem("uecf_demo_playlists")||"[]")}catch{state.playlists=[]}}renderStats();renderSongs();renderPlaylists();renderFavorites();setAuthUI();if(state.user&&navigator.onLine)await loadCloudFavorites()}
+async function loadData(){if(db&&navigator.onLine){const {data:s,error:se}=await db.from("songs").select("*").order("title");if(!se){state.songs=mergeQueuedSongs(s||[]);cacheSongs()}else{state.songs=mergeQueuedSongs(cachedSongs()||[]);console.warn("Using saved songs:",se.message)}const {data:p,error:pe}=await db.from("playlists").select("*,playlist_songs(song_id,position,songs(id,title,artist))").order("created_at",{ascending:false});if(!pe){state.playlists=p||[];cachePlaylists()}else{try{state.playlists=JSON.parse(localStorage.getItem(OFFLINE_PLAYLISTS_KEY)||"[]")}catch{state.playlists=[]}}await syncOfflineQueue()}else if(db){state.songs=cachedSongs()||[];try{state.playlists=JSON.parse(localStorage.getItem(OFFLINE_PLAYLISTS_KEY)||"[]")}catch{state.playlists=[]}if(!state.songs.length)toast("No songs saved on this device yet. Connect once to download the song library.")}else{state.songs=demoSongs();try{state.playlists=JSON.parse(localStorage.getItem("uecf_demo_playlists")||"[]")}catch{state.playlists=[]}}if(db&&state.user&&navigator.onLine)await syncUserFavorites();renderStats();renderSongs();renderPlaylists();renderFavorites();setAuthUI()}
 function renderStats(){$("statSongs").textContent=state.songs.length;$("statPlaylists").textContent=CATEGORIES.length;$("statFavorites").textContent=state.favorites.size}
 function songCard(s){const lastEdited=(()=>{try{return localStorage.getItem(LAST_EDITED_KEY)===String(s.id)}catch(e){return false}})();return `<article data-song-card="${esc(s.id)}" class="card p-4 flex flex-col gap-3 ${lastEdited?"song-last-edited":""}"><div class="flex gap-3 items-start"><div class="w-11 h-11 shrink-0 rounded-xl bg-amber-100 text-amber-800 grid place-items-center text-lg"><i class="fa-solid fa-music"></i></div><div class="min-w-0 flex-1"><h3 class="font-extrabold leading-snug break-words">${esc(s.title)}</h3><p class="text-sm text-slate-500 dark:text-slate-400">${esc(s.artist||"Unknown artist")}</p></div><button class="text-rose-500 p-1" data-fav="${esc(s.id)}" title="Favorite"><i class="fa-${state.favorites.has(s.id)?"solid":"regular"} fa-heart"></i></button></div><div class="flex flex-wrap gap-1.5 text-xs"><span class="rounded-full bg-blue-100 text-blue-900 px-2 py-1">${esc(s.key_signature||"N/A")}</span><span class="rounded-full bg-amber-100 text-amber-900 px-2 py-1">${esc(s.category||"N/A")}</span><span class="rounded-full bg-slate-100 text-slate-700 px-2 py-1">${esc(s.language||"Other")}</span></div><div class="mt-auto flex gap-2"><button class="btn btn-primary flex-1" data-open="${esc(s.id)}"><i class="fa-regular fa-eye mr-1"></i> Open song</button>${canEdit()?`<button class="btn btn-ghost" data-edit="${esc(s.id)}" title="Edit"><i class="fa-solid fa-pen"></i></button><button class="btn btn-ghost text-rose-600" data-delete="${esc(s.id)}" title="Delete"><i class="fa-solid fa-trash"></i></button>`:""}</div></article>`}
 function renderSongs(){const rawQ=$("search").value.trim().toLocaleLowerCase();const q=rawQ.replace(/\s+/g," ");const lang=$("langFilter").value,cat=$("categoryFilter").value,sort=$("sortSongs").value;let list=state.songs.filter(s=>{const title=String(s.title||"").trim().toLocaleLowerCase();const fields=[s.title,s.artist,s.key_signature,s.category,s.language,s.lyrics_chordpro].join(" ").toLocaleLowerCase();const matches=!q||(q.length===1?title.startsWith(q):(title.startsWith(q)||fields.includes(q)));return matches&&(!lang||s.language===lang)&&(!cat||s.category===cat)});list.sort((a,b)=>sort==="artist"?(a.artist||"").localeCompare(b.artist||""):sort==="recent"?new Date(b.created_at||0)-new Date(a.created_at||0):a.title.localeCompare(b.title));$("songsList").innerHTML=list.map(songCard).join("");$("emptySongs").classList.toggle("hidden",list.length>0);wireSongCards()}
-function wireSongCards(){document.querySelectorAll("[data-open]").forEach(b=>b.onclick=()=>openSong(b.dataset.open));document.querySelectorAll("[data-fav]").forEach(b=>b.onclick=()=>toggleFavorite(b.dataset.fav));document.querySelectorAll("[data-edit]").forEach(b=>b.onclick=()=>editSong(b.dataset.edit));document.querySelectorAll("[data-delete]").forEach(b=>b.onclick=()=>deleteSong(b.dataset.delete));document.querySelectorAll("[data-remove-category]").forEach(b=>b.onclick=()=>removeSongFromCategory(b.dataset.removeCategory))}
+function wireSongCards(){document.querySelectorAll("[data-open]").forEach(b=>b.onclick=()=>openSong(b.dataset.open));document.querySelectorAll("[data-fav]").forEach(b=>b.onclick=()=>{void toggleFavorite(b.dataset.fav)});document.querySelectorAll("[data-edit]").forEach(b=>b.onclick=()=>editSong(b.dataset.edit));document.querySelectorAll("[data-delete]").forEach(b=>b.onclick=()=>deleteSong(b.dataset.delete))}
 ["search","langFilter","categoryFilter","sortSongs"].forEach(id=>$(id).addEventListener(id==="search"?"input":"change",renderSongs));
 function chordTranspose(text,steps){const notes=["C","C#","D","D#","E","F","F#","G","G#","A","A#","B"];const map={"Db":"C#","Eb":"D#","Gb":"F#","Ab":"G#","Bb":"A#"};return text.replace(/\[([A-G](?:#|b)?(?:m|maj|min|dim|aug|sus|add)?\d*(?:\/[A-G](?:#|b)?)?)\]/g,(all,chord)=>{const m=chord.match(/^([A-G](?:#|b)?)(.*)$/);if(!m)return all;let n=map[m[1]]||m[1],i=notes.indexOf(n);if(i<0)return all;let shifted=notes[(i+steps%12+12)%12];return "["+shifted+m[2]+"]"})}
 function renderChordPro(raw,steps=0){return esc(chordTranspose(raw,steps)).replace(/\[([A-G](?:#|b)?(?:m|maj|min|dim|aug|sus|add)?\d*(?:\/[A-G](?:#|b)?)?)\]/g,'<span class="chord">[$1]</span>').replace(/\{(?:title|artist|key|tempo|time|capo):\s*([^}]+)\}/gi,'').replace(/\[(Verse[^\]]*|Chorus|Bridge|Pre-Chorus|Intro|Outro)\]/gi,'<strong class="block text-sm text-amber-600 mt-4 mb-1">[$1]</strong>').replace(/\n/g,'<br>')}
@@ -788,7 +814,7 @@ function openSong(id){const s=state.songs.find(x=>x.id===id);if(!s)return;markLa
 requestAnimationFrame(()=>{const lyrics=$("songLyricsView");if(lyrics)lyrics.scrollIntoView({block:"start",behavior:"auto"});});
 // Editing ribbon is visible only to approved Admin and Super Admin accounts.
 const formatToolbar=$("textFormatToolbar");if(formatToolbar)formatToolbar.classList.toggle("hidden",!canEdit());
-$("backSongs").onclick=()=>{const back=["playlists","favorites","admin"].includes(state.prevView)?state.prevView:"home";showView(back,{keepCategory:true});requestAnimationFrame(()=>{let y=0;try{y=Number(localStorage.getItem(SONG_SCROLL_KEY)||0)}catch(e){}const lastId=(()=>{try{return localStorage.getItem(LAST_EDITED_KEY)}catch(e){return null}})();const card=lastId&&document.querySelector(`[data-song-card="${CSS.escape(lastId)}"]`);if(card){card.scrollIntoView({block:"center",behavior:"auto"});}else window.scrollTo({top:y,behavior:"auto"});});};$("songFav").onclick=()=>{state.favorites.has(s.id)?state.favorites.delete(s.id):state.favorites.add(s.id);localStorage.setItem("uecf_favorites",JSON.stringify([...state.favorites]));renderStats();toast("Favorites updated")};$("chordToggle").onclick=()=>{state.chordsVisible=!state.chordsVisible;const lyrics=$("songLyricsView");lyrics.classList.toggle("hide-chords",!state.chordsVisible);lyrics.querySelectorAll(".chord").forEach(chord=>chord.style.display=state.chordsVisible?"inline":"none");$("chordToggle").innerHTML=state.chordsVisible?'<i class="fa-solid fa-eye-slash mr-1"></i> Hide Chords':'<i class="fa-solid fa-eye mr-1"></i> Show Chords'};$("transposeDown").onclick=()=>transpose(-1);$("transposeUp").onclick=()=>transpose(1);$("fontDown").onclick=()=>{state.fontSize=Math.max(12,state.fontSize-1);$("songLyricsView").style.fontSize=state.fontSize+"px"};$("fontUp").onclick=()=>{state.fontSize=Math.min(32,state.fontSize+1);$("songLyricsView").style.fontSize=state.fontSize+"px"};
+$("backSongs").onclick=()=>{const back=["playlists","favorites","admin"].includes(state.prevView)?state.prevView:"home";showView(back,{keepCategory:true});requestAnimationFrame(()=>{let y=0;try{y=Number(localStorage.getItem(SONG_SCROLL_KEY)||0)}catch(e){}const lastId=(()=>{try{return localStorage.getItem(LAST_EDITED_KEY)}catch(e){return null}})();const card=lastId&&document.querySelector(`[data-song-card="${CSS.escape(lastId)}"]`);if(card){card.scrollIntoView({block:"center",behavior:"auto"});}else window.scrollTo({top:y,behavior:"auto"});});};$("songFav").onclick=()=>{void toggleFavorite(s.id)};$("chordToggle").onclick=()=>{state.chordsVisible=!state.chordsVisible;const lyrics=$("songLyricsView");lyrics.classList.toggle("hide-chords",!state.chordsVisible);lyrics.querySelectorAll(".chord").forEach(chord=>chord.style.display=state.chordsVisible?"inline":"none");$("chordToggle").innerHTML=state.chordsVisible?'<i class="fa-solid fa-eye-slash mr-1"></i> Hide Chords':'<i class="fa-solid fa-eye mr-1"></i> Show Chords'};$("transposeDown").onclick=()=>transpose(-1);$("transposeUp").onclick=()=>transpose(1);$("fontDown").onclick=()=>{state.fontSize=Math.max(12,state.fontSize-1);$("songLyricsView").style.fontSize=state.fontSize+"px"};$("fontUp").onclick=()=>{state.fontSize=Math.min(32,state.fontSize+1);$("songLyricsView").style.fontSize=state.fontSize+"px"};
 const lyricBox=$("songLyricsView");
 // Editable lyrics are saved to the song record, not just local browser storage.
 const lyricsDomToChordPro=()=>{
@@ -1083,7 +1109,7 @@ function renderPlaylists(){
   $("categoryTitle").textContent=name;
   $("categoryCount").textContent=`${songs.length} song${songs.length===1?"":"s"}`;
   $("categoryAddBtn").classList.toggle("hidden",!canEdit());
-  $("categorySongs").innerHTML=songs.map(song=>songCard(song).replace('</div></article>',`${canEdit()?`<button type="button" class="btn btn-ghost text-rose-600" data-remove-category="${esc(song.id)}" title="Remove from ${esc(name)}"><i class="fa-solid fa-xmark mr-1"></i>Remove</button>`:""}</div></article>`)).join("");
+  $("categorySongs").innerHTML=songs.map(songCard).join("");
   $("emptyCategory").classList.toggle("hidden",songs.length>0);
   $("emptyCategoryHint").textContent=canEdit()?"Tap “Add song” to put songs in this playlist.":"Approved editors and admins can add songs here.";
   wireSongCards();
@@ -1114,68 +1140,13 @@ async function addSongToCategory(id){
 }
 async function addSongToPlaylist(id){if(!canEdit())return;const s=state.songs;if(!s.length){toast("Add songs first.");return}const choice=prompt("Enter song number from this list:\n"+s.map((x,i)=>`${i+1}. ${x.title}`).join("\n"));const ix=Number(choice)-1;if(!Number.isInteger(ix)||ix<0||ix>=s.length)return;const song=s[ix];try{if(db&&navigator.onLine){const {data:existing}=await db.from("playlist_songs").select("position").eq("playlist_id",id).order("position",{ascending:false}).limit(1);const {error}=await db.from("playlist_songs").insert({playlist_id:id,song_id:song.id,position:(existing?.[0]?.position??-1)+1});if(error)throw error;await loadData()}else if(db){const p=state.playlists.find(x=>x.id===id);if(!p)throw new Error("Playlist not found on this device.");p.playlist_songs=p.playlist_songs||[];if(!(p.playlist_songs||[]).some(x=>x.song_id===song.id)){const position=p.playlist_songs.length;p.playlist_songs.push({song_id:song.id,position,songs:{id:song.id,title:song.title,artist:song.artist}});cachePlaylists();queueOffline("playlist_add_song",id,{playlist_id:id,song_id:song.id,position})}renderStats();renderPlaylists()}else{const p=state.playlists.find(x=>x.id===id);p.songs=p.songs||[];if(!p.songs.some(x=>x.id===song.id))p.songs.push(song);localStorage.setItem("uecf_demo_playlists",JSON.stringify(state.playlists));renderPlaylists()}toast(db&&!navigator.onLine?"Song added locally; will sync online.":"Song added to playlist.")}catch(e){toast(e.message||"Could not add song.")}}
 async function deletePlaylist(id){if(!canEdit()||!confirm("Delete this playlist?"))return;try{if(db&&navigator.onLine){const {error}=await db.from("playlists").delete().eq("id",id);if(error)throw error;await loadData()}else if(db){state.playlists=state.playlists.filter(p=>p.id!==id);cachePlaylists();queueOffline("playlist_delete",id);renderStats();renderPlaylists()}else{state.playlists=state.playlists.filter(p=>p.id!==id);localStorage.setItem("uecf_demo_playlists",JSON.stringify(state.playlists));renderPlaylists()}toast(db&&!navigator.onLine?"Playlist deleted locally; deletion will sync online.":"Playlist deleted.")}catch(e){toast(e.message||"Delete failed.")}}
-function renderFavorites(){const list=state.songs.filter(s=>state.favorites.has(String(s.id)));$("favoritesList").innerHTML=list.map(songCard).join("")||'<div class="card p-5 text-center text-slate-500">Tap the heart on a song to save it here.</div>';wireSongCards()}
-async function loadCloudFavorites(){
-  if(!db||!state.user||!navigator.onLine)return;
-  try{
-    const migrationKey="uecf_favorites_migrated_v1_"+state.user.id;
-    if(localStorage.getItem(migrationKey)!=="1"){
-      let localIds=[];try{localIds=JSON.parse(localStorage.getItem("uecf_favorites")||"[]").map(String)}catch(e){}
-      if(localIds.length){
-        const rows=localIds.map(song_id=>({user_id:state.user.id,song_id}));
-        const {error}=await db.from("user_favorites").upsert(rows,{onConflict:"user_id,song_id"});
-        if(error){console.warn("Could not migrate local favorites:",error.message);return}
-      }
-      localStorage.setItem(migrationKey,"1");
-    }
-    const {data,error}=await db.from("user_favorites").select("song_id").eq("user_id",state.user.id);
-    if(error){console.warn("Favorites sync unavailable:",error.message);return}
-    state.favorites=new Set((data||[]).map(r=>String(r.song_id)));
-    localStorage.setItem("uecf_favorites",JSON.stringify([...state.favorites]));
-    renderFavorites();renderSongs();renderPlaylists();renderStats();
-  }catch(e){console.warn("Favorites sync failed:",e)}
-}
-async function toggleFavorite(rawId){
-  const id=String(rawId),wasFavorite=state.favorites.has(id);
-  if(wasFavorite)state.favorites.delete(id);else state.favorites.add(id);
-  localStorage.setItem("uecf_favorites",JSON.stringify([...state.favorites]));
-  renderSongs();renderPlaylists();renderFavorites();renderStats();
-  if(db&&state.user&&navigator.onLine){
-    try{
-      if(wasFavorite){
-        const {error}=await db.from("user_favorites").delete().eq("user_id",state.user.id).eq("song_id",id);
-        if(error)throw error;
-      }else{
-        const {error}=await db.from("user_favorites").upsert({user_id:state.user.id,song_id:id},{onConflict:"user_id,song_id"});
-        if(error)throw error;
-      }
-    }catch(e){toast("Favorite sa device lang muna. Patakbuhin ang favorites-sync.sql sa Supabase para mag-sync.");console.warn("Could not sync favorite:",e.message);return}
-    toast(wasFavorite?"Removed from Favorites.":"Favorite saved and synced.");
-  }else if(!state.user){toast("Na-save sa device na ito. Mag-sign in sa parehong account sa computer at cellphone para mag-sync.");}
-  else toast("Na-save sa device; isi-sync kapag online.");
-}
-async function removeSongFromCategory(rawId){
-  if(!canEdit()||!state.openCategory)return;
-  const id=String(rawId),song=state.songs.find(x=>String(x.id)===id);
-  if(!song)return;
-  if(!confirm(`Remove “${song.title}” from ${state.openCategory}? The song will remain in the songbook.`))return;
-  const removedFrom=state.openCategory,updated={...song,category:null};
-  try{
-    if(db&&navigator.onLine&&state.user&&!id.startsWith("offline-")){
-      const {error}=await db.from("songs").update({category:null}).eq("id",song.id);
-      if(error)throw error;
-    }else if(db){saveSongLocallyAndQueue(id,updated)}
-    const ix=state.songs.findIndex(x=>String(x.id)===id);if(ix>=0)state.songs[ix]=updated;
-    cacheSongs();renderPlaylists();renderSongs();renderStats();
-    toast(`Removed from ${removedFrom}; song kept in library.`);
-  }catch(e){toast(e.message||"Could not remove song from category.")}
-}
+function renderFavorites(){const list=state.songs.filter(s=>state.favorites.has(s.id));$("favoritesList").innerHTML=list.map(songCard).join("")||'<div class="card p-8 text-center text-slate-500">Tap the heart on a song to save it here.</div>';wireSongCards()}
 async function renderAdmin(){const root=$("adminContent");if(!state.user){root.innerHTML='<p class="mb-3">Login first to access your role-based panel.</p><button id="adminLogin" class="btn btn-primary">Login</button>'; $("adminLogin").onclick=()=>$("authBtn").click();return}if(!canEdit()){const title=isSuper()?"SUPER ADMIN ROLE FOUND — APPROVAL FLAG IS OFF":"MEMBER — PENDING APPROVAL";const detail=isSuper()?"Your profile role is super_admin, but is_approved is false. A database owner must set is_approved=true in Supabase before approval controls are enabled.":`Your current database role is “${esc(state.profile?.role||"member")}” and approval is ${state.profile?.is_approved?"enabled":"pending"}. This account is not a Super Admin, so account approval controls are hidden. Ask the project owner to promote the correct profile in Supabase.`;root.innerHTML=`<div class="rounded-xl bg-amber-50 text-amber-900 p-4"><b>${title}</b><p class="mt-1 text-sm">${detail}</p><p class="mt-3 text-xs">Signed-in profile ID: <code>${esc(state.user.id)}</code></p></div>`;return}root.innerHTML=`<div class="grid md:grid-cols-2 gap-4"><div class="border border-slate-200 dark:border-slate-700 rounded-xl p-4"><h3 class="font-bold">Song management</h3><p class="text-sm text-slate-500 my-2">${state.songs.length} songs in library</p><button id="adminAddSong" class="btn btn-primary">Add song</button></div><div class="border border-slate-200 dark:border-slate-700 rounded-xl p-4"><h3 class="font-bold">Account approvals</h3><p class="text-sm text-slate-500 my-2">${canApprove()?"Review pending accounts and approve or revoke access.":"Only the Super Admin can approve accounts."}</p><div id="pendingUsers" class="space-y-2"></div></div></div>`;$("adminAddSong").onclick=()=>editSong(null);if(canApprove())await renderPendingUsers()}
 async function renderPendingUsers(){const root=$("pendingUsers");const {data:users,error}=await db.from("profiles").select("*").order("created_at",{ascending:false});if(error){root.innerHTML=`<p class="text-sm text-rose-600">${esc(error.message)}</p>`;return}const all=(users||[]).filter(u=>u.role!=="super_admin");const pending=all.filter(u=>!u.is_approved);const approved=all.filter(u=>u.is_approved&&["admin","editor"].includes(u.role));const pendingHtml=pending.map(u=>`<div class="border-t border-slate-200 dark:border-slate-700 pt-2"><div class="font-semibold text-sm">${esc(u.full_name||"Unnamed user")}</div><div class="text-xs text-slate-500">${esc(u.id)} • ${esc(u.role)} • Pending</div><div class="text-xs mt-1 text-slate-600 dark:text-slate-300"><b>Purpose:</b> ${esc(u.account_purpose||"Not provided (older account)")}</div><div class="flex gap-2 mt-2"><button class="btn btn-primary !text-xs" data-approve="${esc(u.id)}">Approve as editor</button><button class="btn btn-ghost !text-xs" data-revoke="${esc(u.id)}">Revoke access</button></div></div>`).join("")||'<p class="text-sm text-slate-500">No pending accounts.</p>';const approvedHtml=approved.map(u=>`<div class="border-t border-slate-200 dark:border-slate-700 pt-2"><div class="font-semibold text-sm">${esc(u.full_name||"Unnamed user")}</div><div class="text-xs text-slate-500">${esc(u.id)} • ${esc(u.role)} • Approved</div><div class="text-xs mt-1 text-slate-600 dark:text-slate-300"><b>Purpose:</b> ${esc(u.account_purpose||"Not provided (older account)")}</div><div class="mt-2"><button class="btn !text-xs !bg-red-600 !text-white hover:!bg-red-700 hover:!shadow-lg hover:!ring-2 hover:!ring-red-300 focus:!outline-none focus:!ring-2 focus:!ring-red-400 transition-all duration-150" data-demote="${esc(u.id)}" title="Remove this admin/editor role">Remove admin/editor role</button></div></div>`).join("")||'<p class="text-sm text-slate-500">No approved admins/editors yet.</p>';root.innerHTML=`<h4 class="font-bold mt-3">Pending accounts (${pending.length})</h4><div class="space-y-3">${pendingHtml}</div><h4 class="font-bold mt-5">Approved admins / editors (${approved.length})</h4><div class="space-y-3">${approvedHtml}</div>`;root.querySelectorAll("[data-approve]").forEach(b=>b.onclick=()=>updateProfile(b.dataset.approve,{role:"editor",is_approved:true}));root.querySelectorAll("[data-revoke]").forEach(b=>b.onclick=()=>updateProfile(b.dataset.revoke,{role:"member",is_approved:false}));root.querySelectorAll("[data-demote]").forEach(b=>b.onclick=()=>{if(confirm("CONFIRM ROLE REMOVAL\n\nAre you sure you want to remove this person's admin/editor role?\n\nThey will remain an approved read-only member. This will not delete their account."))updateProfile(b.dataset.demote,{role:"member",is_approved:true})})}
 async function updateProfile(id,values){if(!canApprove()){toast("Super Admin access required.");return}const {error}=await db.from("profiles").update(values).eq("id",id);if(error){toast(error.message);return}await renderPendingUsers();toast("Account access updated.")}
 async function init(){if(db){db.auth.onAuthStateChange(async()=>{await refreshSession();await loadData();if(state.view==="admin")renderAdmin()});await refreshSession();}else{state.user=null;state.profile=null}await loadData();if(!supabaseReady)toast("Preview mode: add Supabase URL and anon key to enable online accounts and database.");}
 function updateOfflineStatus(){const el=$("offlineStatus");if(!el)return;const pending=offlineQueue().length;el.textContent=navigator.onLine?(pending?`ONLINE • ${pending} change(s) waiting to sync` : "ONLINE • Offline library enabled"):(`OFFLINE MODE • Using saved songs${pending?` • ${pending} unsynced change(s)`:""}`);el.className="text-center text-xs font-bold px-3 py-1 "+(navigator.onLine?"bg-emerald-100 text-emerald-900":"bg-amber-100 text-amber-900")}
-window.addEventListener("online",async()=>{updateOfflineStatus();if(db)await refreshSession();await loadData();await syncOfflineQueue();updateOfflineStatus()});window.addEventListener("offline",()=>{updateOfflineStatus();toast("Offline mode: ang edits ay ise-save muna sa device na ito.")});window.addEventListener("focus",async()=>{if(navigator.onLine){if(db)await refreshSession();await syncOfflineQueue();await loadCloudFavorites();updateOfflineStatus()}});
+window.addEventListener("online",async()=>{updateOfflineStatus();if(db)await refreshSession();await loadData();await syncOfflineQueue();updateOfflineStatus()});window.addEventListener("offline",()=>{updateOfflineStatus();toast("Offline mode: ang edits ay ise-save muna sa device na ito.")});window.addEventListener("focus",async()=>{if(navigator.onLine){if(db)await refreshSession();await syncOfflineQueue();updateOfflineStatus()}});
 if("serviceWorker" in navigator){window.addEventListener("load",()=>navigator.serviceWorker.register("./service-worker.js").catch(e=>console.warn("Offline service worker registration failed",e)))}
 init().then(updateOfflineStatus);
 </script>
