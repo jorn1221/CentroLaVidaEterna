@@ -622,6 +622,16 @@ dialog form{padding:clamp(1.2rem,3vw,2rem)!important;max-height:88dvh;overflow:a
 #favoritesList .card .btn[data-open]{flex:0 0 auto!important}
 #categorySongs .category-remove-btn{white-space:nowrap}
 @media(max-width:640px){#favoritesList .card{padding:.6rem!important;column-gap:.4rem!important}#favoritesList .card h3{font-size:.82rem!important}#favoritesList .card>div:first-child p{font-size:.7rem!important}#favoritesList .card .btn{padding:.42rem .5rem!important;font-size:.68rem!important}#favoritesList .card .w-11.h-11{width:1.9rem;height:1.9rem;min-width:1.9rem}}
+
+/* Compact song search layout: use the available width without leaving empty grid tracks. */
+#songSearchBar{width:100%;box-sizing:border-box;align-items:center}
+#songSearchBar>label{display:block;min-width:0;width:100%}
+#songSearchBar #search{height:48px;min-height:48px;padding-top:.55rem!important;padding-bottom:.55rem!important}
+#songSearchBar #langFilter{width:100%;height:48px;min-height:48px;padding-top:.55rem!important;padding-bottom:.55rem!important}
+@media(max-width:639px){
+  #songSearchBar{padding:.55rem!important;gap:.5rem!important}
+  #songSearchBar #search,#songSearchBar #langFilter{height:44px;min-height:44px;font-size:15px!important}
+}
 </style>
 </head>
 <body class="bg-slate-50 text-slate-900 dark:bg-slate-900 dark:text-slate-100 min-h-screen">
@@ -660,7 +670,7 @@ dialog form{padding:clamp(1.2rem,3vw,2rem)!important;max-height:88dvh;overflow:a
         <div><h2 class="text-2xl font-extrabold">Songs</h2><p class="text-sm text-slate-500 dark:text-slate-400">Search by title, artist, key, category, or lyrics.</p></div>
         <div class="flex flex-wrap gap-2"><button id="addSongBtn" class="btn btn-primary hidden"><i class="fa-solid fa-plus mr-1"></i> Add Song</button><button id="newPlaylistBtn" class="hidden" aria-hidden="true" tabindex="-1"></button></div>
       </div>
-      <div class="card p-3 mb-4 grid sm:grid-cols-2 lg:grid-cols-[1fr_160px_160px_140px] gap-2">
+      <div id="songSearchBar" class="card p-2.5 mb-3 grid grid-cols-1 sm:grid-cols-[minmax(0,1fr)_200px] gap-2 items-center">
         <label class="relative"><i class="fa-solid fa-magnifying-glass absolute left-3 top-3.5 text-slate-400"></i><input id="search" class="field pl-9" placeholder="Search songs, artist, lyrics…"></label>
         <select id="langFilter" class="field"><option value="">All languages</option><option>Tagalog</option><option>English</option><option>Pangasinense</option><option>Ilokano</option><option>Spanish</option><option>Other</option></select>
         <select id="categoryFilter" class="field hidden" aria-hidden="true" tabindex="-1"><option value="">All categories</option><option>Praise</option><option>Worship</option><option>Special</option><option>N/A</option></select>
