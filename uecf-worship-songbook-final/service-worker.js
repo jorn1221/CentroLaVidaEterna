@@ -1,4 +1,4 @@
-const CACHE_NAME = "uecfi-songbook-v25-favorites-row-category-remove-editor-superadmin-remove";
+const CACHE_NAME = "uecfi-songbook-v26-secure-password-reset";
 const APP_SHELL = [
   "./",
   "./index.html",
