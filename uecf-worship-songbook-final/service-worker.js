@@ -1,9 +1,10 @@
-const CACHE_NAME = "uecfi-songbook-v27-install-cover-rotating";
+const CACHE_NAME = "uecfi-songbook-v28-cinematic-opening-motion";
 const APP_SHELL = [
   "./",
   "./index.html",
   "./manifest.json",
   "./assets/uecfi-logo.png",
+  "./assets/uecfi-opening-cover.jpg",
   "./assets/centro-la-vida-eterna.jpg",
   "./assets/clve-church-banner.webp",
   "./assets/icons/centro-icon-192.png",
