@@ -5,6 +5,9 @@
 <meta name="viewport" content="width=device-width,initial-scale=1">
 <meta name="theme-color" content="#10285b">
 <link rel="manifest" href="manifest.json">
+<link rel="icon" type="image/png" sizes="192x192" href="assets/icons/centro-icon-192.png">
+<link rel="apple-touch-icon" href="assets/icons/apple-touch-icon.png">
+<link rel="preload" as="image" href="assets/intro/centro-intro-poster.jpg">
 
 
 <meta name="description" content="Centro La Vida Eterna Worship Songbook. Search, read, transpose, and organize worship songs.">
@@ -633,67 +636,214 @@ dialog form{padding:clamp(1.2rem,3vw,2rem)!important;max-height:88dvh;overflow:a
   #songSearchBar #search,#songSearchBar #langFilter{height:44px;min-height:44px;font-size:15px!important}
 }
 
-/* ===== Official app opening splash: original user logo + real chapel photo ===== */
-.app-splash{position:fixed;inset:0;z-index:99999;display:flex;align-items:center;justify-content:center;overflow:hidden;padding:calc(18px + env(safe-area-inset-top)) 18px calc(18px + env(safe-area-inset-bottom));background:radial-gradient(ellipse at 50% 34%,#2459a0 0%,#10285b 48%,#061638 100%);color:#fff;opacity:1;visibility:visible;transition:opacity .55s ease,visibility .55s ease}
-.app-splash.is-hidden{opacity:0;visibility:hidden;pointer-events:none}
-.splash-rays{position:absolute;inset:-30%;background:repeating-conic-gradient(from 0deg at 50% 42%,#ffffff10 0deg 7deg,transparent 7deg 15deg);mask-image:radial-gradient(ellipse at center,#000 0%,transparent 68%);animation:splashRotate 45s linear infinite}
-.splash-content{position:relative;z-index:1;width:min(100%,560px);max-height:100%;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;gap:clamp(8px,1.5vh,16px)}
-.splash-logo{width:clamp(88px,19vh,148px);height:clamp(108px,23vh,178px);object-fit:contain;filter:drop-shadow(0 5px 12px #0008)}
-.splash-church-name{font-family:Georgia,'Times New Roman',serif;font-weight:900;letter-spacing:.035em;line-height:1.03;font-size:clamp(1.55rem,6vw,2.65rem);color:#ffd45a;-webkit-text-stroke:.45px #fff1ad;text-shadow:0 3px 0 #8a4c00,0 6px 15px #0009}
-.splash-subtitle{display:flex;align-items:center;justify-content:center;gap:10px;font-family:Georgia,'Times New Roman',serif;font-style:italic;font-weight:700;font-size:clamp(1.15rem,5vw,2rem);color:#fff8e8;text-shadow:0 3px 8px #0009}
-.splash-subtitle span{display:block;width:clamp(20px,8vw,56px);height:2px;background:linear-gradient(90deg,transparent,#f7c94d)}.splash-subtitle span:last-child{transform:scaleX(-1)}
-.splash-photo-frame{width:min(100%,490px);padding:5px;border:2px solid #f6c64a;border-radius:clamp(22px,5vw,42px);background:linear-gradient(135deg,#fff1ad,#b77a16 45%,#ffe58c);box-shadow:0 12px 30px #0006}
-.splash-photo-frame img{display:block;width:100%;height:clamp(165px,31vh,290px);object-fit:cover;object-position:center;border-radius:clamp(17px,4vw,34px)}
-.splash-motto{font-family:Georgia,'Times New Roman',serif;font-style:italic;font-weight:700;font-size:clamp(1.05rem,4.5vw,1.75rem);color:#ffe6a0;text-shadow:0 3px 8px #0009;margin-top:2px}
-.splash-loading{display:flex;gap:7px;margin-top:2px}.splash-loading i{width:6px;height:6px;border-radius:50%;background:#ffd45a;animation:splashPulse 1s ease-in-out infinite}.splash-loading i:nth-child(2){animation-delay:.15s}.splash-loading i:nth-child(3){animation-delay:.3s}
-@keyframes splashPulse{0%,80%,100%{opacity:.35;transform:scale(.75)}40%{opacity:1;transform:scale(1.15)}}@keyframes splashRotate{to{transform:rotate(360deg)}}
-@media(max-height:650px){.splash-content{gap:5px}.splash-logo{height:78px;width:72px}.splash-photo-frame img{height:clamp(115px,27vh,180px)}.splash-church-name{font-size:clamp(1.25rem,5vw,1.8rem)}.splash-subtitle{font-size:1.1rem}.splash-motto{font-size:1rem}}
-@media(prefers-reduced-motion:reduce){.splash-rays{animation:none}.app-splash,.splash-loading i{transition:none;animation:none}}
 
 
-/* Cinematic, realistic opening: gentle camera push, turning light, and subtle particles */
-.app-splash{padding:0;background:radial-gradient(ellipse at 50% 46%,#153b83 0%,#071a42 62%,#02091d 100%);isolation:isolate}
-.splash-rays{inset:-55%;z-index:0;background:repeating-conic-gradient(from 0deg at 50% 50%,#fff2 0deg 4deg,transparent 4deg 14deg);mask-image:radial-gradient(ellipse at center,#000 0%,#0008 42%,transparent 73%);animation:splashRotate 72s linear infinite;opacity:.72}
-.splash-ambient-glow{position:absolute;z-index:0;inset:-20%;background:radial-gradient(ellipse at 50% 48%,#fff3 0%,#68aaff18 28%,transparent 62%);animation:ambientBreathe 6s ease-in-out infinite alternate;pointer-events:none}
-.splash-cover-wrap{position:relative;z-index:1;width:100%;height:100%;display:flex;align-items:center;justify-content:center;overflow:hidden}
-.splash-cover-art{display:block;width:100%;height:100%;object-fit:contain;object-position:center;filter:drop-shadow(0 8px 28px #0009);transform:scale(1.015);animation:coverCamera 13s cubic-bezier(.45,0,.55,1) infinite alternate;will-change:transform}
-.splash-light-sweep{position:absolute;z-index:2;inset:-35% -80%;pointer-events:none;background:linear-gradient(108deg,transparent 42%,#fff0 47%,#fff5 50%,#ffe7a333 52%,transparent 58%);transform:translateX(-65%) rotate(8deg);animation:lightSweep 7.5s ease-in-out infinite;mix-blend-mode:screen}
-.splash-spinner{position:absolute;z-index:3;aspect-ratio:1;border-radius:50%;pointer-events:none}
-.splash-spinner-outer{width:min(96vw,96vh);border:1px solid transparent;border-top-color:#ffe7a9aa;border-right-color:#ffffff35;box-shadow:0 -2px 14px #ffe7a922;animation:splashRotate 18s linear infinite}
-.splash-spinner-inner{width:min(87vw,87vh);border:1px dashed #fff3;border-bottom-color:#ffdc78aa;animation:splashRotateReverse 29s linear infinite}
-.splash-particles{position:absolute;z-index:4;inset:0;overflow:hidden;pointer-events:none}
-.splash-particles i{position:absolute;bottom:-12px;width:3px;height:3px;border-radius:50%;background:#fff2bd;box-shadow:0 0 9px 2px #ffe8a888;opacity:0;animation:particleRise 8s linear infinite}
-.splash-particles i:nth-child(1){left:13%;animation-delay:0s}.splash-particles i:nth-child(2){left:29%;animation-delay:2.1s}.splash-particles i:nth-child(3){left:47%;animation-delay:4.2s}.splash-particles i:nth-child(4){left:64%;animation-delay:1.2s}.splash-particles i:nth-child(5){left:79%;animation-delay:3.2s}.splash-particles i:nth-child(6){left:91%;animation-delay:5.1s}
-@keyframes splashRotate{to{transform:rotate(360deg)}}@keyframes splashRotateReverse{to{transform:rotate(-360deg)}}
-@keyframes coverCamera{0%{transform:scale(1.015) translate3d(0,0,0)}100%{transform:scale(1.055) translate3d(0,-.35%,0)}}
-@keyframes ambientBreathe{from{opacity:.45;transform:scale(.96)}to{opacity:1;transform:scale(1.06)}}
-@keyframes lightSweep{0%,15%{transform:translateX(-75%) rotate(8deg);opacity:0}28%{opacity:.72}55%,100%{transform:translateX(75%) rotate(8deg);opacity:0}}
-@keyframes particleRise{0%{transform:translate3d(0,0,0) scale(.5);opacity:0}15%{opacity:.8}85%{opacity:.35}100%{transform:translate3d(18px,-105vh,0) scale(1.3);opacity:0}}
-@media(max-width:600px){.splash-cover-art{object-fit:contain}.splash-spinner-outer{width:96vw}.splash-spinner-inner{width:88vw}}
-@media(prefers-reduced-motion:reduce){.splash-rays,.splash-spinner,.splash-cover-art,.splash-ambient-glow,.splash-light-sweep,.splash-particles i{animation:none!important}.splash-cover-art{transform:none}}
 
+/* ===== v23: header credit, compact filters, song page, edit tools ===== */
+.header-credit{border-top:1px solid rgba(255,255,255,.14);background:rgba(4,12,32,.3)}
+.header-credit-inner{max-width:1600px;margin:0 auto;padding:.34rem 1rem;display:flex;flex-wrap:wrap;justify-content:center;align-items:center;gap:.05rem .55rem;font-size:11px;line-height:1.35;color:#c7d5f2;letter-spacing:.02em;text-align:center}
+.header-credit-inner b{color:#ffd66b;font-weight:700}
+.header-credit-inner .dot{color:#f4b91f;opacity:.85}
+@media(max-width:380px){.header-credit-inner{font-size:10px;padding:.3rem .6rem;gap:.05rem .4rem}}
+@media(max-width:330px){.header-credit-inner .dot{display:none}}
+
+
+#view-song .song-head{text-align:center;padding:.1rem .25rem .9rem}
+#view-song .song-meta{font-size:.72rem;letter-spacing:.16em;text-transform:uppercase;color:#d97706;font-weight:800}
+#view-song h2.song-title{font-size:clamp(1.55rem,7vw,2.3rem);font-weight:900;line-height:1.15;margin:.35rem 0 0;overflow-wrap:anywhere;text-align:center}
+#view-song .song-artist{color:#69758a;margin-top:.3rem;font-size:.95rem}
+.dark #view-song .song-artist{color:#94a3b8}
+.song-controls{display:grid;gap:.55rem;padding:.65rem;border:1px solid #e8e1d3;border-radius:16px;background:#faf6ea}
+.dark .song-controls{background:#0f1a2d;border-color:#293951}
+.song-controls .row-top{display:flex;justify-content:center;align-items:center;gap:.6rem;flex-wrap:wrap}
+.song-controls .pill{display:inline-flex;align-items:center;border:1px solid #e0d9cb;border-radius:13px;background:#fff;overflow:hidden}
+.dark .song-controls .pill{background:#172338;border-color:#3a4961}
+.song-controls .pill button{min-width:46px;min-height:44px;font-weight:800;color:inherit;touch-action:manipulation}
+.song-controls .pill button:active{background:#fff0bc;color:#10285b}
+.song-controls .pill-label{padding:0 .7rem;font-size:.86rem;font-weight:800;min-width:78px;text-align:center;white-space:nowrap}
+.song-controls .pill-label.sm{min-width:34px;padding:0 .35rem;opacity:.6}
+.song-controls .row-actions{display:flex;gap:.5rem}
+.song-controls .row-actions .btn{flex:1 1 0;min-width:0;min-height:44px;padding:.55rem .4rem!important;font-size:.84rem!important;white-space:nowrap;display:inline-flex;align-items:center;justify-content:center}
+
+#textFormatToolbar.etools{margin-top:.75rem;border:1px solid #e0d9cb;border-radius:16px;background:#faf6ea;font-family:inherit;overflow:visible}
+.dark #textFormatToolbar.etools{background:#0f1a2d;border-color:#293951}
+#textFormatToolbar .etools-head{display:flex;align-items:center;justify-content:space-between;width:100%;padding:.7rem .9rem;font-weight:800;font-size:.88rem;color:#10285b;background:transparent;border:0;text-align:left}
+.dark #textFormatToolbar .etools-head{color:#f4c64e}
+#textFormatToolbar .etools-chev{transition:transform .18s}
+#textFormatToolbar .etools-head.is-collapsed .etools-chev{transform:rotate(-90deg)}
+#textFormatToolbar .etools-body{padding:0 .65rem .7rem}
+#textFormatToolbar .etools-body.collapsed{display:none}
+#textFormatToolbar .etools-row{display:flex;align-items:center;gap:.3rem;overflow-x:auto;padding:.2rem 0 .45rem;scrollbar-width:none;-webkit-overflow-scrolling:touch}
+#textFormatToolbar .etools-row::-webkit-scrollbar{display:none}
+#textFormatToolbar .etools-group{display:flex;gap:.25rem;flex:0 0 auto;padding-right:.4rem;margin-right:.1rem;border-right:1px solid #e0d9cb}
+.dark #textFormatToolbar .etools-group{border-color:#334159}
+#textFormatToolbar .etools-group:last-child{border-right:0;padding-right:0;margin-right:0}
+#textFormatToolbar .tbtn{min-width:40px;height:40px;padding:0 .4rem;border-radius:10px;border:1px solid #e0d9cb;background:#fff;color:#1f2a44;display:inline-grid;place-items:center;font-weight:800;font-size:.9rem;touch-action:manipulation;flex:0 0 auto}
+.dark #textFormatToolbar .tbtn{background:#172338;border-color:#3a4961;color:#e2e8f0}
+#textFormatToolbar .tbtn:active,#textFormatToolbar .tbtn:hover{background:#fff0bc;color:#10285b;border-color:#e0b64a}
+#textFormatToolbar .etools-selects{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:.45rem;margin-top:.15rem}
+@media(min-width:640px){#textFormatToolbar .etools-selects{grid-template-columns:1.5fr .8fr 1fr 1fr}}
+#textFormatToolbar .etools-selects>label,#textFormatToolbar .etools-selects>.ribbon-color-field{display:flex;flex-direction:column;gap:3px;min-width:0;font-size:10.5px;font-weight:700;color:#69758a;letter-spacing:.03em;text-transform:uppercase}
+.dark #textFormatToolbar .etools-selects>label,.dark #textFormatToolbar .etools-selects>.ribbon-color-field{color:#94a3b8}
+#textFormatToolbar .etools-selects select.field{height:40px;min-height:40px!important;width:100%;max-width:none;padding:0 .5rem!important;font-size:13px!important;border-radius:10px!important}
+#textFormatToolbar .etools-selects .ribbon-color-button{height:40px;min-height:40px;width:100%;min-width:0;border-radius:10px;border:1px solid #e0d9cb;padding:0 .6rem}
+#textFormatToolbar .etools-selects .ribbon-color-button span:first-child{width:100%;max-width:46px}
+#textFormatToolbar .etools-save{width:100%;margin-top:.6rem;min-height:46px;font-size:.95rem}
+
+/* ===== Opening video ===== */
+body.intro-active{overflow:hidden;touch-action:none}
+.intro-screen{position:fixed;inset:0;z-index:99999;background:#061638;overflow:hidden;display:flex;align-items:center;justify-content:center;opacity:1;visibility:visible;transition:opacity .7s ease,visibility 0s linear .7s;height:100vh;height:100dvh;width:100vw}
+.intro-screen.is-leaving{opacity:0;visibility:hidden;pointer-events:none}
+.intro-screen.is-leaving .intro-stage{transform:scale(1.05);transition:transform .8s ease}
+.intro-backdrop{position:absolute;inset:0;width:100%;height:100%;filter:blur(22px) saturate(1.15) brightness(.72);transform:scale(1.2);image-rendering:auto}
+.intro-vignette{position:absolute;inset:0;background:radial-gradient(ellipse at center,transparent 45%,rgba(3,10,30,.55) 100%)}
+.intro-stage{position:relative;z-index:1;width:min(100vw,calc(100vh*9/16));height:min(100vh,calc(100vw*16/9));box-shadow:0 0 60px rgba(0,0,0,.55);background:#0b2a6f}
+@supports(height:100dvh){.intro-stage{width:min(100vw,calc(100dvh*9/16));height:min(100dvh,calc(100vw*16/9))}}
+.intro-video{display:block;width:100%;height:100%;object-fit:contain;background:#0b2a6f}
+.intro-ui{position:absolute;z-index:3;left:0;right:0;top:0;display:flex;justify-content:space-between;align-items:center;gap:.5rem;padding:calc(10px + env(safe-area-inset-top,0px)) calc(12px + env(safe-area-inset-right,0px)) 0 calc(12px + env(safe-area-inset-left,0px));pointer-events:none}
+.intro-btn{pointer-events:auto;display:inline-flex;align-items:center;gap:.45rem;min-height:42px;padding:.5rem .95rem;border-radius:999px;border:1px solid rgba(255,214,107,.7);background:rgba(8,22,56,.62);color:#fff;font-weight:800;font-size:.85rem;letter-spacing:.02em;-webkit-backdrop-filter:blur(8px);backdrop-filter:blur(8px);cursor:pointer;touch-action:manipulation;font-family:inherit}
+.intro-btn:active{transform:scale(.97)}
+.intro-btn i{color:#ffd66b}
+.intro-btn[hidden]{display:none}
+.intro-skip{margin-left:auto}
+.intro-progress{position:absolute;z-index:3;left:0;right:0;bottom:0;height:3px;background:rgba(255,255,255,.15)}
+.intro-progress i{display:block;height:100%;width:0;background:linear-gradient(90deg,#f4b91f,#ffe58c)}
+.intro-screen.intro-fallback-on .intro-video{visibility:hidden}
+.intro-screen.intro-fallback-on .intro-stage{background:#0b2a6f url(assets/uecfi-opening-cover.jpg) center/contain no-repeat}
+body.intro-done #app{animation:appFade .8s ease both}
+@keyframes appFade{from{opacity:0}to{opacity:1}}
+@media(prefers-reduced-motion:reduce){.intro-screen,.intro-screen.is-leaving .intro-stage{transition:none}body.intro-done #app{animation:none}}
+
+/* ===== Header logo: never squeezed, cropped or stretched ===== */
+header img.app-logo{width:auto;height:54px;max-width:46px;border:0;box-shadow:none;border-radius:0;background:transparent;padding:0;object-fit:contain;flex:0 0 auto;filter:drop-shadow(0 2px 6px rgba(0,0,0,.45))}
+@media(min-width:768px){header img.app-logo{height:60px;max-width:52px}}
+
+/* ===== Application information ===== */
+.app-about{display:flex;gap:1rem;align-items:center;margin:1.6rem auto 0;max-width:760px;padding:1rem 1.1rem;border-radius:18px;border:1px solid #e0d9cb;background:linear-gradient(135deg,#fffdf6,#f6efdb)}
+.dark .app-about{background:linear-gradient(135deg,#13203a,#0f1a2d);border-color:#2a3a54}
+.app-about-logo{width:auto;height:66px;max-width:54px;object-fit:contain;flex:0 0 auto;filter:drop-shadow(0 2px 5px rgba(0,0,0,.35))}
+.app-about h3{font-size:.95rem;font-weight:900;color:#10285b;margin:0 0 .35rem;letter-spacing:.02em}
+.dark .app-about h3{color:#f4c64e}
+.app-about dl{display:grid;grid-template-columns:auto 1fr;gap:.2rem .8rem;font-size:.8rem;margin:0}
+.app-about dt{font-weight:800;color:#69758a}.app-about dd{margin:0;min-width:0;overflow-wrap:anywhere}
+#view-song:not(.hidden)~#appAbout{display:none}
+@media(max-width:480px){.app-about{padding:.85rem;gap:.7rem}.app-about dl{font-size:.76rem}}
+
+/* ===== Admin account management ===== */
+.acct-summary-chips{display:flex;flex-wrap:wrap;gap:.4rem;margin:.6rem 0 .8rem}
+.chip{display:inline-flex;align-items:center;padding:.2rem .6rem;border-radius:999px;font-size:.72rem;font-weight:800;background:#eef2fb;color:#10285b;border:1px solid #d6def0}
+.dark .chip{background:#172338;color:#f4c64e;border-color:#334159}
+.acct-group-title{margin:1rem 0 .45rem;font-weight:900;font-size:.92rem;display:flex;align-items:center;gap:.5rem}
+.acct-group-title i{color:#d99a00}
+.acct{border:1px solid #e0d9cb;border-radius:14px;background:#fff;margin-bottom:.5rem;overflow:hidden}
+.dark .acct{background:#121d31;border-color:#2a3a54}
+.acct>summary{list-style:none;cursor:pointer;display:flex;align-items:center;gap:.6rem;padding:.65rem .85rem;min-height:54px}
+.acct>summary::-webkit-details-marker{display:none}
+.acct>summary .nm{font-weight:800;font-size:.92rem;line-height:1.25;min-width:0;flex:1;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.acct>summary .sub{display:block;font-weight:500;font-size:.74rem;color:#69758a;overflow:hidden;text-overflow:ellipsis}
+.acct>summary .chev{transition:transform .15s;color:#9aa5b8;font-size:.8rem}
+.acct[open]>summary .chev{transform:rotate(180deg)}
+.acct-body{padding:.2rem .85rem .85rem;border-top:1px solid #eee7d8}
+.dark .acct-body{border-color:#22324b}
+.acct-body dl{display:grid;grid-template-columns:auto 1fr;gap:.3rem .8rem;font-size:.8rem;margin:.55rem 0}
+.acct-body dt{font-weight:800;color:#69758a}.acct-body dd{margin:0;min-width:0;overflow-wrap:anywhere}
+.acct-actions{display:flex;flex-wrap:wrap;gap:.45rem;margin-top:.6rem}
+.acct-actions .btn{font-size:.78rem!important;padding:.5rem .75rem!important;min-height:40px}
+.role-badge,.st-badge{display:inline-block;padding:.15rem .55rem;border-radius:999px;font-size:.66rem;font-weight:900;letter-spacing:.03em;white-space:nowrap;flex:0 0 auto}
+.role-super_admin{background:#fff1bf;color:#6b4a00;border:1px solid #e0b64a}
+.role-admin{background:#dbeafe;color:#17358a}.role-editor{background:#dcfce7;color:#14532d}.role-member{background:#e5e7eb;color:#374151}
+.st-approved{background:#dcfce7;color:#14532d}.st-pending{background:#fef3c7;color:#78350f}.st-rejected{background:#fee2e2;color:#7f1d1d}
+.acct-note{font-size:.78rem;padding:.6rem .75rem;border-radius:12px;background:#fff8e1;color:#6b4a00;border:1px solid #f1d98a;margin-bottom:.6rem}
+.dark .acct-note{background:#2b2410;color:#f2d98c;border-color:#5c4a18}
+.acct-note code{font-size:.74rem}
+#acctFilter{width:100%;box-sizing:border-box;max-width:100%}
+.acct,.acct *{box-sizing:border-box}
+.btn-danger{background:#c62828!important;color:#fff!important;border-color:#c62828!important}
 </style>
 </head>
 <body class="bg-slate-50 text-slate-900 dark:bg-slate-900 dark:text-slate-100 min-h-screen">
-<div id="appSplash" class="app-splash no-print" role="status" aria-label="Centro La Vida Eterna Worship Songbook">
-  <div class="splash-rays" aria-hidden="true"></div>
-  <div class="splash-ambient-glow" aria-hidden="true"></div>
-  <div class="splash-cover-wrap"><img class="splash-cover-art" src="assets/uecfi-opening-cover.jpg" alt="Centro La Vida Eterna Worship Songbook cover"></div>
-  <div class="splash-light-sweep" aria-hidden="true"></div>
-  <div class="splash-spinner splash-spinner-outer" aria-hidden="true"></div>
-  <div class="splash-spinner splash-spinner-inner" aria-hidden="true"></div>
-  <div class="splash-particles" aria-hidden="true"><i></i><i></i><i></i><i></i><i></i><i></i></div>
+<div id="introScreen" class="intro-screen no-print" role="dialog" aria-label="Centro La Vida Eterna opening video">
+  <canvas id="introBackdrop" class="intro-backdrop" width="48" height="86" aria-hidden="true"></canvas>
+  <div class="intro-vignette" aria-hidden="true"></div>
+  <div class="intro-stage">
+    <video id="introVideo" class="intro-video" playsinline webkit-playsinline muted preload="auto" poster="assets/intro/centro-intro-poster.jpg" disablepictureinpicture controlslist="nodownload noremoteplayback"><source id="introSource" src="assets/intro/centro-intro.mp4" type="video/mp4"></video>
+  </div>
+  <div class="intro-ui">
+    <button id="introSound" class="intro-btn" type="button" hidden aria-label="Turn sound on"><i class="fa-solid fa-volume-xmark"></i><span>Tap for sound</span></button>
+    <button id="introSkip" class="intro-btn intro-skip" type="button" aria-label="Skip intro"><span>Skip intro</span><i class="fa-solid fa-forward-step"></i></button>
+  </div>
+  <div class="intro-progress" aria-hidden="true"><i id="introBar"></i></div>
 </div>
+<script>
+/* Opening video: plays once per app launch, never blocks the app, and always has a way out. */
+(function(){
+  var el=document.getElementById("introScreen");if(!el)return;
+  try{if(sessionStorage.getItem("uecf_intro_seen")==="1"){el.parentNode.removeChild(el);return}}catch(e){}
+  var body=document.body,v=document.getElementById("introVideo"),cv=document.getElementById("introBackdrop"),
+      skip=document.getElementById("introSkip"),snd=document.getElementById("introSound"),
+      bar=document.getElementById("introBar"),src=document.getElementById("introSource");
+  body.classList.add("intro-active");
+  var done=false,started=false,lastT=-1,stuck=0,t0=Date.now(),ctx=null;
+  try{ctx=cv.getContext("2d",{alpha:false})}catch(e){}
+  function finish(){
+    if(done)return;done=true;
+    try{sessionStorage.setItem("uecf_intro_seen","1")}catch(e){}
+    el.classList.add("is-leaving");body.classList.remove("intro-active");body.classList.add("intro-done");
+    try{v.pause()}catch(e){}
+    setTimeout(function(){try{el.parentNode.removeChild(el)}catch(e){}document.dispatchEvent(new Event("intro:done"))},800);
+  }
+  window.__finishIntro=finish;
+  function draw(){
+    if(done)return;
+    if(ctx&&v.readyState>=2&&v.videoWidth){
+      var cw=cv.width,ch=cv.height,s=Math.max(cw/v.videoWidth,ch/v.videoHeight),w=v.videoWidth*s,h=v.videoHeight*s;
+      try{ctx.drawImage(v,(cw-w)/2,(ch-h)/2,w,h)}catch(e){}
+    }
+    if(v.requestVideoFrameCallback)v.requestVideoFrameCallback(draw);else requestAnimationFrame(draw);
+  }
+  function fallback(){ /* video can't play on this device: show the cover art briefly, then continue */
+    if(done)return;el.classList.add("intro-fallback-on");setTimeout(finish,1800);
+  }
+  function soundUI(){var off=v.muted;snd.hidden=false;snd.classList.toggle("is-on",!off);
+    snd.querySelector("i").className="fa-solid "+(off?"fa-volume-xmark":"fa-volume-high");
+    snd.querySelector("span").textContent=off?"Tap for sound":"Sound on";snd.setAttribute("aria-label",off?"Turn sound on":"Turn sound off")}
+  skip.addEventListener("click",finish);
+  snd.addEventListener("click",function(){v.muted=!v.muted;if(!v.paused||true){var p=v.play();if(p&&p.catch)p.catch(function(){})}soundUI()});
+  document.addEventListener("keydown",function(e){if(!done&&(e.key==="Escape"||e.key==="Enter"||e.key===" ")){e.preventDefault();finish()}});
+  v.addEventListener("playing",function(){started=true;soundUI()});
+  v.addEventListener("timeupdate",function(){if(v.duration)bar.style.width=Math.min(100,v.currentTime/v.duration*100)+"%"});
+  v.addEventListener("ended",finish);
+  v.addEventListener("error",fallback);src.addEventListener("error",fallback);
+  var reduce=false;try{reduce=window.matchMedia("(prefers-reduced-motion: reduce)").matches}catch(e){}
+  if(reduce){setTimeout(finish,1500)}else{
+    v.muted=false;
+    var p=v.play();
+    if(p&&p.catch)p.catch(function(){
+      v.muted=true;var q=v.play();
+      if(q&&q.catch)q.catch(function(){/* autoplay fully blocked: watchdog below continues the app */});
+    });
+    draw();
+  }
+  setInterval(function(){
+    if(done)return;
+    var age=Date.now()-t0;
+    if(!started){if(age>4500)finish()}
+    else{var now=v.currentTime;if(now===lastT){if(++stuck>=4)finish()}else{stuck=0;lastT=now}}
+    if(age>15000)finish();
+  },1000);
+})();
+</script>
 <div id="songPrintArea" aria-hidden="true"></div>
 <div id="app">
 <div id="offlineStatus" class="text-center text-xs font-bold px-3 py-1 bg-emerald-100 text-emerald-900" role="status">Offline-ready: checking connection…</div>
 <header class="no-print sticky top-0 z-30 bg-navy text-white shadow-lg">
   <div class="max-w-[1600px] mx-auto px-4 py-3 flex items-center gap-3">
-    <img src="assets/uecfi-logo.png" alt="Original UECFI logo" class="w-12 h-12 rounded-lg bg-white object-contain p-0.5 shrink-0">
+    <img src="assets/uecfi-logo.png" alt="UECFI logo" class="app-logo" width="44" height="56" decoding="async">
     <div class="min-w-0 flex-1"><div class="font-extrabold tracking-wide leading-tight">CENTRO LA VIDA ETERNA</div><div class="text-xs text-amber-300 font-bold tracking-[.16em]">WORSHIP SONGBOOK</div><div class="text-xs text-blue-100"><a href="https://uecfi.net/" target="_blank" rel="noopener noreferrer" class="hover:underline">Union Espiritista Cristiana de Filipinas, Inc. (UECFI)</a></div></div>
     <button id="themeBtn" class="btn btn-ghost !border-white/30 text-white" title="Toggle dark mode"><i class="fa-solid fa-moon"></i><span class="hidden sm:inline ml-2">Theme</span></button>
     <button id="authBtn" class="btn btn-gold"><i class="fa-solid fa-right-to-bracket mr-1"></i><span id="authBtnText">Login</span></button>
   </div>
+  <div class="header-credit"><div class="header-credit-inner"><span>Created by <b>Jorn-Borg Carigao</b></span><span class="dot">•</span><span>October 24, 2026</span></div></div>
 </header>
 <div class="max-w-[1600px] mx-auto flex min-h-[calc(100vh-68px)]">
   <aside class="sidebar no-print hidden md:flex w-60 shrink-0 flex-col border-r border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-800 p-4 gap-2">
@@ -732,6 +882,19 @@ dialog form{padding:clamp(1.2rem,3vw,2rem)!important;max-height:88dvh;overflow:a
     <section id="view-favorites" class="hidden"><h2 class="text-2xl font-extrabold mb-4">Favorite Songs</h2><div id="favoritesList" class="grid gap-3"></div></section>
     <section id="view-admin" class="hidden"><div class="flex flex-wrap justify-between gap-3 mb-4"><div><h2 class="text-2xl font-extrabold">Admin Panel</h2><p class="text-sm text-slate-500">Manage songs and review account requests.</p></div><span id="adminBadge" class="rounded-full px-3 py-1 bg-slate-200 dark:bg-slate-700 text-sm h-fit">Sign in required</span></div><div id="adminContent" class="card p-5"><p>Sign in with your Supabase account. Only approved admins can manage songs; only a configured Super Admin can approve accounts.</p></div></section>
     <section id="view-song" class="hidden"></section>
+    <section id="appAbout" class="app-about no-print" aria-label="Application information">
+      <img src="assets/uecfi-logo.png" alt="" class="app-about-logo" width="52" height="66" loading="lazy" decoding="async">
+      <div class="app-about-text">
+        <h3>Application Information</h3>
+        <dl>
+          <dt>Application</dt><dd>UECFI Worship Songbook</dd>
+          <dt>Church</dt><dd>Centro La Vida Eterna</dd>
+          <dt>Organization</dt><dd>Union Espiritista Cristiana de Filipinas, Inc. (UECFI)</dd>
+          <dt>Created by</dt><dd>Jorn-Borg Carigao</dd>
+          <dt>Created date</dt><dd>October 24, 2026</dd>
+        </dl>
+      </div>
+    </section>
   </main>
 </div>
 <nav class="mobile-nav no-print md:hidden fixed bottom-0 inset-x-0 z-30 bg-white dark:bg-slate-800 border-t border-slate-200 dark:border-slate-700 grid grid-cols-4 p-2">
@@ -739,7 +902,8 @@ dialog form{padding:clamp(1.2rem,3vw,2rem)!important;max-height:88dvh;overflow:a
 </nav>
 </div>
 
-<dialog id="authDialog"><div class="auth-art" aria-label="Centro La Vida Eterna chapel"><div class="auth-art-copy"><div class="auth-mark">✦</div><div class="auth-brand">CENTRO LA VIDA ETERNA</div><div class="auth-subtitle">Worship Songbook</div><p>BUHAY NA WALANG HANGGAN</p></div></div><form id="authForm" class="p-6 space-y-4"><div class="flex items-center justify-between"><h2 class="text-xl font-extrabold" id="authTitle">Login</h2><button type="button" class="closeDialog text-slate-500 text-xl" aria-label="Close">&times;</button></div><p class="text-sm text-slate-500">Sign in or create an account. New accounts are read-only until approved.</p><div id="authNameWrap" class="hidden"><label class="text-sm font-semibold">Full name</label><input id="authName" class="field mt-1" autocomplete="name" required></div><div id="authPurposeWrap" class="hidden"><label class="text-sm font-semibold">Reason / Purpose for creating this account <span class="text-rose-600">*</span></label><textarea id="authPurpose" class="field mt-1" rows="3" minlength="10" maxlength="500" placeholder="Hal. Gagamitin ko ang songbook para sa paghahanda ng mga awit sa pagsamba." required></textarea><p class="text-xs text-slate-500 mt-1">Ipaliwanag kung bakit kailangan mo ng account (10–500 characters).</p></div><div><label class="text-sm font-semibold">Email</label><input id="authEmail" type="email" required class="field mt-1" autocomplete="email"></div><div><label class="text-sm font-semibold">Password</label><input id="authPassword" type="password" required minlength="6" class="field mt-1" autocomplete="current-password"></div><div id="authMessage" class="text-sm"></div><div class="flex gap-2"><button id="authSubmit" class="btn btn-primary flex-1" type="submit">Login</button><button id="signupToggle" type="button" class="btn btn-ghost">Sign up</button></div></form></dialog>
+<dialog id="authDialog"><div class="auth-art" aria-label="Centro La Vida Eterna chapel"><div class="auth-art-copy"><div class="auth-mark">✦</div><div class="auth-brand">CENTRO LA VIDA ETERNA</div><div class="auth-subtitle">Worship Songbook</div><p>BUHAY NA WALANG HANGGAN</p></div></div><form id="authForm" class="p-6 space-y-4"><div class="flex items-center justify-between"><h2 class="text-xl font-extrabold" id="authTitle">Login</h2><button type="button" class="closeDialog text-slate-500 text-xl" aria-label="Close">&times;</button></div><p class="text-sm text-slate-500">Sign in or create an account. New accounts are read-only until approved.</p><div id="authNameWrap" class="hidden"><label class="text-sm font-semibold">Full name</label><input id="authName" class="field mt-1" autocomplete="name" required></div><div id="authPurposeWrap" class="hidden"><label class="text-sm font-semibold">Reason / Purpose for creating this account <span class="text-rose-600">*</span></label><textarea id="authPurpose" class="field mt-1" rows="3" minlength="10" maxlength="500" placeholder="Hal. Gagamitin ko ang songbook para sa paghahanda ng mga awit sa pagsamba." required></textarea><p class="text-xs text-slate-500 mt-1">Ipaliwanag kung bakit kailangan mo ng account (10–500 characters).</p></div><div><label class="text-sm font-semibold">Email</label><input id="authEmail" type="email" required class="field mt-1" autocomplete="email"></div><div><label class="text-sm font-semibold">Password</label><input id="authPassword" type="password" required minlength="6" class="field mt-1" autocomplete="current-password"></div><div class="text-right -mt-2"><button id="forgotPwd" type="button" class="text-xs font-bold underline text-blue-700 dark:text-amber-300">Forgot password?</button></div><div id="authMessage" class="text-sm"></div><div class="flex gap-2"><button id="authSubmit" class="btn btn-primary flex-1" type="submit">Login</button><button id="signupToggle" type="button" class="btn btn-ghost">Sign up</button></div></form></dialog>
+<dialog id="recoveryDialog"><form id="recoveryForm" class="p-6 space-y-4"><div class="flex items-center justify-between"><h2 class="text-xl font-extrabold">Set a new password</h2><button type="button" class="closeDialog text-xl" aria-label="Close">&times;</button></div><p class="text-sm text-slate-500">Type your new password. Your old password is never shown, and passwords are never stored by this app.</p><div><label class="text-sm font-semibold" for="recoveryPassword">New password</label><input id="recoveryPassword" type="password" required minlength="8" autocomplete="new-password" class="field mt-1"></div><div><label class="text-sm font-semibold" for="recoveryPassword2">Confirm new password</label><input id="recoveryPassword2" type="password" required minlength="8" autocomplete="new-password" class="field mt-1"></div><div id="recoveryMessage" class="text-sm" role="status"></div><button id="recoverySubmit" class="btn btn-primary w-full" type="submit">Update password</button></form></dialog>
 <dialog id="songDialog"><form id="songForm" class="p-6 space-y-3"><div class="flex items-center justify-between"><h2 id="songFormTitle" class="text-xl font-extrabold">Add song</h2><button type="button" class="closeDialog text-xl">&times;</button></div><input type="hidden" id="songId"><label class="block text-sm font-semibold">Title *<input id="songTitle" required class="field mt-1"></label><label class="block text-sm font-semibold">Artist<input id="songArtist" class="field mt-1" placeholder="Unknown"></label><div class="grid grid-cols-2 gap-3"><label class="block text-sm font-semibold">Key<select id="songKey" class="field mt-1"><option>N/A</option><option>A</option><option>A#</option><option>B</option><option>C</option><option>C#</option><option>D</option><option>D#</option><option>E</option><option>F</option><option>F#</option><option>G</option><option>G#</option></select></label><label class="block text-sm font-semibold">Tempo<select id="songTempo" class="field mt-1"><option>N/A</option><option>Fast</option><option>Medium</option><option>Slow</option></select></label></div><div class="grid grid-cols-2 gap-3"><label class="block text-sm font-semibold">Category<select id="songCategory" class="field mt-1"><option>N/A</option><option>Praise</option><option>Worship</option><option>Special</option></select></label><label class="block text-sm font-semibold">Language<select id="songLanguage" class="field mt-1"><option>Tagalog</option><option>English</option><option>Pangasinense</option><option>Ilokano</option><option>Spanish</option><option>Other</option></select></label></div><label class="block text-sm font-semibold">Lyrics / ChordPro *<div class="flex flex-wrap gap-2 mt-2 mb-1"><button id="modalCaseUpper" type="button" class="btn btn-ghost">ABC UPPERCASE</button><button id="modalCaseLower" type="button" class="btn btn-ghost">abc lowercase</button><button id="modalCaseTitle" type="button" class="btn btn-ghost">Title Case</button></div><textarea id="songLyrics" required rows="9" class="field mt-1 font-mono" placeholder="{title: Song title}\n{key: G}\n[Verse 1]\n[G]Sample lyric line"></textarea></label><p class="text-xs text-slate-500">ChordPro example: [G]Walang hanggan ang [D]pagmamahal. Store only lyrics your organization has permission to use.</p><div id="songMessage" class="text-sm"></div><button class="btn btn-primary w-full" type="submit">Save song</button></form></dialog>
 <dialog id="playlistDialog"><form id="playlistForm" class="p-6 space-y-4"><div class="flex items-center justify-between"><h2 class="text-xl font-extrabold">Create playlist</h2><button type="button" class="closeDialog text-xl">&times;</button></div><label class="block text-sm font-semibold">Playlist name<input id="playlistTitle" required class="field mt-1" placeholder="Sunday Service"></label><label class="block text-sm font-semibold">Description<input id="playlistDescription" class="field mt-1" placeholder="Opening, praise, worship…"></label><button class="btn btn-primary w-full">Create playlist</button></form></dialog>
 <dialog id="categoryAddDialog"><div class="p-5 sm:p-6"><div class="flex items-center justify-between mb-3"><h2 class="text-xl font-extrabold" id="categoryAddTitle">Add song</h2><button type="button" class="closeDialog text-xl" aria-label="Close">&times;</button></div><input id="categoryPickSearch" class="field mb-2" placeholder="Search songs to add…" autocomplete="off"><div id="categoryPickList"></div></div></dialog>
@@ -845,9 +1009,9 @@ if(localStorage.getItem("uecf_theme")==="dark")document.documentElement.classLis
 document.querySelectorAll(".closeDialog").forEach(b=>b.addEventListener("click",()=>b.closest("dialog").close()));
 function setAuthUI(){const logged=!!state.user;$("authBtnText").textContent=logged?"Logout":"Login";$("roleLabel").innerHTML=logged?`<div class="font-bold text-xs px-2 py-1 rounded-lg ${canApprove()?"bg-emerald-100 text-emerald-900":canEdit()?"bg-blue-100 text-blue-900":"bg-amber-100 text-amber-900"}">${esc(roleDisplay())}</div><div class="mt-2 break-all">${esc(state.profile?.full_name||state.user.email)}</div><div class="text-[11px] mt-1">${state.profile?.is_approved?"Approved access":"Waiting for Super Admin approval"}</div>`:"PUBLIC / READ-ONLY";$("statAccess").textContent=roleDisplay();$("addSongBtn").classList.toggle("hidden",!canEdit());$("adminBadge").textContent=roleDisplay();$("adminBadge").className="rounded-full px-3 py-1 text-sm h-fit "+(canApprove()?"bg-emerald-100 text-emerald-800":canEdit()?"bg-blue-100 text-blue-800":"bg-amber-100 text-amber-900");}
 $("authBtn").addEventListener("click",async()=>{if(state.user){if(db)await db.auth.signOut();state.user=null;state.profile=null;await loadData();setAuthUI();toast("Logged out.");}else{state.authMode="login";$("authTitle").textContent="Login";$("authNameWrap").classList.add("hidden");$("authPurposeWrap").classList.add("hidden");$("authPurpose").required=false;$("authName").required=false;$("authSubmit").textContent="Login";$("signupToggle").textContent="Sign up";$("authMessage").textContent=supabaseReady?"":"Supabase isn't configured yet. Demo mode is read-only unless you enable demo mode in your own code."; $("authDialog").showModal()}});
-$("signupToggle").addEventListener("click",()=>{state.authMode=state.authMode==="login"?"signup":"login";$("authTitle").textContent=state.authMode==="signup"?"Create account":"Login";$("authNameWrap").classList.toggle("hidden",state.authMode!=="signup");$("authPurposeWrap").classList.toggle("hidden",state.authMode!=="signup");$("authName").required=state.authMode==="signup";$("authPurpose").required=state.authMode==="signup";$("authSubmit").textContent=state.authMode==="signup"?"Sign up":"Login";$("signupToggle").textContent=state.authMode==="signup"?"Back to login":"Sign up"});
+$("signupToggle").addEventListener("click",()=>{state.authMode=state.authMode==="login"?"signup":"login";$("authTitle").textContent=state.authMode==="signup"?"Create account":"Login";$("authNameWrap").classList.toggle("hidden",state.authMode!=="signup");$("authPurposeWrap").classList.toggle("hidden",state.authMode!=="signup");$("authName").required=state.authMode==="signup";$("authPurpose").required=state.authMode==="signup";$("authSubmit").textContent=state.authMode==="signup"?"Sign up":"Login";$("forgotPwd").classList.toggle("hidden",state.authMode==="signup");$("signupToggle").textContent=state.authMode==="signup"?"Back to login":"Sign up"});
 $("authForm").addEventListener("submit",async e=>{e.preventDefault();const email=$("authEmail").value.trim(),password=$("authPassword").value,name=$("authName").value.trim(),purpose=$("authPurpose").value.trim();const msg=$("authMessage");msg.textContent="";if(!db){msg.textContent="Supabase is not configured. Add your URL and anon public key in index.html, then reload.";return}
-try{if(state.authMode==="signup"){if(!name){msg.textContent="Please enter your full name.";return}if(purpose.length<10){msg.textContent="Please explain your purpose in at least 10 characters.";return}const {data,error}=await db.auth.signUp({email,password,options:{data:{full_name:name,account_purpose:purpose}}});if(error)throw error;if(data.user){const {error:purposeError}=await db.from("profiles").update({account_purpose:purpose}).eq("id",data.user.id);if(purposeError)console.warn("Could not save account purpose to profiles. Run the included SQL migration.",purposeError.message)}msg.textContent="Account created. Check your email if confirmation is enabled. Your account purpose was submitted for Admin review. You remain read-only until approved."}else{const {error}=await db.auth.signInWithPassword({email,password});if(error)throw error;await refreshSession();$("authDialog").close();await loadData();setAuthUI();toast(state.profile?.is_approved?"Welcome back!":"Pending Admin Approval — Read-Only Mode");} }catch(err){msg.textContent=err.message||"Authentication failed."}});
+try{if(state.authMode==="signup"){if(!name){msg.textContent="Please enter your full name.";return}if(purpose.length<10){msg.textContent="Please explain your purpose in at least 10 characters.";return}const {data,error}=await db.auth.signUp({email,password,options:{data:{full_name:name,account_purpose:purpose}}});if(error)throw error;if(data.user){const {error:purposeError}=await db.from("profiles").update({account_purpose:purpose}).eq("id",data.user.id);if(purposeError)console.warn("Could not save account purpose to profiles. Run the included SQL migration.",purposeError.message);try{await db.from("profiles").update({email}).eq("id",data.user.id)}catch(e){}}msg.textContent="Account created. Check your email if confirmation is enabled. Your account purpose was submitted for Admin review. You remain read-only until approved."}else{const {error}=await db.auth.signInWithPassword({email,password});if(error)throw error;await refreshSession();$("authDialog").close();await loadData();setAuthUI();toast(state.profile?.is_approved?"Welcome back!":"Pending Admin Approval — Read-Only Mode");} }catch(err){msg.textContent=err.message||"Authentication failed."}});
 async function refreshSession(){if(!db)return;const {data}=await db.auth.getSession();state.user=data.session?.user||null;state.profile=null;if(state.user){if(navigator.onLine){const {data:p,error}=await db.from("profiles").select("*").eq("id",state.user.id).maybeSingle();if(!error&&p){state.profile=p;localStorage.setItem("uecf_offline_profile_v1",JSON.stringify({userId:state.user.id,profile:p}));}}else{try{const saved=JSON.parse(localStorage.getItem("uecf_offline_profile_v1")||"null");if(saved?.userId===state.user.id)state.profile=saved.profile||null}catch{}}}else if(navigator.onLine){localStorage.removeItem("uecf_offline_profile_v1")}}
 const OFFLINE_SONGS_KEY="uecfi_offline_songs_v1", OFFLINE_QUEUE_KEY="uecfi_offline_song_queue_v1", OFFLINE_PLAYLISTS_KEY="uecf_offline_playlists_v1";
 function cachedSongs(){try{const v=JSON.parse(localStorage.getItem(OFFLINE_SONGS_KEY)||"null");return Array.isArray(v)?v:null}catch{return null}}
@@ -882,7 +1046,7 @@ else if(item.op==="playlist_delete"){const {error}=await db.from("playlists").de
 else if(item.op==="playlist_add_song"){const {data:existing,error:checkError}=await db.from("playlist_songs").select("playlist_id").eq("playlist_id",item.row.playlist_id).eq("song_id",item.row.song_id).maybeSingle();if(checkError)throw checkError;if(!existing){const {error}=await db.from("playlist_songs").insert(item.row);if(error)throw error}}
 synced++;
 }catch(e){remaining.push(item);console.warn("Offline change remains queued:",item.op,e.message)}}localStorage.setItem(OFFLINE_QUEUE_KEY,JSON.stringify(remaining));if(synced){const {data:s,error:se}=await db.from("songs").select("*").order("title");if(!se){state.songs=mergeQueuedSongs(s||[]);cacheSongs()}const {data:p,error:pe}=await db.from("playlists").select("*,playlist_songs(song_id,position,songs(id,title,artist))").order("created_at",{ascending:false});if(!pe){state.playlists=p||[];cachePlaylists()}renderStats();renderSongs();renderPlaylists();toast(`Synced ${synced} offline change(s).`)}updateOfflineStatus()}
-async function loadData(){if(db&&navigator.onLine){const {data:s,error:se}=await db.from("songs").select("*").order("title");if(!se){state.songs=mergeQueuedSongs(s||[]);cacheSongs()}else{state.songs=mergeQueuedSongs(cachedSongs()||[]);console.warn("Using saved songs:",se.message)}const {data:p,error:pe}=await db.from("playlists").select("*,playlist_songs(song_id,position,songs(id,title,artist))").order("created_at",{ascending:false});if(!pe){state.playlists=p||[];cachePlaylists()}else{try{state.playlists=JSON.parse(localStorage.getItem(OFFLINE_PLAYLISTS_KEY)||"[]")}catch{state.playlists=[]}}await syncOfflineQueue()}else if(db){state.songs=cachedSongs()||[];try{state.playlists=JSON.parse(localStorage.getItem(OFFLINE_PLAYLISTS_KEY)||"[]")}catch{state.playlists=[]}if(!state.songs.length)toast("No songs saved on this device yet. Connect once to download the song library.")}else{state.songs=demoSongs();try{state.playlists=JSON.parse(localStorage.getItem("uecf_demo_playlists")||"[]")}catch{state.playlists=[]}}if(db&&state.user&&navigator.onLine)await syncUserFavorites();renderStats();renderSongs();renderPlaylists();renderFavorites();setAuthUI()}
+async function loadData(){if(db&&navigator.onLine){const {data:s,error:se}=await db.from("songs").select("*").order("title");if(!se){state.songs=mergeQueuedSongs(s||[]);cacheSongs()}else{state.songs=mergeQueuedSongs(cachedSongs()||[]);console.warn("Using saved songs:",se.message)}const {data:p,error:pe}=await db.from("playlists").select("*,playlist_songs(song_id,position,songs(id,title,artist))").order("created_at",{ascending:false});if(!pe){state.playlists=p||[];cachePlaylists()}else{try{state.playlists=JSON.parse(localStorage.getItem(OFFLINE_PLAYLISTS_KEY)||"[]")}catch{state.playlists=[]}}await syncOfflineQueue()}else if(db){state.songs=cachedSongs()||[];try{state.playlists=JSON.parse(localStorage.getItem(OFFLINE_PLAYLISTS_KEY)||"[]")}catch{state.playlists=[]}if(!state.songs.length)toast("No songs saved on this device yet. Connect once to download the song library.")}else{const savedLib=cachedSongs();const configured=String(SUPABASE_URL).startsWith("https://")&&!String(SUPABASE_URL).includes("PASTE_");state.songs=(configured&&savedLib&&savedLib.length)?savedLib:demoSongs();try{state.playlists=JSON.parse(localStorage.getItem(configured?OFFLINE_PLAYLISTS_KEY:"uecf_demo_playlists")||"[]")}catch{state.playlists=[]}}if(db&&state.user&&navigator.onLine)await syncUserFavorites();renderStats();renderSongs();renderPlaylists();renderFavorites();setAuthUI()}
 function renderStats(){$("statSongs").textContent=state.songs.length;$("statPlaylists").textContent=CATEGORIES.length;$("statFavorites").textContent=state.favorites.size}
 function songCard(s){const lastEdited=(()=>{try{return localStorage.getItem(LAST_EDITED_KEY)===String(s.id)}catch(e){return false}})();return `<article data-song-card="${esc(s.id)}" class="card p-4 flex flex-col gap-3 ${lastEdited?"song-last-edited":""}"><div class="flex gap-3 items-start"><div class="w-11 h-11 shrink-0 rounded-xl bg-amber-100 text-amber-800 grid place-items-center text-lg"><i class="fa-solid fa-music"></i></div><div class="min-w-0 flex-1"><h3 class="font-extrabold leading-snug break-words">${esc(s.title)}</h3><p class="text-sm text-slate-500 dark:text-slate-400">${esc(s.artist||"Unknown artist")}</p></div><button class="text-rose-500 p-1" data-fav="${esc(s.id)}" title="Favorite"><i class="fa-${state.favorites.has(s.id)?"solid":"regular"} fa-heart"></i></button></div><div class="flex flex-wrap gap-1.5 text-xs"><span class="rounded-full bg-blue-100 text-blue-900 px-2 py-1">${esc(s.key_signature||"N/A")}</span><span class="rounded-full bg-amber-100 text-amber-900 px-2 py-1">${esc(s.category||"N/A")}</span><span class="rounded-full bg-slate-100 text-slate-700 px-2 py-1">${esc(s.language||"Other")}</span></div><div class="mt-auto flex gap-2"><button class="btn btn-primary flex-1" data-open="${esc(s.id)}"><i class="fa-regular fa-eye mr-1"></i> Open song</button>${canEdit()?`<button class="btn btn-ghost" data-edit="${esc(s.id)}" title="Edit"><i class="fa-solid fa-pen"></i></button><button class="btn btn-ghost text-rose-600" data-delete="${esc(s.id)}" title="Delete"><i class="fa-solid fa-trash"></i></button>`:""}</div></article>`}
 function renderSongs(){const rawQ=$("search").value.trim().toLocaleLowerCase();const q=rawQ.replace(/\s+/g," ");const lang=$("langFilter").value,cat=$("categoryFilter").value,sort=$("sortSongs").value;let list=state.songs.filter(s=>{const title=String(s.title||"").trim().toLocaleLowerCase();const fields=[s.title,s.artist,s.key_signature,s.category,s.language,s.lyrics_chordpro].join(" ").toLocaleLowerCase();const matches=!q||(q.length===1?title.startsWith(q):(title.startsWith(q)||fields.includes(q)));return matches&&(!lang||s.language===lang)&&(!cat||s.category===cat)});list.sort((a,b)=>sort==="artist"?(a.artist||"").localeCompare(b.artist||""):sort==="recent"?new Date(b.created_at||0)-new Date(a.created_at||0):a.title.localeCompare(b.title));$("songsList").innerHTML=list.map(songCard).join("");$("emptySongs").classList.toggle("hidden",list.length>0);wireSongCards()}
@@ -897,11 +1061,12 @@ function saveSongLocallyAndQueue(id,row){
   cacheSongs();const queued=queueOffline("upsert",id,dbSongPayload(row));markLastEdited(id);renderStats();renderSongs();
   return queued;
 }
-function openSong(id){const s=state.songs.find(x=>x.id===id);if(!s)return;markLastEdited(id);try{localStorage.setItem(SONG_SCROLL_KEY,String(window.scrollY||window.pageYOffset||0))}catch(e){}if(state.view!=="song")state.prevView=state.view;state.currentSong=s;state.transpose=0;state.chordsVisible=true;showView("song",{scroll:false});const v=$("view-song");v.innerHTML=`<div class="no-print flex items-center justify-between mb-4"><button id="backSongs" class="btn btn-ghost"><i class="fa-solid fa-arrow-left mr-1"></i> ${state.prevView==="playlists"?"Back to Playlist":state.prevView==="favorites"?"Back to Favorites":"Back to Songs"}</button><button id="songFav" class="btn btn-ghost text-rose-600"><i class="fa-regular fa-heart"></i> Favorite</button></div><article class="card p-5 sm:p-8"><div class="flex flex-wrap justify-between gap-3"><div><div class="text-xs uppercase tracking-wider text-amber-600 font-bold">${esc(s.category||"N/A")} • ${esc(s.language||"Other")}</div><h2 class="text-3xl font-black mt-1">${esc(s.title)}</h2><p class="text-slate-500 mt-1">${esc(s.artist||"Unknown artist")}</p></div><div class="flex gap-2 items-start no-print"><button id="transposeDown" class="btn btn-ghost" title="Transpose down"><i class="fa-solid fa-minus"></i></button><span id="transposeLabel" class="px-2 py-2 text-sm font-bold">Key: ${esc(s.key_signature||"N/A")}</span><button id="transposeUp" class="btn btn-ghost" title="Transpose up"><i class="fa-solid fa-plus"></i></button></div></div><div class="flex flex-wrap gap-2 mt-5 no-print"><button id="chordToggle" class="btn btn-gold"><i class="fa-solid fa-eye-slash mr-1"></i> Hide Chords</button><button id="fontDown" class="btn btn-ghost">A−</button><button id="fontUp" class="btn btn-ghost">A+</button><button id="printSong" class="btn btn-ghost"><i class="fa-solid fa-print mr-1"></i> Print / PDF</button>${canEdit()?`<button id="editCurrent" class="btn btn-ghost"><i class="fa-solid fa-pen mr-1"></i> Edit</button>`:""}</div><div id="textFormatToolbar" class="word-ribbon no-print mt-3 ${canEdit()?"":"hidden"}"><div class="ribbon-top"><strong>Font</strong><strong>Paragraph</strong><span class="ribbon-spacer"></span><button id="caseUpper" type="button" class="ribbon-btn">ABC UPPERCASE</button><button id="caseLower" type="button" class="ribbon-btn">abc lowercase</button><button id="caseTitle" type="button" class="ribbon-btn">Title Case</button><button id="lyricUndo" type="button" class="ribbon-btn" title="Undo (Ctrl+Z)">↶ Undo</button><button id="lyricRedo" type="button" class="ribbon-btn" title="Redo (Ctrl+Y)">↷ Redo</button><button id="lyricSave" type="button" class="ribbon-btn" title="Save lyric formatting">💾 Save</button></div><div class="ribbon-tools"><label class="text-xs">Font<select id="lyricFont" class="field py-2 mt-1"><option value="ui-monospace,monospace">Monospace</option><option value="Arial,sans-serif">Arial</option><option value="Georgia,serif">Georgia</option><option value="Verdana,sans-serif">Verdana</option><option value="'Times New Roman',serif">Times New Roman</option><option value="'Trebuchet MS',sans-serif">Trebuchet MS</option></select></label><div class="ribbon-color-field"><label for="lyricColorButton">Text color</label><button id="lyricColorButton" type="button" class="ribbon-color-button" aria-label="Choose text color"><span id="lyricColorSwatch" style="background:#000000"></span><span>▼</span></button><select id="lyricColor" aria-label="Text color" class="palette-value-hidden"><option value="#000000" selected>Black</option><option value="#ffffff">White</option><option value="#c00000">Dark red</option><option value="#ff0000">Red</option><option value="#ffc000">Orange</option><option value="#ffff00">Yellow</option><option value="#92d050">Light green</option><option value="#00b050">Green</option><option value="#00b0f0">Cyan</option><option value="#0070c0">Blue</option><option value="#002060">Dark blue</option><option value="#7030a0">Purple</option></select><div id="lyricColorPalette" class="office-color-palette hidden"><div class="palette-auto" data-color="#000000"><span class="palette-swatch" style="background:#000"></span> Automatic</div><strong>Theme Colors</strong><div class="palette-grid theme-palette"></div><strong>Standard Colors</strong><div class="palette-grid standard-palette"></div></div></div><div class="ribbon-color-field"><label for="lyricHighlightButton">Highlight</label><button id="lyricHighlightButtonPicker" type="button" class="ribbon-color-button" aria-label="Choose highlight color"><span id="lyricHighlightSwatch" style="background:#ffff00"></span><span>▼</span></button><select id="lyricHighlight" aria-label="Highlight color" class="palette-value-hidden"><option value="#ffff00" selected>Yellow</option><option value="#ffffff">White</option><option value="#ff0000">Red</option><option value="#ffc000">Orange</option><option value="#92d050">Light green</option><option value="#00b0f0">Cyan</option><option value="#0070c0">Blue</option><option value="#7030a0">Purple</option><option value="#ff66cc">Pink</option></select><div id="lyricHighlightPalette" class="office-color-palette hidden"><div class="palette-grid theme-palette"></div><strong>Standard Colors</strong><div class="palette-grid standard-palette"></div></div></div><label class="text-xs">Size<select id="lyricSize" class="field py-2 mt-1"><option>12</option><option>14</option><option>16</option><option selected>18</option><option>20</option><option>22</option><option>24</option><option>28</option><option>32</option><option>36</option></select></label><button id="lyricBold" type="button" class="btn btn-ghost" title="Bold"><b>B</b></button><button id="lyricItalic" type="button" class="btn btn-ghost" title="Italic"><i>I</i></button><button id="lyricUnderline" type="button" class="btn btn-ghost" title="Underline"><u>U</u></button><button id="lyricStrike" type="button" class="btn btn-ghost" title="Strikethrough"><s>S</s></button><button id="lyricHighlightBtn" type="button" class="btn btn-ghost">Highlight</button><button id="lyricAlignLeft" type="button" class="btn btn-ghost" title="Align left"><i class="fa-solid fa-align-left"></i></button><button id="lyricAlignCenter" type="button" class="btn btn-ghost" title="Center"><i class="fa-solid fa-align-center"></i></button><button id="lyricAlignRight" type="button" class="btn btn-ghost" title="Align right"><i class="fa-solid fa-align-right"></i></button><button id="lyricLineSpace" type="button" class="btn btn-ghost">Line spacing</button><button id="lyricClearFormat" type="button" class="btn btn-ghost">Reset style</button></div></div><div id="songLyricsView" tabindex="0" ${canEdit()?'contenteditable="true" spellcheck="false"':''} aria-label="Song lyrics. Approved editors can edit lyrics directly here. Use Ctrl+A to select all lyrics." class="lyrics mt-6 text-lg leading-8" style="font-size:${state.fontSize}px">${(()=>{try{return s.lyrics_html||localStorage.getItem("uecf_lyrics_format_"+s.id)||renderChordPro(s.lyrics_chordpro||"",0)}catch(e){return renderChordPro(s.lyrics_chordpro||"",0)}})()}</div></article>`;
+function openSong(id){const s=state.songs.find(x=>x.id===id);if(!s)return;markLastEdited(id);try{localStorage.setItem(SONG_SCROLL_KEY,String(window.scrollY||window.pageYOffset||0))}catch(e){}if(state.view!=="song")state.prevView=state.view;state.currentSong=s;state.transpose=0;state.chordsVisible=true;showView("song",{scroll:false});const v=$("view-song");v.innerHTML=`<div class="no-print flex items-center justify-between mb-4"><button id="backSongs" class="btn btn-ghost"><i class="fa-solid fa-arrow-left mr-1"></i> ${state.prevView==="playlists"?"Back to Playlist":state.prevView==="favorites"?"Back to Favorites":"Back to Songs"}</button><button id="songFav" class="btn btn-ghost text-rose-600"><i class="fa-regular fa-heart"></i> Favorite</button></div><article class="card p-5 sm:p-8"><div class="song-head"><div class="song-meta">${esc(s.category||"N/A")} • ${esc(s.language||"Other")}</div><h2 class="song-title">${esc(s.title)}</h2><p class="song-artist">${esc(s.artist||"Unknown artist")}</p></div><div class="song-controls no-print"><div class="row-top"><div class="pill" role="group" aria-label="Transpose key"><button id="transposeDown" type="button" title="Transpose down"><i class="fa-solid fa-minus"></i></button><span id="transposeLabel" class="pill-label">Key: ${esc(s.key_signature||"N/A")}</span><button id="transposeUp" type="button" title="Transpose up"><i class="fa-solid fa-plus"></i></button></div><div class="pill" role="group" aria-label="Text size"><button id="fontDown" type="button" title="Smaller text">A−</button><span class="pill-label sm"><i class="fa-solid fa-text-height"></i></span><button id="fontUp" type="button" title="Larger text">A+</button></div></div><div class="row-actions"><button id="chordToggle" class="btn btn-gold" type="button"><i class="fa-solid fa-eye-slash mr-1"></i> Hide Chords</button><button id="printSong" class="btn btn-ghost" type="button"><i class="fa-solid fa-print mr-1"></i> Print / PDF</button>${canEdit()?`<button id="editCurrent" class="btn btn-ghost" type="button"><i class="fa-solid fa-pen mr-1"></i> Edit</button>`:""}</div></div><div id="textFormatToolbar" class="etools no-print ${canEdit()?"":"hidden"}"><button type="button" id="etoolsHead" class="etools-head" aria-expanded="true"><span><i class="fa-solid fa-sliders mr-2"></i>Edit tools</span><i class="fa-solid fa-chevron-down etools-chev"></i></button><div id="etoolsBody" class="etools-body"><div class="etools-row"><div class="etools-group"><button id="lyricUndo" type="button" class="tbtn" title="Undo (Ctrl+Z)" aria-label="Undo"><i class="fa-solid fa-rotate-left"></i></button><button id="lyricRedo" type="button" class="tbtn" title="Redo (Ctrl+Y)" aria-label="Redo"><i class="fa-solid fa-rotate-right"></i></button></div><div class="etools-group"><button id="lyricBold" type="button" class="tbtn" title="Bold"><b>B</b></button><button id="lyricItalic" type="button" class="tbtn" title="Italic"><i>I</i></button><button id="lyricUnderline" type="button" class="tbtn" title="Underline"><u>U</u></button><button id="lyricStrike" type="button" class="tbtn" title="Strikethrough"><s>S</s></button><button id="lyricHighlightBtn" type="button" class="tbtn" title="Apply highlight" aria-label="Apply highlight"><i class="fa-solid fa-highlighter"></i></button></div><div class="etools-group"><button id="caseUpper" type="button" class="tbtn" title="UPPERCASE">AA</button><button id="caseLower" type="button" class="tbtn" title="lowercase">aa</button><button id="caseTitle" type="button" class="tbtn" title="Title Case">Aa</button></div><div class="etools-group"><button id="lyricAlignLeft" type="button" class="tbtn" title="Align left" aria-label="Align left"><i class="fa-solid fa-align-left"></i></button><button id="lyricAlignCenter" type="button" class="tbtn" title="Center" aria-label="Center"><i class="fa-solid fa-align-center"></i></button><button id="lyricAlignRight" type="button" class="tbtn" title="Align right" aria-label="Align right"><i class="fa-solid fa-align-right"></i></button></div><div class="etools-group"><button id="lyricLineSpace" type="button" class="tbtn" title="Line spacing" aria-label="Line spacing"><i class="fa-solid fa-text-height"></i></button><button id="lyricClearFormat" type="button" class="tbtn" title="Reset style" aria-label="Reset style"><i class="fa-solid fa-eraser"></i></button></div></div><div class="etools-selects"><label>Font<select id="lyricFont" class="field"><option value="ui-monospace,monospace">Monospace</option><option value="Arial,sans-serif">Arial</option><option value="Georgia,serif">Georgia</option><option value="Verdana,sans-serif">Verdana</option><option value="'Times New Roman',serif">Times New Roman</option><option value="'Trebuchet MS',sans-serif">Trebuchet MS</option></select></label><label>Size<select id="lyricSize" class="field"><option>12</option><option>14</option><option>16</option><option selected>18</option><option>20</option><option>22</option><option>24</option><option>28</option><option>32</option><option>36</option></select></label><div class="ribbon-color-field"><label for="lyricColorButton">Text color</label><button id="lyricColorButton" type="button" class="ribbon-color-button" aria-label="Choose text color"><span id="lyricColorSwatch" style="background:#000000"></span><span>▼</span></button><select id="lyricColor" aria-label="Text color" class="palette-value-hidden"><option value="#000000" selected>Black</option><option value="#ffffff">White</option><option value="#c00000">Dark red</option><option value="#ff0000">Red</option><option value="#ffc000">Orange</option><option value="#ffff00">Yellow</option><option value="#92d050">Light green</option><option value="#00b050">Green</option><option value="#00b0f0">Cyan</option><option value="#0070c0">Blue</option><option value="#002060">Dark blue</option><option value="#7030a0">Purple</option></select><div id="lyricColorPalette" class="office-color-palette hidden"><div class="palette-auto" data-color="#000000"><span class="palette-swatch" style="background:#000"></span> Automatic</div><strong>Theme Colors</strong><div class="palette-grid theme-palette"></div><strong>Standard Colors</strong><div class="palette-grid standard-palette"></div></div></div><div class="ribbon-color-field"><label for="lyricHighlightButton">Highlight</label><button id="lyricHighlightButtonPicker" type="button" class="ribbon-color-button" aria-label="Choose highlight color"><span id="lyricHighlightSwatch" style="background:#ffff00"></span><span>▼</span></button><select id="lyricHighlight" aria-label="Highlight color" class="palette-value-hidden"><option value="#ffff00" selected>Yellow</option><option value="#ffffff">White</option><option value="#ff0000">Red</option><option value="#ffc000">Orange</option><option value="#92d050">Light green</option><option value="#00b0f0">Cyan</option><option value="#0070c0">Blue</option><option value="#7030a0">Purple</option><option value="#ff66cc">Pink</option></select><div id="lyricHighlightPalette" class="office-color-palette hidden"><div class="palette-grid theme-palette"></div><strong>Standard Colors</strong><div class="palette-grid standard-palette"></div></div></div></div><button id="lyricSave" type="button" class="btn btn-primary etools-save" title="Save lyric formatting"><i class="fa-solid fa-floppy-disk mr-2"></i>Save changes</button></div></div><div id="songLyricsView" tabindex="0" ${canEdit()?'contenteditable="true" spellcheck="false"':''} aria-label="Song lyrics. Approved editors can edit lyrics directly here. Use Ctrl+A to select all lyrics." class="lyrics mt-6 text-lg leading-8" style="font-size:${state.fontSize}px">${(()=>{try{return s.lyrics_html||localStorage.getItem("uecf_lyrics_format_"+s.id)||renderChordPro(s.lyrics_chordpro||"",0)}catch(e){return renderChordPro(s.lyrics_chordpro||"",0)}})()}</div></article>`;
 // Open directly at the lyrics on desktop and mobile; avoid the competing smooth scroll to page top.
 requestAnimationFrame(()=>{const lyrics=$("songLyricsView");if(lyrics)lyrics.scrollIntoView({block:"start",behavior:"auto"});});
 // Editing ribbon is visible only to approved Admin and Super Admin accounts.
 const formatToolbar=$("textFormatToolbar");if(formatToolbar)formatToolbar.classList.toggle("hidden",!canEdit());
+const eHead=$("etoolsHead"),eBody=$("etoolsBody");if(eHead&&eBody){const setC=c=>{eBody.classList.toggle("collapsed",c);eHead.classList.toggle("is-collapsed",c);eHead.setAttribute("aria-expanded",String(!c))};let c0=false;try{c0=localStorage.getItem("uecf_etools_collapsed")==="1"}catch(e){}setC(c0);eHead.onclick=()=>{const c=!eBody.classList.contains("collapsed");setC(c);try{localStorage.setItem("uecf_etools_collapsed",c?"1":"0")}catch(e){}}}
 $("backSongs").onclick=()=>{const back=["playlists","favorites","admin"].includes(state.prevView)?state.prevView:"home";showView(back,{keepCategory:true});requestAnimationFrame(()=>{let y=0;try{y=Number(localStorage.getItem(SONG_SCROLL_KEY)||0)}catch(e){}const lastId=(()=>{try{return localStorage.getItem(LAST_EDITED_KEY)}catch(e){return null}})();const card=lastId&&document.querySelector(`[data-song-card="${CSS.escape(lastId)}"]`);if(card){card.scrollIntoView({block:"center",behavior:"auto"});}else window.scrollTo({top:y,behavior:"auto"});});};$("songFav").onclick=()=>{void toggleFavorite(s.id)};$("chordToggle").onclick=()=>{state.chordsVisible=!state.chordsVisible;const lyrics=$("songLyricsView");lyrics.classList.toggle("hide-chords",!state.chordsVisible);lyrics.querySelectorAll(".chord").forEach(chord=>chord.style.display=state.chordsVisible?"inline":"none");$("chordToggle").innerHTML=state.chordsVisible?'<i class="fa-solid fa-eye-slash mr-1"></i> Hide Chords':'<i class="fa-solid fa-eye mr-1"></i> Show Chords'};$("transposeDown").onclick=()=>transpose(-1);$("transposeUp").onclick=()=>transpose(1);$("fontDown").onclick=()=>{state.fontSize=Math.max(12,state.fontSize-1);$("songLyricsView").style.fontSize=state.fontSize+"px"};$("fontUp").onclick=()=>{state.fontSize=Math.min(32,state.fontSize+1);$("songLyricsView").style.fontSize=state.fontSize+"px"};
 const lyricBox=$("songLyricsView");
 // Editable lyrics are saved to the song record, not just local browser storage.
@@ -1259,21 +1424,113 @@ async function removeSongFromCategory(id){
 async function addSongToPlaylist(id){if(!canEdit())return;const s=state.songs;if(!s.length){toast("Add songs first.");return}const choice=prompt("Enter song number from this list:\n"+s.map((x,i)=>`${i+1}. ${x.title}`).join("\n"));const ix=Number(choice)-1;if(!Number.isInteger(ix)||ix<0||ix>=s.length)return;const song=s[ix];try{if(db&&navigator.onLine){const {data:existing}=await db.from("playlist_songs").select("position").eq("playlist_id",id).order("position",{ascending:false}).limit(1);const {error}=await db.from("playlist_songs").insert({playlist_id:id,song_id:song.id,position:(existing?.[0]?.position??-1)+1});if(error)throw error;await loadData()}else if(db){const p=state.playlists.find(x=>x.id===id);if(!p)throw new Error("Playlist not found on this device.");p.playlist_songs=p.playlist_songs||[];if(!(p.playlist_songs||[]).some(x=>x.song_id===song.id)){const position=p.playlist_songs.length;p.playlist_songs.push({song_id:song.id,position,songs:{id:song.id,title:song.title,artist:song.artist}});cachePlaylists();queueOffline("playlist_add_song",id,{playlist_id:id,song_id:song.id,position})}renderStats();renderPlaylists()}else{const p=state.playlists.find(x=>x.id===id);p.songs=p.songs||[];if(!p.songs.some(x=>x.id===song.id))p.songs.push(song);localStorage.setItem("uecf_demo_playlists",JSON.stringify(state.playlists));renderPlaylists()}toast(db&&!navigator.onLine?"Song added locally; will sync online.":"Song added to playlist.")}catch(e){toast(e.message||"Could not add song.")}}
 async function deletePlaylist(id){if(!canEdit()||!confirm("Delete this playlist?"))return;try{if(db&&navigator.onLine){const {error}=await db.from("playlists").delete().eq("id",id);if(error)throw error;await loadData()}else if(db){state.playlists=state.playlists.filter(p=>p.id!==id);cachePlaylists();queueOffline("playlist_delete",id);renderStats();renderPlaylists()}else{state.playlists=state.playlists.filter(p=>p.id!==id);localStorage.setItem("uecf_demo_playlists",JSON.stringify(state.playlists));renderPlaylists()}toast(db&&!navigator.onLine?"Playlist deleted locally; deletion will sync online.":"Playlist deleted.")}catch(e){toast(e.message||"Delete failed.")}}
 function renderFavorites(){const list=state.songs.filter(s=>state.favorites.has(s.id));$("favoritesList").innerHTML=list.map(songCard).join("")||'<div class="card p-8 text-center text-slate-500">Tap the heart on a song to save it here.</div>';wireSongCards()}
-async function renderAdmin(){const root=$("adminContent");if(!state.user){root.innerHTML='<p class="mb-3">Login first to access your role-based panel.</p><button id="adminLogin" class="btn btn-primary">Login</button>'; $("adminLogin").onclick=()=>$("authBtn").click();return}if(!canEdit()){const title=isSuper()?"SUPER ADMIN ROLE FOUND — APPROVAL FLAG IS OFF":"MEMBER — PENDING APPROVAL";const detail=isSuper()?"Your profile role is super_admin, but is_approved is false. A database owner must set is_approved=true in Supabase before approval controls are enabled.":`Your current database role is “${esc(state.profile?.role||"member")}” and approval is ${state.profile?.is_approved?"enabled":"pending"}. This account is not a Super Admin, so account approval controls are hidden. Ask the project owner to promote the correct profile in Supabase.`;root.innerHTML=`<div class="rounded-xl bg-amber-50 text-amber-900 p-4"><b>${title}</b><p class="mt-1 text-sm">${detail}</p><p class="mt-3 text-xs">Signed-in profile ID: <code>${esc(state.user.id)}</code></p></div>`;return}root.innerHTML=`<div class="grid md:grid-cols-2 gap-4"><div class="border border-slate-200 dark:border-slate-700 rounded-xl p-4"><h3 class="font-bold">Song management</h3><p class="text-sm text-slate-500 my-2">${state.songs.length} songs in library</p><button id="adminAddSong" class="btn btn-primary">Add song</button></div><div class="border border-slate-200 dark:border-slate-700 rounded-xl p-4"><h3 class="font-bold">Account approvals</h3><p class="text-sm text-slate-500 my-2">${canApprove()?"Review pending accounts and approve or revoke access.":"Only the Super Admin can approve accounts."}</p><div id="pendingUsers" class="space-y-2"></div></div></div>`;$("adminAddSong").onclick=()=>editSong(null);if(canApprove())await renderPendingUsers()}
-async function renderPendingUsers(){const root=$("pendingUsers");const {data:users,error}=await db.from("profiles").select("*").order("created_at",{ascending:false});if(error){root.innerHTML=`<p class="text-sm text-rose-600">${esc(error.message)}</p>`;return}const all=(users||[]).filter(u=>u.role!=="super_admin");const pending=all.filter(u=>!u.is_approved);const approved=all.filter(u=>u.is_approved&&["admin","editor"].includes(u.role));const pendingHtml=pending.map(u=>`<div class="border-t border-slate-200 dark:border-slate-700 pt-2"><div class="font-semibold text-sm">${esc(u.full_name||"Unnamed user")}</div><div class="text-xs text-slate-500">${esc(u.id)} • ${esc(u.role)} • Pending</div><div class="text-xs mt-1 text-slate-600 dark:text-slate-300"><b>Purpose:</b> ${esc(u.account_purpose||"Not provided (older account)")}</div><div class="flex gap-2 mt-2"><button class="btn btn-primary !text-xs" data-approve="${esc(u.id)}">Approve as editor</button><button class="btn btn-ghost !text-xs" data-revoke="${esc(u.id)}">Revoke access</button></div></div>`).join("")||'<p class="text-sm text-slate-500">No pending accounts.</p>';const approvedHtml=approved.map(u=>`<div class="border-t border-slate-200 dark:border-slate-700 pt-2"><div class="font-semibold text-sm">${esc(u.full_name||"Unnamed user")}</div><div class="text-xs text-slate-500">${esc(u.id)} • ${esc(u.role)} • Approved</div><div class="text-xs mt-1 text-slate-600 dark:text-slate-300"><b>Purpose:</b> ${esc(u.account_purpose||"Not provided (older account)")}</div><div class="mt-2"><button class="btn !text-xs !bg-red-600 !text-white hover:!bg-red-700 hover:!shadow-lg hover:!ring-2 hover:!ring-red-300 focus:!outline-none focus:!ring-2 focus:!ring-red-400 transition-all duration-150" data-demote="${esc(u.id)}" title="Remove this admin/editor role">Remove admin/editor role</button></div></div>`).join("")||'<p class="text-sm text-slate-500">No approved admins/editors yet.</p>';root.innerHTML=`<h4 class="font-bold mt-3">Pending accounts (${pending.length})</h4><div class="space-y-3">${pendingHtml}</div><h4 class="font-bold mt-5">Approved admins / editors (${approved.length})</h4><div class="space-y-3">${approvedHtml}</div>`;root.querySelectorAll("[data-approve]").forEach(b=>b.onclick=()=>updateProfile(b.dataset.approve,{role:"editor",is_approved:true}));root.querySelectorAll("[data-revoke]").forEach(b=>b.onclick=()=>updateProfile(b.dataset.revoke,{role:"member",is_approved:false}));root.querySelectorAll("[data-demote]").forEach(b=>b.onclick=()=>{if(confirm("CONFIRM ROLE REMOVAL\n\nAre you sure you want to remove this person's admin/editor role?\n\nThey will remain an approved read-only member. This will not delete their account."))updateProfile(b.dataset.demote,{role:"member",is_approved:true})})}
-async function updateProfile(id,values){if(!canApprove()){toast("Super Admin access required.");return}const {error}=await db.from("profiles").update(values).eq("id",id);if(error){toast(error.message);return}await renderPendingUsers();toast("Account access updated.")}
-async function init(){if(db){db.auth.onAuthStateChange(async()=>{await refreshSession();await loadData();if(state.view==="admin")renderAdmin()});await refreshSession();}else{state.user=null;state.profile=null}await loadData();if(!supabaseReady)toast("Preview mode: add Supabase URL and anon key to enable online accounts and database.");}
+async function renderAdmin(){const root=$("adminContent");if(!state.user){root.innerHTML='<p class="mb-3">Login first to access your role-based panel.</p><button id="adminLogin" class="btn btn-primary">Login</button>'; $("adminLogin").onclick=()=>$("authBtn").click();return}if(!canEdit()){const title=isSuper()?"SUPER ADMIN ROLE FOUND — APPROVAL FLAG IS OFF":"MEMBER — PENDING APPROVAL";const detail=isSuper()?"Your profile role is super_admin, but is_approved is false. A database owner must set is_approved=true in Supabase before approval controls are enabled.":`Your current database role is “${esc(state.profile?.role||"member")}” and approval is ${state.profile?.is_approved?"enabled":"pending"}. This account is not a Super Admin, so account approval controls are hidden. Ask the project owner to promote the correct profile in Supabase.`;root.innerHTML=`<div class="rounded-xl bg-amber-50 text-amber-900 p-4"><b>${title}</b><p class="mt-1 text-sm">${detail}</p><p class="mt-3 text-xs">Signed-in profile ID: <code>${esc(state.user.id)}</code></p></div>`;return}root.innerHTML=`<div class="grid md:grid-cols-2 gap-4"><div class="border border-slate-200 dark:border-slate-700 rounded-xl p-4"><h3 class="font-bold">Song management</h3><p class="text-sm text-slate-500 my-2">${state.songs.length} songs in library</p><button id="adminAddSong" class="btn btn-primary">Add song</button></div><div class="border border-slate-200 dark:border-slate-700 rounded-xl p-4 md:col-span-2"><h3 class="font-bold">Account management</h3><p class="text-sm text-slate-500 my-2">${canApprove()?"Review applicants, manage roles, and send password reset emails.":"Only the Super Admin can approve accounts."}</p><div id="pendingUsers" class="space-y-2"></div></div></div>`;$("adminAddSong").onclick=()=>editSong(null);if(canApprove())await renderPendingUsers()}
+const ROLE_LABEL={super_admin:"Super Admin",admin:"Admin",editor:"Editor",member:"Member"};
+let adminEmails={},adminEmailsOk=false;
+async function loadAdminEmails(){
+  adminEmails={};adminEmailsOk=false;
+  try{const {data,error}=await db.rpc("admin_account_emails");if(!error&&Array.isArray(data)){adminEmailsOk=true;data.forEach(r=>{adminEmails[String(r.id)]=r.email})}}catch(e){}
+}
+function acctEmail(u){return u.email||adminEmails[String(u.id)]||(state.user&&u.id===state.user.id?state.user.email:"")||""}
+function acctStatus(u){if(u.role==="super_admin"||u.is_approved)return"approved";return u.application_status==="rejected"?"rejected":"pending"}
+function fmtDate(v){try{return v?new Date(v).toLocaleString("en-PH",{year:"numeric",month:"short",day:"numeric",hour:"numeric",minute:"2-digit"}):"—"}catch(e){return"—"}}
+function acctCard(u,open){
+  const role=u.role||"member",st=acctStatus(u),email=acctEmail(u),uid=esc(u.id);
+  const btn=(act,label,cls,icon)=>`<button type="button" class="btn ${cls}" data-act="${act}" data-uid="${uid}">${icon?`<i class="fa-solid ${icon} mr-1"></i>`:""}${label}</button>`;
+  let actions="";
+  if(role!=="super_admin"){
+    if(st==="pending")actions+=btn("approve-editor","Approve as Editor","btn-primary","fa-check")+btn("approve-admin","Approve as Admin","btn-gold","fa-user-shield")+btn("reject","Reject","btn-ghost text-rose-600","fa-xmark");
+    else if(st==="rejected")actions+=btn("reconsider","Move back to pending","btn-ghost","fa-rotate-left");
+    else if(role==="admin"||role==="editor")actions+=(role==="editor"?btn("make-admin","Make Admin","btn-ghost","fa-user-shield"):btn("make-editor","Make Editor","btn-ghost","fa-pen"))+btn("demote","Remove admin/editor role","btn-danger","fa-user-minus");
+    else actions+=btn("make-editor","Promote to Editor","btn-ghost","fa-pen")+btn("revoke","Revoke access","btn-ghost text-rose-600","fa-ban");
+  }
+  actions+=btn("reset","Send password reset email","btn-ghost","fa-key");
+  const stLabel=st==="approved"?"Approved":st==="rejected"?"Rejected":"Pending";
+  return `<details class="acct" data-search="${esc(((u.full_name||"")+" "+email+" "+(ROLE_LABEL[role]||role)).toLowerCase())}"${open?" open":""}><summary><span class="nm">${esc(u.full_name||"Unnamed user")}<span class="sub">${esc(email||"Email not shown yet")}</span></span><span class="role-badge role-${esc(role)}">${esc(ROLE_LABEL[role]||role)}</span><i class="fa-solid fa-chevron-down chev"></i></summary><div class="acct-body"><dl><dt>Name</dt><dd>${esc(u.full_name||"Unnamed user")}</dd><dt>Email</dt><dd>${email?esc(email):"Not available"}</dd><dt>Role</dt><dd>${esc(ROLE_LABEL[role]||role)}</dd><dt>Status</dt><dd><span class="st-badge st-${st}">${stLabel}</span></dd><dt>Registered</dt><dd>${esc(fmtDate(u.created_at))}</dd><dt>Purpose</dt><dd>${esc(u.account_purpose||"Not provided (older account)")}</dd><dt>User ID</dt><dd><code class="text-[11px]">${uid}</code></dd></dl><div class="acct-actions">${actions}</div></div></details>`;
+}
+async function renderPendingUsers(){
+  const root=$("pendingUsers");if(!root)return;
+  if(!canApprove()){root.innerHTML='<p class="text-sm text-slate-500">Super Admin access required.</p>';return}
+  if(!navigator.onLine){root.innerHTML='<p class="acct-note">Account management needs an internet connection. Songs, lyrics and playlists still work offline.</p>';return}
+  root.innerHTML='<p class="text-sm text-slate-500">Loading accounts…</p>';
+  const {data:users,error}=await db.from("profiles").select("*").order("created_at",{ascending:false});
+  if(error){root.innerHTML=`<p class="text-sm text-rose-600">${esc(error.message)}</p>`;return}
+  await loadAdminEmails();
+  const all=users||[];state.adminAccounts=all;
+  const supers=all.filter(u=>u.role==="super_admin");
+  const pending=all.filter(u=>u.role!=="super_admin"&&acctStatus(u)==="pending");
+  const rejected=all.filter(u=>u.role!=="super_admin"&&acctStatus(u)==="rejected");
+  const admins=all.filter(u=>u.is_approved&&u.role==="admin");
+  const editors=all.filter(u=>u.is_approved&&u.role==="editor");
+  const members=all.filter(u=>u.is_approved&&(!u.role||u.role==="member"));
+  const group=(title,icon,list,open,openFirst)=>`<div class="acct-group-title"><i class="fa-solid ${icon}"></i>${title} <span class="chip">${list.length}</span></div>${list.length?list.map((u,i)=>acctCard(u,open&&(openFirst?i===0:true))).join(""):'<p class="text-sm text-slate-500 mb-2">None.</p>'}`;
+  const missingEmail=all.some(u=>!acctEmail(u));
+  root.innerHTML=`<div class="acct-summary-chips"><span class="chip">Super Admin ${supers.length}</span><span class="chip">Admin ${admins.length}</span><span class="chip">Editor ${editors.length}</span><span class="chip">Member ${members.length}</span><span class="chip">Pending ${pending.length}</span></div>${missingEmail&&!adminEmailsOk?'<div class="acct-note"><b>Registered emails are not showing yet.</b> Run the optional SQL file <code>supabase/optional-account-management.sql</code> once in the Supabase SQL Editor. It lets only the Super Admin read emails. You can still send a reset email by typing the address when asked.</div>':""}<input id="acctFilter" class="field mb-1" placeholder="Search name, email or role…" autocomplete="off">${group("Pending applicants","fa-hourglass-half",pending,true,false)}${group("Super Admin","fa-crown",supers,false)}${group("Admins","fa-user-shield",admins,false)}${group("Editors","fa-pen",editors,false)}${group("Members (read-only)","fa-user",members,false)}${rejected.length?group("Rejected","fa-ban",rejected,false):""}`;
+  $("acctFilter").addEventListener("input",e=>{const q=e.target.value.trim().toLowerCase();root.querySelectorAll("details.acct").forEach(d=>{d.classList.toggle("hidden",!!q&&!d.dataset.search.includes(q));if(q&&!d.classList.contains("hidden"))d.open=true})});
+  root.onclick=async e=>{
+    const b=e.target.closest("[data-act]");if(!b)return;
+    const id=b.dataset.uid,act=b.dataset.act,u=(state.adminAccounts||[]).find(x=>String(x.id)===id);if(!u)return;
+    const nm=u.full_name||"this account";
+    if(act==="approve-editor")await updateProfile(id,{role:"editor",is_approved:true,application_status:"approved"},`${nm} approved as Editor.`);
+    else if(act==="approve-admin"){if(confirm(`Give ${nm} ADMIN access?\n\nAdmins can add, edit and delete songs.`))await updateProfile(id,{role:"admin",is_approved:true,application_status:"approved"},`${nm} approved as Admin.`)}
+    else if(act==="reject"){if(confirm(`Reject the application of ${nm}?\n\nThe account stays read-only and is not deleted.`))await updateProfile(id,{role:"member",is_approved:false,application_status:"rejected"},`${nm} rejected.`)}
+    else if(act==="reconsider")await updateProfile(id,{application_status:"pending"},`${nm} moved back to pending.`);
+    else if(act==="make-admin"){if(confirm(`Change ${nm} to ADMIN?`))await updateProfile(id,{role:"admin",is_approved:true},`${nm} is now an Admin.`)}
+    else if(act==="make-editor"){if(confirm(`Change ${nm} to EDITOR?`))await updateProfile(id,{role:"editor",is_approved:true,application_status:"approved"},`${nm} is now an Editor.`)}
+    else if(act==="demote"){if(confirm("CONFIRM ROLE REMOVAL\n\nAre you sure you want to remove this person's admin/editor role?\n\nThey will remain an approved read-only member. This will not delete their account."))await updateProfile(id,{role:"member",is_approved:true},"Admin/editor role removed.")}
+    else if(act==="revoke"){if(confirm(`Revoke access of ${nm}?\n\nThey will go back to pending (read-only).`))await updateProfile(id,{role:"member",is_approved:false,application_status:"pending"},"Access revoked.")}
+    else if(act==="reset")await sendAdminPasswordReset(u);
+  };
+}
+async function updateProfile(id,values,okMsg){
+  if(!canApprove()){toast("Super Admin access required.");return}
+  let v={...values},stripped=false;
+  let {error}=await db.from("profiles").update(v).eq("id",id);
+  if(error&&/application_status/i.test(error.message||"")&&"application_status" in v){delete v.application_status;stripped=true;({error}=await db.from("profiles").update(v).eq("id",id))}
+  if(error){toast(error.message);return}
+  await renderPendingUsers();
+  toast((okMsg||"Account access updated.")+(stripped&&values.application_status==="rejected"?" (Run the optional SQL to hide rejected applicants from the pending list.)":""));
+}
+async function sendAdminPasswordReset(u){
+  if(!canApprove()){toast("Super Admin access required.");return}
+  let email=acctEmail(u);const nm=u.full_name||"this account";
+  if(!email){email=(prompt(`Type the registered email address of ${nm} to send the password reset link:`)||"").trim();if(!email)return}
+  if(!/^[^@\s]+@[^@\s]+\.[^@\s]+$/.test(email)){toast("That email address is not valid.");return}
+  if(!confirm(`Send a password reset link to ${email}?\n\nThe account owner will choose a new password through the link. You will not see or set their password.`))return;
+  try{
+    const {error}=await db.auth.resetPasswordForEmail(email,{redirectTo:location.origin+location.pathname});
+    if(error)throw error;
+    toast(`Password reset link sent to ${email}.`);
+  }catch(err){toast("Could not send the reset email: "+(err.message||"unknown error"))}
+}
+function openRecoveryDialog(){
+  const open=()=>{const d=$("recoveryDialog");if(!d||d.open)return;$("recoveryForm").reset();$("recoveryMessage").textContent="";d.showModal()};
+  if(document.body.classList.contains("intro-active"))document.addEventListener("intro:done",open,{once:true});else open();
+}
+$("recoveryForm").addEventListener("submit",async e=>{
+  e.preventDefault();const p1=$("recoveryPassword").value,p2=$("recoveryPassword2").value,msg=$("recoveryMessage");
+  const bad=t=>{msg.className="text-sm text-rose-600";msg.textContent=t};
+  if(!db){bad("Supabase is not configured.");return}
+  if(p1.length<8){bad("Password must be at least 8 characters.");return}
+  if(p1!==p2){bad("The two passwords do not match.");return}
+  try{
+    const {error}=await db.auth.updateUser({password:p1});if(error)throw error;
+    msg.className="text-sm text-emerald-700";msg.textContent="Password updated. You are signed in.";toast("Password updated.");
+    try{history.replaceState(null,"",location.pathname+location.search)}catch(e){}
+    setTimeout(()=>$("recoveryDialog").close(),900);
+  }catch(err){bad(err.message||"Could not update the password. Open the reset link from your email again.")}
+});
+$("forgotPwd").addEventListener("click",async()=>{
+  const email=$("authEmail").value.trim(),msg=$("authMessage");
+  if(!db){msg.textContent="Supabase is not configured.";return}
+  if(!/^[^@\s]+@[^@\s]+\.[^@\s]+$/.test(email)){msg.textContent="Type your registered email above, then tap “Forgot password?” again.";return}
+  try{const {error}=await db.auth.resetPasswordForEmail(email,{redirectTo:location.origin+location.pathname});if(error)throw error;msg.textContent="If that email is registered, a password reset link has been sent. Check your inbox and spam folder."}
+  catch(err){msg.textContent=err.message||"Could not send the reset email."}
+});
+async function init(){if(db){db.auth.onAuthStateChange(async(event)=>{if(event==="PASSWORD_RECOVERY")openRecoveryDialog();await refreshSession();await loadData();if(state.view==="admin")renderAdmin()});await refreshSession();}else{state.user=null;state.profile=null}if(/type=recovery/.test(location.hash))openRecoveryDialog();await loadData();if(!supabaseReady)toast("Preview mode: add Supabase URL and anon key to enable online accounts and database.");}
 function updateOfflineStatus(){const el=$("offlineStatus");if(!el)return;const pending=offlineQueue().length;el.textContent=navigator.onLine?(pending?`ONLINE • ${pending} change(s) waiting to sync` : "ONLINE • Offline library enabled"):(`OFFLINE MODE • Using saved songs${pending?` • ${pending} unsynced change(s)`:""}`);el.className="text-center text-xs font-bold px-3 py-1 "+(navigator.onLine?"bg-emerald-100 text-emerald-900":"bg-amber-100 text-amber-900")}
 window.addEventListener("online",async()=>{updateOfflineStatus();if(db)await refreshSession();await loadData();await syncOfflineQueue();updateOfflineStatus()});window.addEventListener("offline",()=>{updateOfflineStatus();toast("Offline mode: ang edits ay ise-save muna sa device na ito.")});window.addEventListener("focus",async()=>{if(navigator.onLine){if(db)await refreshSession();await syncOfflineQueue();updateOfflineStatus()}});
 if("serviceWorker" in navigator){window.addEventListener("load",()=>navigator.serviceWorker.register("./service-worker.js").catch(e=>console.warn("Offline service worker registration failed",e)))}
-// Show the branded opening screen briefly on each fresh app/page launch.
-(function showAppSplash(){
-  const splash=document.getElementById("appSplash");
-  if(!splash)return;
-  const hide=()=>{splash.classList.add("is-hidden");setTimeout(()=>splash.remove(),650)};
-  window.setTimeout(hide,2800);
-  splash.addEventListener("click",hide,{once:true});
-})();
 init().then(updateOfflineStatus);
 </script>
 </body>
