@@ -1,4 +1,4 @@
-const CACHE_NAME = "uecfi-songbook-v28-cinematic-opening-motion";
+const CACHE_NAME = "uecfi-songbook-v29-intro-video-admin";
 const APP_SHELL = [
   "./",
   "./index.html",
@@ -9,7 +9,10 @@ const APP_SHELL = [
   "./assets/clve-church-banner.webp",
   "./assets/icons/centro-icon-192.png",
   "./assets/icons/centro-icon-512.png",
-  "./assets/icons/apple-touch-icon.png"
+  "./assets/icons/centro-icon-maskable-512.png",
+  "./assets/icons/apple-touch-icon.png",
+  "./assets/intro/centro-intro-poster.jpg",
+  "./assets/intro/centro-intro.mp4"
 ];
 
 // Third-party files the app needs to draw itself. They are saved on the first online
@@ -29,6 +32,27 @@ function isSensitiveApi(url) {
      url.pathname.includes("/rest/v1/") ||
      url.pathname.includes("/storage/v1/") ||
      url.pathname.includes("/functions/v1/"));
+}
+
+
+// Serve video from the saved copy with proper Range (206) support so the opening
+// video also plays offline in Android Chrome, Windows Chrome/Edge and Safari.
+async function serveRange(request, cache) {
+  const cached = await cache.match(request.url.split("#")[0], { ignoreSearch: true });
+  if (!cached) return null;
+  const buf = await cached.arrayBuffer();
+  const range = request.headers.get("range");
+  const type = cached.headers.get("content-type") || "video/mp4";
+  if (!range) return new Response(buf, { status: 200, headers: { "Content-Type": type, "Content-Length": String(buf.byteLength), "Accept-Ranges": "bytes" } });
+  const m = /bytes=(\d*)-(\d*)/.exec(range);
+  let start = m && m[1] ? parseInt(m[1], 10) : 0;
+  let end = m && m[2] ? parseInt(m[2], 10) : buf.byteLength - 1;
+  if (m && !m[1] && m[2]) { start = Math.max(0, buf.byteLength - parseInt(m[2], 10)); end = buf.byteLength - 1; }
+  end = Math.min(end, buf.byteLength - 1);
+  if (start > end) return new Response(null, { status: 416, headers: { "Content-Range": "bytes */" + buf.byteLength } });
+  return new Response(buf.slice(start, end + 1), { status: 206, headers: {
+    "Content-Type": type, "Content-Length": String(end - start + 1),
+    "Content-Range": "bytes " + start + "-" + end + "/" + buf.byteLength, "Accept-Ranges": "bytes" } });
 }
 
 self.addEventListener("install", event => {
@@ -101,6 +125,24 @@ self.addEventListener("fetch", event => {
       } catch (error) {
         return fromCache();
       }
+    })());
+    return;
+  }
+
+  // Opening video + poster: saved once per app version, served from the saved copy (with Range support).
+  if (url.origin === self.location.origin && url.pathname.includes("/assets/intro/")) {
+    event.respondWith((async () => {
+      const cache = await caches.open(CACHE_NAME);
+      if (/\.mp4$/i.test(url.pathname)) {
+        const ranged = await serveRange(request, cache);
+        if (ranged) return ranged;
+      } else {
+        const hit = await cache.match(request, { ignoreSearch: true });
+        if (hit) return hit;
+      }
+      const response = await fetch(request);
+      if (response && response.status === 200) cache.put(url.href, response.clone()).catch(() => {});
+      return response;
     })());
     return;
   }
