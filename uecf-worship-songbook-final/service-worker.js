@@ -1,4 +1,4 @@
-const CACHE_NAME = "uecfi-songbook-v26-original-logo-opening-splash";
+const CACHE_NAME = 'uecfi-songbook-v27-original-logo-cover';
 const APP_SHELL = [
   "./",
   "./index.html",
