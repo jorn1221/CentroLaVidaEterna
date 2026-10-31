@@ -23,7 +23,7 @@
       "purpose": "any"
     },
     {
-      "src": "assets/icons/centro-icon-512.png",
+      "src": "assets/icons/centro-icon-maskable-512.png",
       "sizes": "512x512",
       "type": "image/png",
       "purpose": "maskable"
