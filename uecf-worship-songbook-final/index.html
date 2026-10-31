@@ -633,6 +633,12 @@ dialog form{padding:clamp(1.2rem,3vw,2rem)!important;max-height:88dvh;overflow:a
   #songSearchBar #search,#songSearchBar #langFilter{height:44px;min-height:44px;font-size:15px!important}
 }
 
+/* UECFI opening cover: full-screen supplied artwork */
+.app-splash{position:fixed;inset:0;z-index:99999;display:flex;align-items:center;justify-content:center;overflow:hidden;background:#071b52;opacity:1;visibility:visible;transition:opacity .55s ease,visibility .55s ease}
+.app-splash.is-hidden{opacity:0;visibility:hidden;pointer-events:none}
+.splash-cover{display:block;width:100%;height:100%;object-fit:contain;object-position:center;background:#071b52}
+@media(max-width:600px){.splash-cover{object-fit:cover;object-position:center}}
+
 /* ===== Official app opening splash: original user logo + real chapel photo ===== */
 .app-splash{position:fixed;inset:0;z-index:99999;display:flex;align-items:center;justify-content:center;overflow:hidden;padding:calc(18px + env(safe-area-inset-top)) 18px calc(18px + env(safe-area-inset-bottom));background:radial-gradient(ellipse at 50% 34%,#2459a0 0%,#10285b 48%,#061638 100%);color:#fff;opacity:1;visibility:visible;transition:opacity .55s ease,visibility .55s ease}
 .app-splash.is-hidden{opacity:0;visibility:hidden;pointer-events:none}
@@ -653,17 +659,7 @@ dialog form{padding:clamp(1.2rem,3vw,2rem)!important;max-height:88dvh;overflow:a
 </style>
 </head>
 <body class="bg-slate-50 text-slate-900 dark:bg-slate-900 dark:text-slate-100 min-h-screen">
-<div id="appSplash" class="app-splash no-print" role="status" aria-label="Centro La Vida Eterna Worship Songbook">
-  <div class="splash-rays" aria-hidden="true"></div>
-  <div class="splash-content">
-    <img class="splash-logo" src="assets/uecfi-logo.png" alt="Original UECFI logo">
-    <div class="splash-church-name">CENTRO LA VIDA ETERNA</div>
-    <div class="splash-subtitle"><span></span>Worship Songbook<span></span></div>
-    <div class="splash-photo-frame"><img src="assets/centro-la-vida-eterna.jpg" alt="Centro La Vida Eterna worship center"></div>
-    <div class="splash-motto">Buhay na Walang Hanggan</div>
-    <div class="splash-loading"><i></i><i></i><i></i></div>
-  </div>
-</div>
+<div class="app-splash" id="appSplash" aria-label="Centro La Vida Eterna Worship Songbook"><img class="splash-cover" src="assets/uecfi-opening-cover.jpg" alt="Centro La Vida Eterna Worship Songbook opening screen"></div>
 <div id="songPrintArea" aria-hidden="true"></div>
 <div id="app">
 <div id="offlineStatus" class="text-center text-xs font-bold px-3 py-1 bg-emerald-100 text-emerald-900" role="status">Offline-ready: checking connection…</div>
