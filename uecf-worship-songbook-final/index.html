@@ -752,7 +752,7 @@ header img.app-logo{width:auto;height:54px;max-width:46px;border:0;box-shadow:no
 .acct-actions .btn{font-size:.78rem!important;padding:.5rem .75rem!important;min-height:40px}
 .role-badge,.st-badge{display:inline-block;padding:.15rem .55rem;border-radius:999px;font-size:.66rem;font-weight:900;letter-spacing:.03em;white-space:nowrap;flex:0 0 auto}
 .role-super_admin{background:#fff1bf;color:#6b4a00;border:1px solid #e0b64a}
-.role-admin{background:#dbeafe;color:#17358a}.role-editor{background:#dcfce7;color:#14532d}.role-member{background:#e5e7eb;color:#374151}
+.role-editor{background:#dcfce7;color:#14532d}.role-member{background:#e5e7eb;color:#374151}
 .st-approved{background:#dcfce7;color:#14532d}.st-pending{background:#fef3c7;color:#78350f}.st-rejected{background:#fee2e2;color:#7f1d1d}
 .acct-note{font-size:.78rem;padding:.6rem .75rem;border-radius:12px;background:#fff8e1;color:#6b4a00;border:1px solid #f1d98a;margin-bottom:.6rem}
 .dark .acct-note{background:#2b2410;color:#f2d98c;border-color:#5c4a18}
@@ -962,7 +962,7 @@ dialog.pw-dialog{padding:0;max-width:min(94vw,440px);width:100%;border-radius:20
     <button id="themeBtn" class="btn btn-ghost !border-white/30 text-white" title="Toggle dark mode"><i class="fa-solid fa-moon"></i><span class="hidden sm:inline ml-2">Theme</span></button>
     <button id="authBtn" class="btn btn-gold"><i class="fa-solid fa-right-to-bracket mr-1"></i><span id="authBtnText">Login</span></button>
   </div>
-  <div class="header-credit"><div class="header-credit-inner"><span>Created by <b>Jorn-Borg Carigao</b></span><span class="dot">•</span><span>October 24, 2026</span><button type="button" id="installBtn" data-install-btn class="install-chip hidden"><i class="fa-solid fa-download"></i> Install app</button></div></div>
+  <div class="header-credit"><div class="header-credit-inner"><span>Created by <b>Jorn-Borg Carigao</b></span><span class="dot">•</span><span>October 24, 2026</span><button type="button" id="installBtn" data-install-btn class="install-chip" aria-label="Install Centro La Vida Eterna Worship Songbook"><i class="fa-solid fa-download"></i> Install app</button></div></div>
 </header>
 <div class="max-w-[1600px] mx-auto flex min-h-[calc(100vh-68px)]">
   <aside class="sidebar no-print hidden md:flex w-60 shrink-0 flex-col border-r border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-800 p-4 gap-2">
@@ -998,9 +998,9 @@ dialog.pw-dialog{padding:0;max-width:min(94vw,440px);width:100%;border-radius:20
       <div id="songsList" class="grid sm:grid-cols-2 xl:grid-cols-3 gap-3"></div>
       <div id="emptySongs" class="hidden card p-8 text-center"><i class="fa-solid fa-music text-3xl text-amber-500"></i><h3 class="font-bold mt-3">No songs found</h3><p class="text-sm text-slate-500 mt-1">Try another search or add songs after logging in with an approved account.</p></div>
     </section>
-    <section id="view-playlists" class="hidden"><div id="categoryListWrap"><div class="mb-4"><h2 class="text-2xl font-extrabold">Playlists</h2><p class="text-sm text-slate-500 dark:text-slate-400">Tap a playlist to open its songs.</p></div><div id="categoryList"></div></div><div id="categoryDetail" class="hidden"><div id="categoryHead"><button id="categoryBack" class="btn btn-ghost" type="button"><i class="fa-solid fa-arrow-left mr-1"></i> Playlists</button><h3 id="categoryTitle"></h3><div id="categoryActionButtons" class="flex items-center gap-2 flex-wrap"><button id="categoryAddBtn" class="btn btn-gold hidden" type="button"><i class="fa-solid fa-plus mr-1"></i> Add song</button><button id="categoryRemoveBtn" class="btn btn-ghost hidden" type="button"><i class="fa-solid fa-folder-minus mr-1"></i> Remove song</button></div></div><p id="categoryCount" class="text-sm text-slate-500 dark:text-slate-400 mb-3"></p><div id="categorySongs" class="grid gap-3"></div><div id="emptyCategory" class="hidden card p-8 text-center"><i class="fa-solid fa-music text-3xl text-amber-500"></i><h3 class="font-bold mt-3">No songs in this playlist yet</h3><p class="text-sm text-slate-500 mt-1" id="emptyCategoryHint">Approved editors and admins can add songs here.</p></div></div><button id="newPlaylistBtn2" class="hidden" aria-hidden="true" tabindex="-1"></button></section>
+    <section id="view-playlists" class="hidden"><div id="categoryListWrap"><div class="mb-4"><h2 class="text-2xl font-extrabold">Playlists</h2><p class="text-sm text-slate-500 dark:text-slate-400">Tap a playlist to open its songs.</p></div><div id="categoryList"></div></div><div id="categoryDetail" class="hidden"><div id="categoryHead"><button id="categoryBack" class="btn btn-ghost" type="button"><i class="fa-solid fa-arrow-left mr-1"></i> Playlists</button><h3 id="categoryTitle"></h3><div id="categoryActionButtons" class="flex items-center gap-2 flex-wrap"><button id="categoryAddBtn" class="btn btn-gold hidden" type="button"><i class="fa-solid fa-plus mr-1"></i> Add song</button><button id="categoryRemoveBtn" class="btn btn-ghost hidden" type="button"><i class="fa-solid fa-folder-minus mr-1"></i> Remove song</button></div></div><p id="categoryCount" class="text-sm text-slate-500 dark:text-slate-400 mb-3"></p><div id="categorySongs" class="grid gap-3"></div><div id="emptyCategory" class="hidden card p-8 text-center"><i class="fa-solid fa-music text-3xl text-amber-500"></i><h3 class="font-bold mt-3">No songs in this playlist yet</h3><p class="text-sm text-slate-500 mt-1" id="emptyCategoryHint">Approved Editors can add songs here.</p></div></div><button id="newPlaylistBtn2" class="hidden" aria-hidden="true" tabindex="-1"></button></section>
     <section id="view-favorites" class="hidden"><h2 class="text-2xl font-extrabold mb-4">Favorite Songs</h2><div id="favoritesList" class="grid gap-3"></div></section>
-    <section id="view-admin" class="hidden"><div class="flex flex-wrap justify-between gap-3 mb-4"><div><h2 class="text-2xl font-extrabold">Admin Panel</h2><p class="text-sm text-slate-500">Manage songs and review account requests.</p></div><span id="adminBadge" class="rounded-full px-3 py-1 bg-slate-200 dark:bg-slate-700 text-sm h-fit">Sign in required</span></div><div id="adminContent" class="card p-5"><p>Sign in with your Supabase account. Only approved admins can manage songs; only a configured Super Admin can approve accounts.</p></div></section>
+    <section id="view-admin" class="hidden"><div class="flex flex-wrap justify-between gap-3 mb-4"><div><h2 class="text-2xl font-extrabold">Admin Panel</h2><p class="text-sm text-slate-500">Manage songs and review account requests.</p></div><span id="adminBadge" class="rounded-full px-3 py-1 bg-slate-200 dark:bg-slate-700 text-sm h-fit">Sign in required</span></div><div id="adminContent" class="card p-5"><p>Sign in with your Supabase account. Only approved Editors can manage songs; only the configured Super Admin can approve accounts.</p></div></section>
     <section id="view-song" class="hidden"></section>
     <section id="appAbout" class="app-about no-print" aria-label="Application information">
       <img src="assets/uecfi-logo.png" data-brand-src="assets/uecfi-logo.png" alt="" class="app-about-logo" width="52" height="66" loading="lazy" decoding="async">
@@ -1114,7 +1114,6 @@ function roleDisplay(){
   if(!state.user) return "PUBLIC / READ-ONLY";
   const role=state.profile?.role||"member";
   if(role==="super_admin") return state.profile?.is_approved ? "SUPER ADMIN" : "SUPER ADMIN • NOT APPROVED";
-  if(role==="admin") return state.profile?.is_approved ? "ADMIN" : "ADMIN • PENDING";
   if(role==="editor") return state.profile?.is_approved ? "EDITOR" : "EDITOR • PENDING";
   return state.profile?.is_approved ? "MEMBER" : "MEMBER • PENDING APPROVAL";
 }
@@ -1126,7 +1125,7 @@ function canRemoveFromCategory(){
   return false;
 }
 function canEdit(){
-  const roles=["admin","editor","super_admin"];
+  const roles=["editor","super_admin"];
   if(state.user && state.profile?.is_approved===true && roles.includes(state.profile?.role)) return true;
   // Offline-only permission fallback: use the last profile verified online on this device.
   // Sync still requires a live authenticated session and server-side RLS.
@@ -1140,7 +1139,7 @@ $("themeBtn").addEventListener("click",()=>{document.documentElement.classList.t
 if(localStorage.getItem("uecf_theme")==="dark")document.documentElement.classList.add("dark");
 document.querySelectorAll(".closeDialog").forEach(b=>b.addEventListener("click",()=>b.closest("dialog").close()));
 function setAuthUI(){const logged=!!state.user;$("authBtnText").textContent=logged?"Logout":"Login";$("roleLabel").innerHTML=logged?`<div class="font-bold text-xs px-2 py-1 rounded-lg ${canApprove()?"bg-emerald-100 text-emerald-900":canEdit()?"bg-blue-100 text-blue-900":"bg-amber-100 text-amber-900"}">${esc(roleDisplay())}</div><div class="mt-2 break-all">${esc(state.profile?.full_name||state.user.email)}</div><div class="text-[11px] mt-1">${state.profile?.is_approved?"Approved access":"Waiting for Super Admin approval"}</div>`:"PUBLIC / READ-ONLY";$("statAccess").textContent=roleDisplay();$("addSongBtn").classList.toggle("hidden",!canEdit());$("adminBadge").textContent=roleDisplay();$("adminBadge").className="rounded-full px-3 py-1 text-sm h-fit "+(canApprove()?"bg-emerald-100 text-emerald-800":canEdit()?"bg-blue-100 text-blue-800":"bg-amber-100 text-amber-900");}
-$("authBtn").addEventListener("click",async()=>{if(state.user){await logActivity("logout");await flushOutbox();if(db)await db.auth.signOut();state.user=null;state.profile=null;await loadData();setAuthUI();toast("Logged out.");}else{state.authMode="login";$("authTitle").textContent="Login";$("authNameWrap").classList.add("hidden");$("authPurposeWrap").classList.add("hidden");$("authPurpose").required=false;$("authName").required=false;$("authSubmit").textContent="Login";$("signupToggle").textContent="Sign up";$("authMessage").textContent=supabaseReady?"":"Supabase isn't configured yet. Demo mode is read-only unless you enable demo mode in your own code."; $("authDialog").showModal()}});
+$("authBtn").addEventListener("click",async()=>{if(state.user){await logActivity("logout");await flushOutbox();if(db)await db.auth.signOut();state.user=null;state.profile=null;await clearDashSnapshots();await loadData();setAuthUI();toast("Logged out.");}else{state.authMode="login";$("authTitle").textContent="Login";$("authNameWrap").classList.add("hidden");$("authPurposeWrap").classList.add("hidden");$("authPurpose").required=false;$("authName").required=false;$("authSubmit").textContent="Login";$("signupToggle").textContent="Sign up";$("authMessage").textContent=supabaseReady?"":"Supabase isn't configured yet. Demo mode is read-only unless you enable demo mode in your own code."; $("authDialog").showModal()}});
 $("signupToggle").addEventListener("click",()=>{state.authMode=state.authMode==="login"?"signup":"login";$("authTitle").textContent=state.authMode==="signup"?"Create account":"Login";$("authNameWrap").classList.toggle("hidden",state.authMode!=="signup");$("authPurposeWrap").classList.toggle("hidden",state.authMode!=="signup");$("authName").required=state.authMode==="signup";$("authPurpose").required=state.authMode==="signup";$("authSubmit").textContent=state.authMode==="signup"?"Sign up":"Login";$("forgotPwd").classList.toggle("hidden",state.authMode==="signup");$("signupToggle").textContent=state.authMode==="signup"?"Back to login":"Sign up"});
 $("authForm").addEventListener("submit",async e=>{e.preventDefault();const email=$("authEmail").value.trim(),password=$("authPassword").value,name=$("authName").value.trim(),purpose=$("authPurpose").value.trim();const msg=$("authMessage");msg.textContent="";if(!db){msg.textContent="Supabase is not configured. Add your URL and anon public key in index.html, then reload.";return}
 try{if(state.authMode==="signup"){if(!name){msg.textContent="Please enter your full name.";return}if(purpose.length<10){msg.textContent="Please explain your purpose in at least 10 characters.";return}const {data,error}=await db.auth.signUp({email,password,options:{data:{full_name:name,account_purpose:purpose}}});if(error)throw error;if(data.user){const {error:purposeError}=await db.from("profiles").update({account_purpose:purpose}).eq("id",data.user.id);if(purposeError)console.warn("Could not save account purpose to profiles. Run the included SQL migration.",purposeError.message);try{await db.from("profiles").update({email}).eq("id",data.user.id)}catch(e){}}msg.textContent="Account created. Check your email if confirmation is enabled. Your account purpose was submitted for Admin review. You remain read-only until approved."}else{const {error}=await db.auth.signInWithPassword({email,password});if(error)throw error;await refreshSession();logActivity("login",{method:"password"});$("authDialog").close();await loadData();setAuthUI();toast(state.profile?.is_approved?"Welcome back!":"Pending Admin Approval — Read-Only Mode");} }catch(err){msg.textContent=err.message||"Authentication failed."}});
@@ -1498,7 +1497,7 @@ function renderPlaylists(){
   $("categoryRemoveBtn").classList.toggle("hidden",!canRemoveFromCategory()||name==="N/A");
   $("categorySongs").innerHTML=songs.map(song=>songCard(song)).join("");
   $("emptyCategory").classList.toggle("hidden",songs.length>0);
-  $("emptyCategoryHint").textContent=canEdit()?"Tap “Add song” to put songs in this playlist.":"Approved editors and admins can add songs here.";
+  $("emptyCategoryHint").textContent=canEdit()?"Tap “Add song” to put songs in this playlist.":"Approved Editors can add songs here.";
   wireSongCards();
 }
 
@@ -1558,7 +1557,7 @@ async function addSongToPlaylist(id){if(!canEdit())return;const s=state.songs;if
 async function deletePlaylist(id){if(!canEdit()||!confirm("Delete this playlist?"))return;try{if(db&&navigator.onLine){const {error}=await db.from("playlists").delete().eq("id",id);if(error)throw error;await loadData()}else if(db){state.playlists=state.playlists.filter(p=>p.id!==id);cachePlaylists();queueOffline("playlist_delete",id);renderStats();renderPlaylists()}else{state.playlists=state.playlists.filter(p=>p.id!==id);localStorage.setItem("uecf_demo_playlists",JSON.stringify(state.playlists));renderPlaylists()}toast(db&&!navigator.onLine?"Playlist deleted locally; deletion will sync online.":"Playlist deleted.")}catch(e){toast(e.message||"Delete failed.")}}
 function renderFavorites(){const list=state.songs.filter(s=>state.favorites.has(s.id));$("favoritesList").innerHTML=list.map(songCard).join("")||'<div class="card p-8 text-center text-slate-500">Tap the heart on a song to save it here.</div>';wireSongCards()}
 async function __orig_renderAdmin(){const root=$("adminContent");if(!state.user){root.innerHTML='<p class="mb-3">Login first to access your role-based panel.</p><button id="adminLogin" class="btn btn-primary">Login</button>'; $("adminLogin").onclick=()=>$("authBtn").click();return}if(!canEdit()){const title=isSuper()?"SUPER ADMIN ROLE FOUND — APPROVAL FLAG IS OFF":"MEMBER — PENDING APPROVAL";const detail=isSuper()?"Your profile role is super_admin, but is_approved is false. A database owner must set is_approved=true in Supabase before approval controls are enabled.":`Your current database role is “${esc(state.profile?.role||"member")}” and approval is ${state.profile?.is_approved?"enabled":"pending"}. This account is not a Super Admin, so account approval controls are hidden. Ask the project owner to promote the correct profile in Supabase.`;root.innerHTML=`<div class="rounded-xl bg-amber-50 text-amber-900 p-4"><b>${title}</b><p class="mt-1 text-sm">${detail}</p><p class="mt-3 text-xs">Signed-in profile ID: <code>${esc(state.user.id)}</code></p></div>`;return}root.innerHTML=`<div class="grid md:grid-cols-2 gap-4"><div class="border border-slate-200 dark:border-slate-700 rounded-xl p-4"><h3 class="font-bold">Song management</h3><p class="text-sm text-slate-500 my-2">${state.songs.length} songs in library</p><button id="adminAddSong" class="btn btn-primary">Add song</button></div><div class="border border-slate-200 dark:border-slate-700 rounded-xl p-4 md:col-span-2"><h3 class="font-bold">Account management</h3><p class="text-sm text-slate-500 my-2">${canApprove()?"Review applicants, manage roles, and send password reset emails.":"Only the Super Admin can approve accounts."}</p><div id="pendingUsers" class="space-y-2"></div></div></div>`;$("adminAddSong").onclick=()=>editSong(null);if(canApprove())await renderPendingUsers()}
-const ROLE_LABEL={super_admin:"Super Admin",admin:"Admin",editor:"Editor",member:"Member"};
+const ROLE_LABEL={super_admin:"Super Admin",editor:"Editor",member:"Member"};
 let adminEmails={},adminEmailsOk=false;
 async function loadAdminEmails(){
   adminEmails={};adminEmailsOk=false;
@@ -1572,45 +1571,51 @@ function acctCard(u,open){
   const btn=(act,label,cls,icon)=>`<button type="button" class="btn ${cls}" data-act="${act}" data-uid="${uid}">${icon?`<i class="fa-solid ${icon} mr-1"></i>`:""}${label}</button>`;
   let actions="";
   if(role!=="super_admin"){
-    if(st==="pending")actions+=btn("approve-editor","Approve as Editor","btn-primary","fa-check")+btn("approve-admin","Approve as Admin","btn-gold","fa-user-shield")+btn("reject","Reject","btn-ghost text-rose-600","fa-xmark");
+    if(st==="pending")actions+=btn("approve-member","Approve as Member","btn-ghost","fa-user-check")+btn("approve-editor","Approve as Editor","btn-primary","fa-check")+btn("reject","Reject","btn-ghost text-rose-600","fa-xmark");
     else if(st==="rejected")actions+=btn("reconsider","Move back to pending","btn-ghost","fa-rotate-left");
-    else if(role==="admin"||role==="editor")actions+=(role==="editor"?btn("make-admin","Make Admin","btn-ghost","fa-user-shield"):btn("make-editor","Make Editor","btn-ghost","fa-pen"))+btn("demote","Remove admin/editor role","btn-danger","fa-user-minus");
+    else if(role==="editor")actions+=btn("demote","Remove Editor role","btn-danger","fa-user-minus");
     else actions+=btn("make-editor","Promote to Editor","btn-ghost","fa-pen")+btn("revoke","Revoke access","btn-ghost text-rose-600","fa-ban");
   }
   actions+=btn("reset","Send password reset email","btn-ghost","fa-key");
   const stLabel=st==="approved"?"Approved":st==="rejected"?"Rejected":"Pending";
   return `<details class="acct" data-search="${esc(((u.full_name||"")+" "+email+" "+(ROLE_LABEL[role]||role)).toLowerCase())}"${open?" open":""}><summary><span class="nm">${esc(u.full_name||"Unnamed user")}<span class="sub">${esc(email||"Email not shown yet")}</span></span><span class="role-badge role-${esc(role)}">${esc(ROLE_LABEL[role]||role)}</span><i class="fa-solid fa-chevron-down chev"></i></summary><div class="acct-body"><dl><dt>Name</dt><dd>${esc(u.full_name||"Unnamed user")}</dd><dt>Email</dt><dd>${email?esc(email):"Not available"}</dd><dt>Role</dt><dd>${esc(ROLE_LABEL[role]||role)}</dd><dt>Status</dt><dd><span class="st-badge st-${st}">${stLabel}</span></dd><dt>Registered</dt><dd>${esc(fmtDate(u.created_at))}</dd><dt>Purpose</dt><dd>${esc(u.account_purpose||"Not provided (older account)")}</dd><dt>User ID</dt><dd><code class="text-[11px]">${uid}</code></dd></dl><div class="acct-actions">${actions}</div></div></details>`;
 }
+async function renderCachedAccounts(root,all){
+  const queued=await dashQueueAll(),pendingIds=new Set(queued.filter(x=>x.kind==="profile").map(x=>String(x.target)));
+  const q=(all||[]).map(u=>({...u,_pendingOffline:pendingIds.has(String(u.id))})),pending=q.filter(u=>u.role!=="super_admin"&&!u.is_approved&&u.application_status!=="rejected"),rejected=q.filter(u=>u.application_status==="rejected"),editors=q.filter(u=>u.is_approved&&u.role==="editor"),members=q.filter(u=>u.is_approved&&u.role!=="editor"&&u.role!=="super_admin"),supers=q.filter(u=>u.role==="super_admin");
+  const group=(title,list)=>`<div class="acct-group-title">${title} <span class="chip">${list.length}</span></div>${list.length?list.map(u=>{let acts="";if(u.role!=="super_admin"){if(!u.is_approved)acts=`<button class="btn btn-ghost" data-offline-account="${esc(u.id)}" data-role="member">Queue approve as Member</button><button class="btn btn-primary" data-offline-account="${esc(u.id)}" data-role="editor">Queue approve as Editor</button>`;else if(u.role==="editor")acts=`<button class="btn btn-danger" data-offline-account="${esc(u.id)}" data-role="member">Queue remove Editor role</button>`;else acts=`<button class="btn btn-ghost" data-offline-account="${esc(u.id)}" data-role="editor">Queue promote to Editor</button><button class="btn btn-ghost" data-offline-account="${esc(u.id)}" data-revoke="1">Queue revoke access</button>`}return `<div class="log-row"><div class="log-top"><b>${esc(u.full_name||"Unnamed user")}</b><span class="role-badge role-${esc(u.role)}">${esc(ROLE_LABEL[u.role]||u.role)}</span></div><div class="log-det">${u.is_approved?"Approved":"Pending approval"} · ${esc(fmtDate(u.created_at))}</div>${u._pendingOffline?'<span class="st-badge st-pending">Pending Sync · not server-approved</span>':""}${acts?`<div class="acct-actions">${acts}</div>`:""}</div>`}).join(""):'<p class="text-sm text-slate-500 mb-2">None.</p>'}`;
+  root.innerHTML=dashStatus("cached account snapshot · email and purpose omitted for privacy")+'<div class="acct-note">Read-only snapshot of minimum account fields. Offline role changes are only queued; they do not grant or revoke permissions until the server validates them. Password reset emails require an internet connection.</div><div class="acct-summary-chips"><span class="chip">Super Admin '+supers.length+'</span><span class="chip">Editor '+editors.length+'</span><span class="chip">Member '+members.length+'</span><span class="chip">Pending '+pending.length+'</span></div>'+group("Pending applicants",pending)+group("Super Admin",supers)+group("Editors",editors)+group("Members",members)+group("Rejected",rejected);
+  root.querySelectorAll("[data-offline-account]").forEach(b=>b.onclick=async()=>{const id=b.dataset.offlineAccount,role=b.dataset.role,rev=b.dataset.revoke==="1";const u=(state.adminAccounts||[]).find(x=>String(x.id)===id);if(!u)return;const values=rev?{role:"member",is_approved:false,application_status:"pending"}:{role,is_approved:true,application_status:"approved"};if(!confirm("Queue this account change? It will take effect only after the server confirms your Super Admin permission."))return;await updateProfile(id,values,"Queued.")});
+}
+
 async function renderPendingUsers(){
   const root=$("pendingUsers");if(!root)return;
   if(!canApprove()){root.innerHTML='<p class="text-sm text-slate-500">Super Admin access required.</p>';return}
-  if(!navigator.onLine){root.innerHTML='<p class="acct-note">Account management needs an internet connection. Songs, lyrics and playlists still work offline.</p>';return}
+  if(!navigator.onLine){const cached=await dashCacheGet("accounts");if(!cached){root.innerHTML='<p class="acct-note">No verified account snapshot is saved on this device yet. Connect online once while signed in as Super Admin.</p>';return}state.adminAccounts=cached.data||[];renderCachedAccounts(root,state.adminAccounts);return}
   root.innerHTML='<p class="text-sm text-slate-500">Loading accounts…</p>';
   const {data:users,error}=await db.from("profiles").select("*").order("created_at",{ascending:false});
   if(error){root.innerHTML=`<p class="text-sm text-rose-600">${esc(error.message)}</p>`;return}
   await loadAdminEmails();
-  const all=users||[];state.adminAccounts=all;
+  const all=users||[];state.adminAccounts=all;await cacheDashSnapshot("accounts",dashSafeAccounts(all));
   const supers=all.filter(u=>u.role==="super_admin");
   const pending=all.filter(u=>u.role!=="super_admin"&&acctStatus(u)==="pending");
   const rejected=all.filter(u=>u.role!=="super_admin"&&acctStatus(u)==="rejected");
-  const admins=all.filter(u=>u.is_approved&&u.role==="admin");
   const editors=all.filter(u=>u.is_approved&&u.role==="editor");
   const members=all.filter(u=>u.is_approved&&(!u.role||u.role==="member"));
   const group=(title,icon,list,open,openFirst)=>`<div class="acct-group-title"><i class="fa-solid ${icon}"></i>${title} <span class="chip">${list.length}</span></div>${list.length?list.map((u,i)=>acctCard(u,open&&(openFirst?i===0:true))).join(""):'<p class="text-sm text-slate-500 mb-2">None.</p>'}`;
   const missingEmail=all.some(u=>!acctEmail(u));
-  root.innerHTML=`<div class="acct-summary-chips"><span class="chip">Super Admin ${supers.length}</span><span class="chip">Admin ${admins.length}</span><span class="chip">Editor ${editors.length}</span><span class="chip">Member ${members.length}</span><span class="chip">Pending ${pending.length}</span></div>${missingEmail&&!adminEmailsOk?'<div class="acct-note"><b>Registered emails are not showing yet.</b> Run the optional SQL file <code>supabase/optional-account-management.sql</code> once in the Supabase SQL Editor. It lets only the Super Admin read emails. You can still send a reset email by typing the address when asked.</div>':""}<input id="acctFilter" class="field mb-1" placeholder="Search name, email or role…" autocomplete="off">${group("Pending applicants","fa-hourglass-half",pending,true,false)}${group("Super Admin","fa-crown",supers,false)}${group("Admins","fa-user-shield",admins,false)}${group("Editors","fa-pen",editors,false)}${group("Members (read-only)","fa-user",members,false)}${rejected.length?group("Rejected","fa-ban",rejected,false):""}`;
+  root.innerHTML=`<div class="acct-summary-chips"><span class="chip">Super Admin ${supers.length}</span><span class="chip">Editor ${editors.length}</span><span class="chip">Member ${members.length}</span><span class="chip">Pending ${pending.length}</span></div>${missingEmail&&!adminEmailsOk?'<div class="acct-note"><b>Registered emails are not showing yet.</b> Run the optional SQL file <code>supabase/optional-account-management.sql</code> once in the Supabase SQL Editor. It lets only the Super Admin read emails. You can still send a reset email by typing the address when asked.</div>':""}<input id="acctFilter" class="field mb-1" placeholder="Search name, email or role…" autocomplete="off">${group("Pending applicants","fa-hourglass-half",pending,true,false)}${group("Super Admin","fa-crown",supers,false)}${group("Editors","fa-pen",editors,false)}${group("Members (read-only)","fa-user",members,false)}${rejected.length?group("Rejected","fa-ban",rejected,false):""}`;
   $("acctFilter").addEventListener("input",e=>{const q=e.target.value.trim().toLowerCase();root.querySelectorAll("details.acct").forEach(d=>{d.classList.toggle("hidden",!!q&&!d.dataset.search.includes(q));if(q&&!d.classList.contains("hidden"))d.open=true})});
   root.onclick=async e=>{
     const b=e.target.closest("[data-act]");if(!b)return;
     const id=b.dataset.uid,act=b.dataset.act,u=(state.adminAccounts||[]).find(x=>String(x.id)===id);if(!u)return;
     const nm=u.full_name||"this account";
-    if(act==="approve-editor")await updateProfile(id,{role:"editor",is_approved:true,application_status:"approved"},`${nm} approved as Editor.`);
-    else if(act==="approve-admin"){if(confirm(`Give ${nm} ADMIN access?\n\nAdmins can add, edit and delete songs.`))await updateProfile(id,{role:"admin",is_approved:true,application_status:"approved"},`${nm} approved as Admin.`)}
+    if(act==="approve-member")await updateProfile(id,{role:"member",is_approved:true,application_status:"approved"},`${nm} approved as Member.`);
+    else if(act==="approve-editor")await updateProfile(id,{role:"editor",is_approved:true,application_status:"approved"},`${nm} approved as Editor.`);
     else if(act==="reject"){if(confirm(`Reject the application of ${nm}?\n\nThe account stays read-only and is not deleted.`))await updateProfile(id,{role:"member",is_approved:false,application_status:"rejected"},`${nm} rejected.`)}
     else if(act==="reconsider")await updateProfile(id,{application_status:"pending"},`${nm} moved back to pending.`);
-    else if(act==="make-admin"){if(confirm(`Change ${nm} to ADMIN?`))await updateProfile(id,{role:"admin",is_approved:true},`${nm} is now an Admin.`)}
     else if(act==="make-editor"){if(confirm(`Change ${nm} to EDITOR?`))await updateProfile(id,{role:"editor",is_approved:true,application_status:"approved"},`${nm} is now an Editor.`)}
-    else if(act==="demote"){if(confirm("CONFIRM ROLE REMOVAL\n\nAre you sure you want to remove this person's admin/editor role?\n\nThey will remain an approved read-only member. This will not delete their account."))await updateProfile(id,{role:"member",is_approved:true},"Admin/editor role removed.")}
+    else if(act==="demote"){if(confirm("CONFIRM ROLE REMOVAL\n\nAre you sure you want to remove this person's Editor role?\n\nThey will remain an approved read-only member. This will not delete their account."))await updateProfile(id,{role:"member",is_approved:true},"Editor role removed.")}
     else if(act==="revoke"){if(confirm(`Revoke access of ${nm}?\n\nThey will go back to pending (read-only).`))await updateProfile(id,{role:"member",is_approved:false,application_status:"pending"},"Access revoked.")}
     else if(act==="reset")await sendAdminPasswordReset(u);
   };
@@ -1618,6 +1623,13 @@ async function renderPendingUsers(){
 async function updateProfile(id,values,okMsg){
   if(!canApprove()){toast("Super Admin access required.");return}
   let v={...values},stripped=false;
+  if(!navigator.onLine){
+    const cached=(state.adminAccounts||[]).find(x=>String(x.id)===String(id));
+    if(!cached){toast("This account is not in the verified offline cache. Connect online first.");return}
+    await dashQueuePut({id:"profile:"+state.user.id+":"+id,actor:state.user.id,kind:"profile",target:id,values:v,base:{role:cached.role||"member",is_approved:!!cached.is_approved,application_status:cached.application_status||"pending"},at:Date.now(),status:"pending"});
+    cached._pendingOffline=true;cached._pendingValues=v;await cacheDashSnapshot("accounts",dashSafeAccounts(state.adminAccounts));
+    await renderPendingUsers();toast("Account change queued. It is not approved until the server validates it.");return;
+  }
   let {error}=await db.from("profiles").update(v).eq("id",id);
   if(error&&/application_status/i.test(error.message||"")&&"application_status" in v){delete v.application_status;stripped=true;({error}=await db.from("profiles").update(v).eq("id",id))}
   if(error){toast(error.message);return}
@@ -1662,12 +1674,12 @@ function __orig_openRecoveryDialog(){
 });
 async function __orig_init(){if(db){db.auth.onAuthStateChange(async(event)=>{if(event==="PASSWORD_RECOVERY")openRecoveryDialog();await refreshSession();await loadData();if(state.view==="admin")renderAdmin()});await refreshSession();}else{state.user=null;state.profile=null}if(/type=recovery/.test(location.hash))openRecoveryDialog();await loadData();if(!supabaseReady)toast("Preview mode: add Supabase URL and anon key to enable online accounts and database.");}
 function __orig_updateOfflineStatus(){const el=$("offlineStatus");if(!el)return;const pending=offlineQueue().length;el.textContent=navigator.onLine?(pending?`ONLINE • ${pending} change(s) waiting to sync` : "ONLINE • Offline library enabled"):(`OFFLINE MODE • Using saved songs${pending?` • ${pending} unsynced change(s)`:""}`);el.className="text-center text-xs font-bold px-3 py-1 "+(navigator.onLine?"bg-emerald-100 text-emerald-900":"bg-amber-100 text-amber-900")}
-window.addEventListener("online",async()=>{updateOfflineStatus();if(db)await refreshSession();await loadData();await syncOfflineQueue();updateOfflineStatus()});window.addEventListener("offline",()=>{updateOfflineStatus();toast("Offline mode: ang edits ay ise-save muna sa device na ito.")});window.addEventListener("focus",async()=>{if(navigator.onLine){if(db)await refreshSession();await syncOfflineQueue();updateOfflineStatus()}});
+window.addEventListener("online",async()=>{updateOfflineStatus();if(db)await refreshSession();await loadData();await syncOfflineQueue();await syncDashboardQueue();updateOfflineStatus();if(state.view==="admin"&&canApprove())renderSuperAdmin()});window.addEventListener("offline",()=>{updateOfflineStatus();toast("Offline mode: ang edits ay ise-save muna sa device na ito.")});window.addEventListener("focus",async()=>{if(navigator.onLine){if(db)await refreshSession();await syncOfflineQueue();await syncDashboardQueue();updateOfflineStatus()}});
 
 /* =====================================================================
    v30 · MODULE 1 — core helpers: ids, platform, IndexedDB, outbox, settings
    ===================================================================== */
-const V30={features:{v30:null,settings:null},saTab:"overview",pendingOutbox:0};
+const V30={features:{v30:null,settings:null},pendingDashboard:0,failedDashboard:0,saTab:(()=>{try{return localStorage.getItem("uecf_sa_tab_v1")||"overview"}catch(e){return"overview"}})(),pendingOutbox:0};
 state.scroll={};state.features=V30.features;state.listLimit=60;
 function uuid(){try{if(crypto.randomUUID)return crypto.randomUUID()}catch(e){}return "xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx".replace(/[xy]/g,c=>{const r=Math.random()*16|0;return(c==="x"?r:(r&3|8)).toString(16)})}
 function getDeviceId(){let id=null;try{id=localStorage.getItem("uecf_device_id")}catch(e){}if(!id||id.length<8){id=uuid();try{localStorage.setItem("uecf_device_id",id)}catch(e){}}return id}
@@ -1680,8 +1692,8 @@ function fmtWhen(v){if(!v)return"—";try{return new Date(v).toLocaleString("en-
 function isMissingFunctionError(err){const m=String(err&&(err.message||err.details||err.code)||"");return /PGRST202|PGRST205|42883|42P01|404|Could not find the (function|table)|does not exist|schema cache/i.test(m)}
 
 /* ---------- IndexedDB (songs mirror, key/value, analytics outbox) ---------- */
-const IDB_NAME="uecfi_songbook",IDB_VER=1;let _idbP=null;
-function idbOpen(){if(_idbP)return _idbP;_idbP=new Promise((res,rej)=>{if(!window.indexedDB){rej(new Error("IndexedDB unavailable"));return}const r=indexedDB.open(IDB_NAME,IDB_VER);r.onupgradeneeded=()=>{const d=r.result;if(!d.objectStoreNames.contains("kv"))d.createObjectStore("kv");if(!d.objectStoreNames.contains("songs"))d.createObjectStore("songs",{keyPath:"id"});if(!d.objectStoreNames.contains("outbox"))d.createObjectStore("outbox",{keyPath:"id"})};r.onsuccess=()=>res(r.result);r.onerror=()=>rej(r.error);r.onblocked=()=>rej(new Error("IndexedDB blocked"))});_idbP.catch(()=>{});return _idbP}
+const IDB_NAME="uecfi_songbook",IDB_VER=2;let _idbP=null;
+function idbOpen(){if(_idbP)return _idbP;_idbP=new Promise((res,rej)=>{if(!window.indexedDB){rej(new Error("IndexedDB unavailable"));return}const r=indexedDB.open(IDB_NAME,IDB_VER);r.onupgradeneeded=()=>{const d=r.result;if(!d.objectStoreNames.contains("kv"))d.createObjectStore("kv");if(!d.objectStoreNames.contains("songs"))d.createObjectStore("songs",{keyPath:"id"});if(!d.objectStoreNames.contains("outbox"))d.createObjectStore("outbox",{keyPath:"id"});if(!d.objectStoreNames.contains("dashboard"))d.createObjectStore("dashboard");if(!d.objectStoreNames.contains("dashboardQueue"))d.createObjectStore("dashboardQueue",{keyPath:"id"})};r.onsuccess=()=>res(r.result);r.onerror=()=>rej(r.error);r.onblocked=()=>rej(new Error("IndexedDB blocked"))});_idbP.catch(()=>{});return _idbP}
 async function idbTx(store,mode,fn){const d=await idbOpen();return new Promise((res,rej)=>{let req;const t=d.transaction(store,mode);try{req=fn(t.objectStore(store))}catch(e){rej(e);return}t.oncomplete=()=>res(req&&"result" in req?req.result:undefined);t.onerror=()=>rej(t.error);t.onabort=()=>rej(t.error)})}
 const idbGet=(s,k)=>idbTx(s,"readonly",o=>o.get(k));
 const idbPut=(s,v,k)=>idbTx(s,"readwrite",o=>k===undefined?o.put(v):o.put(v,k));
@@ -1690,6 +1702,19 @@ const idbAll=s=>idbTx(s,"readonly",o=>o.getAll());
 async function idbSaveSongs(list){const d=await idbOpen();return new Promise((res,rej)=>{const t=d.transaction("songs","readwrite");const o=t.objectStore("songs");o.clear();(list||[]).forEach(s=>{try{o.put(JSON.parse(JSON.stringify(s)))}catch(e){}});t.oncomplete=()=>res(true);t.onerror=()=>rej(t.error);t.onabort=()=>rej(t.error)})}
 async function idbKvSet(key,val){try{await idbPut("kv",val,key)}catch(e){}}
 async function idbKvGet(key){try{return await idbGet("kv",key)}catch(e){return undefined}}
+/* Dashboard offline cache. Cache only the minimum fields needed by the Super Admin UI. */
+const DASH_CACHE_TTL=24*60*60*1000;
+async function dashCacheSet(key,data){const safe={savedAt:Date.now(),data:JSON.parse(JSON.stringify(data))};await idbPut("dashboard",safe,key)}
+async function dashCacheGet(key){const v=await idbGet("dashboard",key);if(!v||v.data===undefined)return null;if(Date.now()-Number(v.savedAt||0)>DASH_CACHE_TTL)return null;return v}
+async function clearDashSnapshots(){try{await idbTx("dashboard","readwrite",o=>o.clear())}catch(e){}}
+async function dashQueueAll(){try{return(await idbAll("dashboardQueue"))||[]}catch(e){return[]}}
+async function dashQueuePut(item){await idbPut("dashboardQueue",item);const a=await dashQueueAll();V30.pendingDashboard=a.length;V30.failedDashboard=a.filter(x=>x.status==="failed"||x.status==="conflict").length;try{updateOfflineStatus()}catch(e){}}
+async function dashQueueDel(id){await idbDel("dashboardQueue",id);const a=await dashQueueAll();V30.pendingDashboard=a.length;V30.failedDashboard=a.filter(x=>x.status==="failed"||x.status==="conflict").length;try{updateOfflineStatus()}catch(e){}}
+async function dashQueueCount(){const all=await dashQueueAll(),a=all.filter(x=>x.actor===state.user?.id);V30.pendingDashboard=a.length;V30.failedDashboard=a.filter(x=>x.status==="failed"||x.status==="conflict").length;return a.length}
+function dashStatus(extra=""){const sync=V30.failedDashboard?`Sync Failed: ${V30.failedDashboard}`:V30.pendingDashboard?`Pending Sync: ${V30.pendingDashboard}`:"Synced";return `<div class="sa-sync" role="status">${navigator.onLine?"Online":"Offline"} · ${sync}${extra?" · "+esc(extra):""}</div>`}
+function dashSafeAccounts(rows){return(rows||[]).map(u=>({id:u.id,full_name:u.full_name||"",role:u.role||"member",is_approved:!!u.is_approved,application_status:u.application_status||"pending",created_at:u.created_at||null,updated_at:u.updated_at||null}));}
+async function cacheDashSnapshot(key,data){try{await dashCacheSet(key,data)}catch(e){console.warn("Dashboard cache failed",key,e)}}
+
 
 /* ---------- Outbox: events that must reach Supabase later (offline safe) ---------- */
 const OUTBOX_LS="uecf_outbox_fallback_v1";
@@ -1769,8 +1794,13 @@ function refreshBranding(version){
   setTimeout(applyBrandAssets,600);
 }
 async function saveSetting(key,value){
-  if(!isSuper()||!db){toast("Super Admin access required.");return false}
-  if(!navigator.onLine){toast("Kailangan ng internet para i-save ang settings.");return false}
+  if(!canApprove()||!db){toast("Super Admin access required.");return false}
+  const previous=state.settings[key];
+  if(!navigator.onLine){
+    state.settings[key]=value;persistSettings();applySettings();
+    try{const prior=(await dashQueueAll()).find(x=>x.key===key&&x.kind==="setting"&&x.actor===state.user?.id);await dashQueuePut({id:"setting:"+state.user.id+":"+key,actor:state.user.id,kind:"setting",key,value,base:prior?prior.base:previous,at:Date.now(),status:"pending"});updateOfflineStatus();toast("Saved on this device. Pending server validation and sync.");return true}
+    catch(e){state.settings[key]=previous;persistSettings();applySettings();toast("Could not queue this setting in device storage.");return false}
+  }
   const {error}=await db.from("app_settings").upsert({key,value,updated_by:state.user.id,updated_at:new Date().toISOString()});
   if(error){toast(isMissingFunctionError(error)?"Run the v30 SQL migration first.":error.message);return false}
   state.settings[key]=value;persistSettings();applySettings();return true;
@@ -1843,27 +1873,42 @@ async function recordInstall(event){
   await outboxAdd("install",{event,meta:{platform:detectPlatform(),display_mode:displayMode(),ua:(navigator.userAgent||"").slice(0,200)}});
   flushSoon();
 }
-function showInstallButtons(){document.querySelectorAll("[data-install-btn]").forEach(b=>b.classList.toggle("hidden",!A.installPrompt))}
+function installIsStandalone(){return displayMode()==="standalone"||!!navigator.standalone}
+function showInstallButtons(){
+  const visible=!installIsStandalone();
+  document.querySelectorAll("[data-install-btn]").forEach(b=>{b.classList.toggle("hidden",!visible);b.setAttribute("aria-hidden",visible?"false":"true")});
+}
+function installHelpContent(){
+  const ua=navigator.userAgent||"";
+  const ios=/iPhone|iPad|iPod/i.test(ua)||(navigator.platform==="MacIntel"&&navigator.maxTouchPoints>1);
+  const android=/Android/i.test(ua);
+  const steps=$("installHelpSteps"),intro=$("installHelpIntro");
+  if(ios){intro.textContent="Safari on iPhone or iPad uses Add to Home Screen instead of an automatic install prompt.";steps.innerHTML='<ol class="list-decimal pl-5 space-y-2"><li>Open this songbook website in <b>Safari</b> (not an in-app browser).</li><li>Tap the <b>Share</b> button (the square with an upward arrow).</li><li>Scroll the share sheet and choose <b>Add to Home Screen</b>.</li><li>Keep the suggested name, then tap <b>Add</b>.</li><li>Open the new Centro La Vida Eterna icon from your Home Screen.</li></ol>';return}
+  if(android){intro.textContent="Use the browser installation prompt when available, or install from the browser menu.";steps.innerHTML='<ol class="list-decimal pl-5 space-y-2"><li>Open this website in <b>Chrome</b> or a supported Android browser.</li><li>If an install prompt appears, choose <b>Install</b>.</li><li>If no prompt appears, open the browser <b>⋮ menu</b> and choose <b>Install app</b> or <b>Add to Home screen</b>.</li><li>Confirm the installation, then open the songbook from your Home Screen or app list.</li></ol>';return}
+  intro.textContent="Install this website as an app using your browser's built-in installation option.";steps.innerHTML='<ol class="list-decimal pl-5 space-y-2"><li>Use an up-to-date <b>Chrome</b> or <b>Microsoft Edge</b> browser.</li><li>Look for the install icon at the right side of the address bar, or open the browser menu.</li><li>Choose <b>Install Centro La Vida Eterna Worship Songbook</b> or <b>Install this site as an app</b>.</li><li>Confirm, then launch it from your desktop or app list.</li></ol><p class="mt-3 text-xs text-slate-500">If your browser does not offer an install option, it may not support PWA installation in the current mode.</p>';
+}
 async function installApp(){
-  const p=A.installPrompt;
-  if(!p){toast("Hindi available ang install prompt ngayon. Sa browser menu, piliin ang “Install app” o “Add to Home screen”.");return}
-  try{
-    p.prompt();const choice=await p.userChoice;
-    await recordInstall(choice&&choice.outcome==="accepted"?"prompt_accepted":"prompt_dismissed");
-  }catch(e){}
-  A.installPrompt=null;showInstallButtons();
+  if(installIsStandalone()){showInstallButtons();toast("The Songbook is already installed on this device.");return}
+  const p=A.installPrompt||window.__bip;
+  if(p){
+    try{await p.prompt();const choice=await p.userChoice;await recordInstall(choice&&choice.outcome==="accepted"?"prompt_accepted":"prompt_dismissed");}
+    catch(e){console.warn("Install prompt failed",e);installHelpContent();$("installHelpDialog").showModal()}
+    A.installPrompt=null;window.__bip=null;showInstallButtons();return;
+  }
+  installHelpContent();
+  const d=$("installHelpDialog");if(d&&!d.open)d.showModal();
 }
 function setupInstallTracking(){
-  if(window.__bip){A.installPrompt=window.__bip;showInstallButtons();recordInstall("prompt_available")}
-  window.addEventListener("uecf:bip",()=>{A.installPrompt=window.__bip;showInstallButtons();recordInstall("prompt_available")});
-  const onInstalled=()=>{A.installPrompt=null;showInstallButtons();recordInstall("appinstalled")};
+  if(window.__bip){A.installPrompt=window.__bip;recordInstall("prompt_available")}
+  window.addEventListener("uecf:bip",()=>{A.installPrompt=window.__bip;recordInstall("prompt_available")});
+  const onInstalled=()=>{A.installPrompt=null;window.__bip=null;showInstallButtons();recordInstall("appinstalled")};
   if(window.__installed)onInstalled();
   window.addEventListener("uecf:installed",onInstalled);
   document.querySelectorAll("[data-install-btn]").forEach(b=>b.addEventListener("click",installApp));
-  if(displayMode()==="standalone"){
-    const day=new Date().toISOString().slice(0,10);
-    if(localStorage.getItem("uecf_standalone_day")!==day){try{localStorage.setItem("uecf_standalone_day",day)}catch(e){}recordInstall("standalone_launch")}
-  }
+  const close=()=>{const d=$("installHelpDialog");if(d&&d.open)d.close()};
+  $("installHelpClose")?.addEventListener("click",close);$("installHelpDone")?.addEventListener("click",close);
+  showInstallButtons();
+  if(displayMode()==="standalone"){const day=new Date().toISOString().slice(0,10);if(localStorage.getItem("uecf_standalone_day")!==day){try{localStorage.setItem("uecf_standalone_day",day)}catch(e){}recordInstall("standalone_launch")}}
 }
 async function beat(ended=false){
   if(!analyticsOn()||!navigator.onLine)return;
@@ -1952,7 +1997,7 @@ function transposeChordPro(text,steps,keySig){
 }
 function transposeHtml(html,steps,keySig){
   steps=((steps%12)+12)%12;if(!steps)return String(html||"");
-  const doc=new DOMParser().parseFromString("<body>"+String(html||"")+"</body>","text/html");
+  const doc=new DOMParser().parseFromString("<body>"+String(html||"")+"\n</body>","text/html");
   const flats=preferFlats(keySig,steps,doc.body.textContent);
   const w=doc.createTreeWalker(doc.body,NodeFilter.SHOW_TEXT);const nodes=[];while(w.nextNode())nodes.push(w.currentNode);
   nodes.forEach(n=>{n.nodeValue=n.nodeValue.replace(/\[([^\]\n]{1,14})\]/g,(all,inner)=>{const t=transposeChordToken(inner,steps,flats);return t===null?all:"["+t+"]"})});
@@ -2063,7 +2108,7 @@ function learnSongTemplate(songs){
   let used=0;
   for(const s of(songs||[]).slice(0,60)){
     if(!s.lyrics_html||!/style=/.test(s.lyrics_html))continue;used++;
-    let doc;try{doc=new DOMParser().parseFromString("<body>"+s.lyrics_html+"</body>","text/html")}catch(e){continue}
+    let doc;try{doc=new DOMParser().parseFromString("<body>"+s.lyrics_html+"\n</body>","text/html")}catch(e){continue}
     const root=doc.body;
     root.querySelectorAll("[style]").forEach(el=>{const a=el.style.textAlign;if(a)vote(votes.align,a)});
     let cur="other";const w=doc.createTreeWalker(root,NodeFilter.SHOW_TEXT);
@@ -2503,9 +2548,9 @@ function saMigrationBanner(){return V30.features.v30===false?'<div class="acct-n
 function saTabBar(){return '<div class="sa-tabs" role="tablist">'+SA_TABS.map(([k,l,i])=>`<button type="button" role="tab" class="sa-tab ${V30.saTab===k?"active":""}" data-satab="${k}" aria-selected="${V30.saTab===k}"><i class="fa-solid ${i}"></i><span>${l}</span></button>`).join("")+"</div>"}
 let _saTimer=null;
 async function renderSuperAdmin(){
-  const root=$("adminContent");clearInterval(_saTimer);
+  const root=$("adminContent");clearInterval(_saTimer);await dashQueueCount();
   root.innerHTML=saTabBar()+'<div id="saPanel" class="sa-panel"></div>';
-  root.querySelectorAll("[data-satab]").forEach(b=>b.onclick=()=>{V30.saTab=b.dataset.satab;renderSuperAdmin()});
+  root.querySelectorAll("[data-satab]").forEach(b=>b.onclick=()=>{V30.saTab=b.dataset.satab;try{localStorage.setItem("uecf_sa_tab_v1",V30.saTab)}catch(e){}renderSuperAdmin()});
   const p=$("saPanel");
   if(V30.features.v30===null&&db&&navigator.onLine)await probeV30().catch(()=>{});
   const tab=V30.saTab;
@@ -2519,10 +2564,11 @@ async function renderSuperAdmin(){
 function needOnline(p){if(!navigator.onLine){p.innerHTML='<div class="acct-note">This section needs an internet connection (the data lives in Supabase). Songs, lyrics, search, favorites and playlists keep working offline.</div>';return true}return false}
 function statCard(label,value,hint,tone){return `<div class="sa-stat ${tone||""}"><div class="sa-stat-v">${value===null||value===undefined?"—":esc(String(value))}</div><div class="sa-stat-l">${esc(label)}</div>${hint?`<div class="sa-stat-h">${esc(hint)}</div>`:""}</div>`}
 async function saOverview(p){
-  if(needOnline(p))return;
+  if(!navigator.onLine){const c=await dashCacheGet("overview");if(!c){p.innerHTML=dashStatus("no cached statistics")+'<div class="acct-note">Overview data is not cached yet. Connect online once to download the Super Admin statistics.</div>';return}const st=c.data||{};p.innerHTML=dashStatus("cached statistics · server refresh unavailable")+'<div class="acct-note">Showing the last saved dashboard snapshot from '+esc(fmtWhen(c.savedAt))+'. Live online counts are unavailable offline.</div><div class="sa-grid">'+statCard("Confirmed installs",st.installs_confirmed??"—","Last known server value")+statCard("Installation records",st.install_records??"—","Last known server value")+statCard("Visitors",st.visitors_total??"—","Last known server value")+statCard("Registered members",st.members_total??"—","Last known server value")+statCard("Online now","—","Requires live server connection")+statCard("Active devices (24 h)",st.active_devices_24h??"—","Last known server value")+statCard("Songs",st.songs_total??state.songs.length,"Last known server value")+statCard("Deleted songs",st.songs_deleted??"—","Last known server value")+statCard("Password reset requests",st.resets_requested??"—","Private records are not cached")+'</div><h3 class="sa-h">Recent activity (last cached snapshot)</h3><div class="grid md:grid-cols-3 gap-3">'+(await Promise.all([["member","Member activities"],["editor","Editor activities"],["admin","Administrative activities"]].map(async([g,title])=>{const x=await dashCacheGet("recent:"+g);return `<div class="card p-3"><div class="text-xs font-bold mb-2">${title}</div>${x&&x.data.length?x.data.map(r=>`<div class="rec-row"><b>${esc(r.user_name||"—")}</b><span>${esc(LOG_LABELS[r.activity_type]||r.activity_type)}</span><small>${esc(fmtWhen(r.occurred_at))}</small></div>`).join(""):'<p class="text-xs text-slate-500">No cached records.</p>'}</div>`}))).join("")+'</div><p class="text-xs text-slate-500 mt-2">Statistics are snapshots, not live server counts. Password details are not cached.</p>';return}
   p.innerHTML=saMigrationBanner()+'<p class="text-sm text-slate-500">Loading dashboard…</p>';
   const {data:st,error}=await db.rpc("admin_dashboard_stats");
   if(error){p.innerHTML=saMigrationBanner()+(V30.features.v30===false?"":`<div class="acct-note">Could not load statistics: ${esc(error.message)}</div>`);return}
+  await cacheDashSnapshot("overview",st);
   const n=v=>v??0;
   const trend=st.install_trend||[];const max=Math.max(1,...trend.map(t=>t.n));
   const bars=trend.length?trend.map(t=>`<div class="bar" title="${esc(t.d)}: ${t.n} install${t.n==1?"":"s"}"><i style="height:${Math.round(t.n/max*100)}%"></i><span>${esc(String(t.d).slice(5))}</span></div>`).join(""):'<p class="text-sm text-slate-500">No confirmed installations recorded in the last 30 days.</p>';
@@ -2563,13 +2609,14 @@ async function saOverview(p){
   for(const [g,id,title] of [["member","recMember","Member activities"],["editor","recEditor","Editor activities"],["admin","recAdmin","Administrative activities"]]){
     const {data}=await db.rpc("admin_list_activity",{p_group:g,p_limit:5,p_offset:0});
     const rows=(data&&data.rows)||[];
+    await cacheDashSnapshot("recent:"+g,rows);
     const el=$(id);if(!el)continue;
     el.innerHTML=`<div class="card p-3"><div class="text-xs font-bold mb-2">${title}</div>${rows.length?rows.map(r=>`<div class="rec-row"><b>${esc(r.user_name||"—")}</b> <span>${esc(LOG_LABELS[r.activity_type]||r.activity_type)}</span><small>${esc(fmtWhen(r.occurred_at))}</small></div>`).join(""):'<p class="text-xs text-slate-500">Nothing recorded yet.</p>'}</div>`;
   }
   _saTimer=setInterval(()=>{if(state.view==="admin"&&V30.saTab==="overview"&&!document.hidden&&navigator.onLine)saOverview(p)},20000);
 }
 async function saAccounts(p){
-  p.innerHTML=`<div class="grid md:grid-cols-2 gap-4"><div class="border border-slate-200 dark:border-slate-700 rounded-xl p-4"><h3 class="font-bold">Song management</h3><p class="text-sm text-slate-500 my-2">${state.songs.length} songs in library</p><button id="adminAddSong" class="btn btn-primary">Add song</button></div><div class="border border-slate-200 dark:border-slate-700 rounded-xl p-4 md:col-span-2"><h3 class="font-bold">Account management</h3><p class="text-sm text-slate-500 my-2">Review applicants, manage roles, and send password reset emails.</p><div id="pendingUsers" class="space-y-2"></div></div></div>`;
+  p.innerHTML=dashStatus("account changes require server validation")+`<div class="grid md:grid-cols-2 gap-4"><div class="border border-slate-200 dark:border-slate-700 rounded-xl p-4"><h3 class="font-bold">Song management</h3><p class="text-sm text-slate-500 my-2">${state.songs.length} songs in library</p><button id="adminAddSong" class="btn btn-primary">Add song</button></div><div class="border border-slate-200 dark:border-slate-700 rounded-xl p-4 md:col-span-2"><h3 class="font-bold">Account management</h3><p class="text-sm text-slate-500 my-2">Review applicants, manage roles, and send password reset emails.</p><div id="pendingUsers" class="space-y-2"></div></div></div>`;
   $("adminAddSong").onclick=()=>editSong(null);
   await renderPendingUsers();
 }
@@ -2596,7 +2643,6 @@ function syncStatus(r){
   return{t:"Synced after offline"+(lag>60?" ("+Math.round(lag/60)+" min later)":""),c:"warn"};
 }
 async function saLogs(p){
-  if(needOnline(p))return;
   const typeOpts='<option value="">All activity types</option>'+Object.keys(LOG_LABELS).sort((a,b)=>LOG_LABELS[a].localeCompare(LOG_LABELS[b])).map(k=>`<option value="${k}" ${logState.type===k?"selected":""}>${esc(LOG_LABELS[k])}</option>`).join("");
   p.innerHTML=saMigrationBanner()+`
   <div class="card p-3 log-filters">
@@ -2606,11 +2652,11 @@ async function saLogs(p){
     <select id="logUser" class="field"><option value="">All users</option></select>
     <label class="log-date">From <input id="logFrom" type="date" class="field" value="${esc(logState.from)}"></label>
     <label class="log-date">To <input id="logTo" type="date" class="field" value="${esc(logState.to)}"></label>
-    <div class="log-actions"><button id="logApply" class="btn btn-primary" type="button">Apply</button><button id="logReset" class="btn btn-ghost" type="button">Reset</button><button id="logClear" class="btn btn-ghost text-rose-600" type="button"><i class="fa-solid fa-trash mr-1"></i>Clear history…</button></div>
+    <div class="log-actions"><button id="logApply" class="btn btn-primary" type="button">Apply</button><button id="logReset" class="btn btn-ghost" type="button">Reset</button><button id="logClear" class="btn btn-ghost text-rose-600" type="button" ${navigator.onLine?"":"disabled title='Requires online server authorization'"}><i class="fa-solid fa-trash mr-1"></i>Clear history…</button></div>
   </div>
-  <div id="logMeta" class="text-xs text-slate-500 my-2"></div><div id="logList" class="log-list"></div><div id="logPager" class="log-pager"></div>`;
+  ${dashStatus("cached logs refresh when online")}<div id="logMeta" class="text-xs text-slate-500 my-2"></div><div id="logList" class="log-list"></div><div id="logPager" class="log-pager"></div>`;
   // user filter (from the accounts table, names only)
-  try{const {data}=await db.from("profiles").select("id,full_name,role").order("full_name");const u=$("logUser");(data||[]).forEach(x=>{const o=document.createElement("option");o.value=x.id;o.textContent=(x.full_name||x.id.slice(0,8))+" ("+(ROLE_LABEL[x.role]||x.role)+")";if(logState.user===x.id)o.selected=true;u.appendChild(o)})}catch(e){}
+  if(navigator.onLine){try{const {data}=await db.from("profiles").select("id,full_name,role").order("full_name");const u=$("logUser");(data||[]).forEach(x=>{const o=document.createElement("option");o.value=x.id;o.textContent=(x.full_name||x.id.slice(0,8))+" ("+(ROLE_LABEL[x.role]||x.role)+")";if(logState.user===x.id)o.selected=true;u.appendChild(o)})}catch(e){}}
   const read=()=>{logState.search=$("logSearch").value.trim();logState.group=$("logGroup").value;logState.type=$("logType").value;logState.user=$("logUser").value;logState.from=$("logFrom").value;logState.to=$("logTo").value};
   $("logApply").onclick=()=>{read();logState.page=0;loadLogs()};
   $("logSearch").addEventListener("keydown",e=>{if(e.key==="Enter"){read();logState.page=0;loadLogs()}});
@@ -2618,18 +2664,16 @@ async function saLogs(p){
   $("logClear").onclick=clearLogsFlow;
   loadLogs();
 }
+function renderLogRows(rows){const list=$("logList");if(!list)return;list.innerHTML=rows.length?rows.map(r=>{const ss=syncStatus(r);return `<div class="log-row g-${esc(r.activity_group)}"><div class="log-top"><b>${esc(r.user_name||"—")}</b><span class="role-badge role-${esc(r.user_role||"member")}">${esc(ROLE_LABEL[r.user_role]||r.user_role||"visitor")}</span><span class="log-when">${esc(fmtWhen(r.occurred_at))}</span></div><div class="log-act">${esc(LOG_LABELS[r.activity_type]||r.activity_type)}</div>${logDetailText(r)?`<div class="log-det">${esc(logDetailText(r))}</div>`:""}<div class="log-meta"><span class="st-badge ${r.was_offline?"st-pending":"st-approved"}">${r.was_offline?"Offline":"Online"}</span><span class="st-badge ${ss.c==="ok"?"st-approved":"st-pending"}">${esc(ss.t)}</span>${r.platform?`<span class="log-dev">${esc(r.platform)}</span>`:""}</div></div>`}).join(""):'<p class="text-sm text-slate-500">No activity found for these filters.</p>'}
 async function loadLogs(){
-  const list=$("logList");if(!list)return;list.innerHTML='<p class="text-sm text-slate-500">Loading…</p>';
+  const list=$("logList");if(!list)return;
+  if(!navigator.onLine){const c=await dashCacheGet("logs"),cached=c?(c.data||[]):[];const pending=(await outboxAll()).filter(x=>x.kind==="activity").map(x=>({user_name:x.payload.uid===state.user?.id?(state.profile?.full_name||"Current user"):"Local device",user_role:state.profile?.role||"member",activity_group:state.profile?.role||"system",activity_type:x.payload.type,details:x.payload.details,occurred_at:x.payload.occurred_at,was_offline:true,platform:x.payload.platform,_localPending:true}));if(!c&&!pending.length){list.innerHTML='<div class="acct-note">No cached activity logs. Connect online as Super Admin to load logs first.</div>';return}let rows=[...pending,...cached];const q=logState.search.toLowerCase();rows=rows.filter(r=>{const d=logDetailText(r).toLowerCase(),name=String(r.user_name||"").toLowerCase(),typ=String(r.activity_type||"");if(q&&!name.includes(q)&&!typ.toLowerCase().includes(q)&&!d.includes(q))return false;if(logState.group&&r.activity_group!==logState.group&&!(logState.group==="admin"&&r.activity_group==="super_admin"))return false;if(logState.type&&typ!==logState.type)return false;if(logState.user&&String(r.user_id||"")!==logState.user)return false;if(logState.from&&new Date(r.occurred_at)<new Date(logState.from+"T00:00:00"))return false;if(logState.to&&new Date(r.occurred_at)>=new Date(new Date(logState.to+"T00:00:00").getTime()+864e5))return false;return true});$("logMeta").textContent="Cached snapshot · "+cached.length+" server records · "+pending.length+" local pending events · "+rows.length+" match(es)";renderLogRows(rows);return}
+  list.innerHTML='<p class="text-sm text-slate-500">Loading…</p>';
   const to=logState.to?new Date(new Date(logState.to+"T00:00:00").getTime()+864e5).toISOString():null;
   const {data,error}=await db.rpc("admin_list_activity",{p_search:logState.search||null,p_group:logState.group||null,p_type:logState.type||null,p_user:logState.user||null,p_from:logState.from?new Date(logState.from+"T00:00:00").toISOString():null,p_to:to,p_limit:logState.size,p_offset:logState.page*logState.size});
   if(error){list.innerHTML=`<div class="acct-note">${esc(error.message)}</div>`;return}
-  logState.total=data.total||0;const rows=data.rows||[];
-  $("logMeta").textContent=logState.total+" record"+(logState.total===1?"":"s");
-  list.innerHTML=rows.length?rows.map(r=>{const ss=syncStatus(r);return `<div class="log-row g-${esc(r.activity_group)}">
-    <div class="log-top"><b>${esc(r.user_name||"—")}</b><span class="role-badge role-${esc(r.user_role||"member")}">${esc(ROLE_LABEL[r.user_role]||r.user_role||"visitor")}</span><span class="log-when">${esc(fmtWhen(r.occurred_at))}</span></div>
-    <div class="log-act">${esc(LOG_LABELS[r.activity_type]||r.activity_type)}</div>
-    ${logDetailText(r)?`<div class="log-det">${esc(logDetailText(r))}</div>`:""}
-    <div class="log-meta"><span class="st-badge ${r.was_offline?"st-pending":"st-approved"}">${r.was_offline?"Offline":"Online"}</span><span class="st-badge ${ss.c==="ok"?"st-approved":"st-pending"}">${esc(ss.t)}</span>${r.platform?`<span class="log-dev">${esc(r.platform)}</span>`:""}</div></div>`}).join(""):'<p class="text-sm text-slate-500">No activity found for these filters.</p>';
+  logState.total=data.total||0;const rows=data.rows||[];await cacheDashSnapshot("logs",rows);
+  $("logMeta").textContent=logState.total+" record"+(logState.total===1?"":"s");renderLogRows(rows);
   const pages=Math.max(1,Math.ceil(logState.total/logState.size));
   $("logPager").innerHTML=`<button class="btn btn-ghost" id="logPrev" ${logState.page<=0?"disabled":""}>‹ Prev</button><span>Page ${logState.page+1} of ${pages}</span><button class="btn btn-ghost" id="logNext" ${logState.page+1>=pages?"disabled":""}>Next ›</button>`;
   $("logPrev").onclick=()=>{logState.page--;loadLogs()};$("logNext").onclick=()=>{logState.page++;loadLogs()};
@@ -2647,8 +2691,8 @@ async function clearLogsFlow(){
 
 /* ---------- Password resets ---------- */
 async function saPasswords(p){
-  if(needOnline(p))return;
-  p.innerHTML=saMigrationBanner()+'<p class="text-sm text-slate-500">Loading…</p>';
+  if(!navigator.onLine){p.innerHTML=dashStatus("password reset records are not stored offline")+'<div class="acct-note">For security, password reset history and server verification are not cached on this device. Connect to the internet to view reset requests or send a reset email. Plain-text passwords are never stored or displayed.</div>';return;}
+  p.innerHTML=dashStatus("password records are server-only")+saMigrationBanner()+'<p class="text-sm text-slate-500">Loading…</p>';
   const {data,error}=await db.rpc("admin_list_password_resets",{p_limit:50,p_offset:0});
   if(error){p.innerHTML=saMigrationBanner()+`<div class="acct-note">${esc(error.message)}</div>`;return}
   const rows=data.rows||[];
@@ -2662,35 +2706,49 @@ async function saPasswords(p){
 }
 
 /* ---------- Recycle Bin ---------- */
+function renderBinRows(rows,offline){return (rows||[]).length?(rows||[]).map(s=>`<div class="log-row"><div class="log-top"><b>${esc(s.title)}</b><span class="log-when">Deleted ${esc(fmtWhen(s.deleted_at))}</span></div><div class="log-det">${esc(s.artist||"Unknown artist")} · ${esc(s.category||"N/A")} · ${esc(s.language||"")}</div><div class="log-det">Deleted by: <b>${esc(s.deleted_by_name||"Unknown")}</b></div><div class="log-det bin-prev">${esc(String(s.lyrics_chordpro||"").replace(/\[[^\]]*\]/g,"").replace(/\s+/g," ").slice(0,140))}…</div><div class="acct-actions"><button class="btn btn-primary" data-restore="${esc(s.id)}" data-deleted-at="${esc(s.deleted_at||"")}"><i class="fa-solid fa-rotate-left mr-1"></i>Restore</button><button class="btn btn-danger" data-purge="${esc(s.id)}" data-title="${esc(s.title)}" data-deleted-at="${esc(s.deleted_at||"")}"><i class="fa-solid fa-trash mr-1"></i>Delete permanently</button></div></div>`).join(""):'<p class="text-sm text-slate-500">The Recycle Bin is empty.</p>'}
+function bindBinActions(p,offline){
+ p.querySelectorAll("[data-restore]").forEach(b=>b.onclick=async()=>{const id=String(b.dataset.restore);if(offline){const existing=(await dashQueueAll()).find(x=>x.actor===state.user?.id&&x.target===id&&(x.kind==="bin_restore"||x.kind==="bin_purge"));if(existing){toast("A Recycle Bin action for this song is already pending sync.");return}await dashQueuePut({id:"bin:restore:"+state.user.id+":"+id,actor:state.user.id,kind:"bin_restore",target:id,baseDeletedAt:b.dataset.deletedAt||null,at:Date.now(),status:"pending"});b.disabled=true;b.textContent="Restore · Pending Sync";toast("Restore queued. The server will verify Super Admin permission when online.");return}b.disabled=true;const {data:ok,error:e}=await db.rpc("admin_restore_song",{p_id:id});if(e){toast(e.message);b.disabled=false;return}toast(ok?"Song restored.":"Nothing to restore.");await loadData();saBin(p)});
+ p.querySelectorAll("[data-purge]").forEach(b=>b.onclick=async()=>{if(!confirm(`PERMANENTLY delete “${b.dataset.title}”?\n\nThis action cannot be undone and will only execute after server authorization.`))return;const id=String(b.dataset.purge);if(offline){const existing=(await dashQueueAll()).find(x=>x.actor===state.user?.id&&x.target===id&&(x.kind==="bin_restore"||x.kind==="bin_purge"));if(existing){toast("A Recycle Bin action for this song is already pending sync.");return}await dashQueuePut({id:"bin:purge:"+state.user.id+":"+id,actor:state.user.id,kind:"bin_purge",target:id,title:b.dataset.title,baseDeletedAt:b.dataset.deletedAt||null,at:Date.now(),status:"pending"});b.disabled=true;b.textContent="Delete · Pending Sync";toast("Permanent deletion queued. Nothing is deleted until the server confirms authorization.");return}const {data:ok,error:e}=await db.rpc("admin_purge_song",{p_id:id});if(e){toast(e.message);return}toast(ok?"Song permanently deleted.":"Nothing deleted.");saBin(p)});
+}
+async function syncDashboardQueue(){
+ if(!db||!navigator.onLine||!canApprove())return;const items=(await dashQueueAll()).filter(x=>x.actor===state.user?.id);if(!items.length)return;let synced=0,failed=0;
+ for(const it of items){if(it.status==="conflict")continue;try{
+  if(it.kind==="setting"){
+   const {data,error}=await db.from("app_settings").select("value").eq("key",it.key).maybeSingle();if(error)throw error;const remote=data?data.value:undefined;
+   if(JSON.stringify(remote)!==JSON.stringify(it.base)){it.status="conflict";it.error="Setting changed on the server since this offline edit was queued.";await dashQueuePut(it);failed++;continue}
+   const {error:e}=await db.from("app_settings").upsert({key:it.key,value:it.value,updated_by:state.user.id,updated_at:new Date().toISOString()});if(e)throw e;state.settings[it.key]=it.value;persistSettings();applySettings();
+  }else if(it.kind==="profile"){
+   const {data,error}=await db.from("profiles").select("id,role,is_approved,application_status").eq("id",it.target).maybeSingle();if(error)throw error;if(!data){it.status="conflict";it.error="Account no longer exists.";await dashQueuePut(it);failed++;continue}
+   const now={role:data.role||"member",is_approved:!!data.is_approved,application_status:data.application_status||"pending"};if(JSON.stringify(now)!==JSON.stringify(it.base)){it.status="conflict";it.error="Account role or approval changed on the server; review it online.";await dashQueuePut(it);failed++;continue}
+   let pv={...it.values};let {error:e}=await db.from("profiles").update(pv).eq("id",it.target);if(e&&/application_status/i.test(e.message||"")&&"application_status" in pv){delete pv.application_status;({error:e}=await db.from("profiles").update(pv).eq("id",it.target))}if(e)throw e;
+  }else if(it.kind==="bin_restore"||it.kind==="bin_purge"){
+   const {data,error}=await db.from("songs").select("id,deleted_at").eq("id",it.target).maybeSingle();if(error)throw error;if(!data||!data.deleted_at){await dashQueueDel(it.id);continue}if(it.baseDeletedAt&&String(data.deleted_at)!==String(it.baseDeletedAt)){it.status="conflict";it.error="Recycle Bin record changed since this offline action was queued.";await dashQueuePut(it);failed++;continue}
+   const {data:ok,error:e}=await db.rpc(it.kind==="bin_restore"?"admin_restore_song":"admin_purge_song",{p_id:String(it.target)});if(e)throw e;if(!ok)throw new Error("Server did not confirm the requested Recycle Bin action.");
+  }
+  await dashQueueDel(it.id);synced++;
+ }catch(e){it.status="failed";it.error=String(e.message||e);await dashQueuePut(it);failed++;}}
+ updateOfflineStatus();if(synced||failed)toast(`Dashboard sync: ${synced} completed · ${failed} pending or needs review.`);
+ if(synced){await fetchSettings({silent:true});if(state.view==="admin")renderSuperAdmin()}
+}
 async function saBin(p){
-  if(needOnline(p))return;
-  p.innerHTML=saMigrationBanner()+'<p class="text-sm text-slate-500">Loading…</p>';
+  if(!navigator.onLine){const c=await dashCacheGet("bin");if(!c){p.innerHTML=dashStatus("no cached recycle-bin snapshot")+'<div class="acct-note">No deleted-song snapshot is saved yet. Connect online as Super Admin to load the Recycle Bin.</div>';return}const rows=c.data||[];p.innerHTML=dashStatus("cached recycle-bin snapshot")+'<div class="acct-note">Offline view only. Restore and permanent deletion are queued for server authorization; records remain visible until confirmed.</div>'+renderBinRows(rows,true);bindBinActions(p,true);return;}
+  p.innerHTML=dashStatus("Recycle Bin snapshot refreshes online")+saMigrationBanner()+'<p class="text-sm text-slate-500">Loading…</p>';
   const {data,error}=await db.from("songs").select("*").not("deleted_at","is",null).order("deleted_at",{ascending:false});
   if(error){p.innerHTML=saMigrationBanner()+`<div class="acct-note">${/deleted_at/i.test(error.message)?"Recycle Bin needs the v30 SQL migration.":esc(error.message)}</div>`;return}
-  const rows=data||[];
-  p.innerHTML=saMigrationBanner()+`<div class="acct-note">Songs deleted by Editors/Admins wait here. Restoring puts a song back with its original category, lyrics, chords and formatting.</div>
-  ${rows.length?rows.map(s=>`<div class="log-row"><div class="log-top"><b>${esc(s.title)}</b><span class="log-when">Deleted ${esc(fmtWhen(s.deleted_at))}</span></div>
-   <div class="log-det">${esc(s.artist||"Unknown artist")} · ${esc(s.category||"N/A")} · ${esc(s.language||"")}</div>
-   <div class="log-det">Deleted by: <b>${esc(s.deleted_by_name||"Unknown")}</b></div>
-   <div class="log-det bin-prev">${esc(String(s.lyrics_chordpro||"").replace(/\[[^\]]*\]/g,"").replace(/\s+/g," ").slice(0,140))}…</div>
-   <div class="acct-actions"><button class="btn btn-primary" data-restore="${esc(s.id)}"><i class="fa-solid fa-rotate-left mr-1"></i>Restore</button><button class="btn btn-danger" data-purge="${esc(s.id)}" data-title="${esc(s.title)}"><i class="fa-solid fa-trash mr-1"></i>Delete permanently</button></div></div>`).join(""):'<p class="text-sm text-slate-500">The Recycle Bin is empty.</p>'}`;
-  p.querySelectorAll("[data-restore]").forEach(b=>b.onclick=async()=>{
-    b.disabled=true;const {data:ok,error:e}=await db.rpc("admin_restore_song",{p_id:String(b.dataset.restore)});
-    if(e){toast(e.message);b.disabled=false;return}toast(ok?"Song restored.":"Nothing to restore.");await loadData();saBin(p)});
-  p.querySelectorAll("[data-purge]").forEach(b=>b.onclick=async()=>{
-    if(!confirm(`PERMANENTLY delete “${b.dataset.title}”?\n\nThis can not be undone.`))return;
-    const {data:ok,error:e}=await db.rpc("admin_purge_song",{p_id:String(b.dataset.purge)});
-    if(e){toast(e.message);return}toast(ok?"Song permanently deleted.":"Nothing deleted.");saBin(p)});
+  const rows=data||[];await cacheDashSnapshot("bin",rows);
+  p.innerHTML=saMigrationBanner()+'<div class="acct-note">Songs deleted by Editors wait here. Restoring puts a song back with its original category, lyrics, chords and formatting.</div>'+renderBinRows(rows,false);bindBinActions(p,false);
 }
+
+async function renderDashQueuePanel(){const el=$("dashQueuePanel");if(!el)return;const items=(await dashQueueAll()).filter(x=>x.actor===state.user?.id);if(!items.length){el.textContent="No pending dashboard changes.";return}el.innerHTML=items.map(it=>`<div class="log-row"><div class="log-top"><b>${esc(it.kind.replace(/_/g," "))}</b><span class="st-badge ${it.status==="conflict"||it.status==="failed"?"st-rejected":"st-pending"}">${esc(it.status||"pending")}</span></div><div class="log-det">${esc(it.error||"Waiting for an online server check.")}</div><div class="acct-actions"><button class="btn btn-ghost" data-dash-retry="${esc(it.id)}" type="button">Retry</button><button class="btn btn-ghost text-rose-600" data-dash-discard="${esc(it.id)}" type="button">Discard</button></div></div>`).join("");el.querySelectorAll("[data-dash-retry]").forEach(b=>b.onclick=async()=>{const it=items.find(x=>x.id===b.dataset.dashRetry);if(!it)return;it.status="pending";delete it.error;await dashQueuePut(it);if(navigator.onLine)await syncDashboardQueue();await renderDashQueuePanel()});el.querySelectorAll("[data-dash-discard]").forEach(b=>b.onclick=async()=>{if(!confirm("Discard this pending offline action? This will not change the server."))return;const it=items.find(x=>x.id===b.dataset.dashDiscard);await dashQueueDel(b.dataset.dashDiscard);if(it?.kind==="setting"&&navigator.onLine)await fetchSettings({silent:true});await renderDashQueuePanel();updateOfflineStatus()})}
 
 /* ---------- Central settings ---------- */
 function toggleRow(id,label,hint,on){return `<label class="set-row"><span><b>${esc(label)}</b><small>${esc(hint)}</small></span><input type="checkbox" id="${id}" class="set-switch" ${on?"checked":""}></label>`}
 async function saSettings(p){
-  if(needOnline(p))return;
-  if(V30.features.v30!==false)await fetchSettings({silent:true});
+  if(navigator.onLine&&V30.features.v30!==false)await fetchSettings({silent:true});
   const s=state.settings;const tpl=effectiveSongTemplate();
   p.innerHTML=saMigrationBanner()+`
-  <p class="text-sm text-slate-500 mb-2">Changes are saved to Supabase and reach every phone and computer automatically (instantly when they are online, otherwise the next time they open the app).</p>
+  ${dashStatus((await dashQueueCount())+" pending dashboard change(s)")}<p class="text-sm text-slate-500 mb-2">${navigator.onLine?"Changes are saved to Supabase and reach every phone and computer automatically.":"Offline changes are saved on this device and queued for server validation when the connection returns."}</p>
   <div class="card p-3 set-list">
     ${toggleRow("setIntroMobile","Opening video on mobile","Show the intro video when the app is opened on a phone or tablet.",s.intro_mobile_enabled!==false)}
     ${toggleRow("setIntroDesktop","Opening video on desktop / laptop","Off by default. Desktops go straight to the app unless you turn this on.",s.intro_desktop_enabled===true)}
@@ -2703,15 +2761,17 @@ async function saSettings(p){
     <div class="flex gap-2 mt-1"><input id="setNotice" class="field" maxlength="160" placeholder="Example: Choir practice moved to 7 PM Friday" value="${esc(s.app_notice||"")}"><button id="setNoticeSave" class="btn btn-primary" type="button">Save</button></div>
     <small class="text-slate-500">Leave empty to hide the banner.</small></div>
   <div class="card p-3 mt-3"><div class="text-sm font-bold">App branding</div><p class="text-xs text-slate-500 my-1">After you replace the logo/icon files and deploy, press this so every device re-downloads the new images. (Installed-app icons on the home screen are controlled by Android/Windows — see the update guide.)</p><button id="setBrand" class="btn btn-ghost" type="button"><i class="fa-solid fa-image mr-1"></i>Refresh branding on all devices</button></div>
+  <div class="card p-3 mt-3"><div class="text-sm font-bold">Pending offline dashboard changes</div><div id="dashQueuePanel" class="mt-2 text-sm text-slate-500">Loading queue…</div></div>
   <div class="card p-3 mt-3"><div class="text-sm font-bold">Song formatting template</div>
     <p class="text-xs text-slate-500 my-1">New songs are automatically formatted with this template (centered, same heading/verse colours as the existing songs). Source: <b>${esc(tpl.source)}</b>.</p>
     <pre class="tpl-json">${esc(JSON.stringify(tpl.template,null,1))}</pre>
     <div class="acct-actions"><button id="tplRelearn" class="btn btn-ghost" type="button">Re-learn from library</button><button id="tplSave" class="btn btn-primary" type="button">Use as official template (all devices)</button><button id="tplReset" class="btn btn-ghost" type="button">Back to automatic</button></div></div>`;
-  const bind=(id,key,inv)=>{const el=$(id);el.onchange=async()=>{const ok=await saveSetting(key,inv?!el.checked:el.checked);if(!ok)el.checked=!el.checked;else toast("Saved. Devices will update automatically.")}};
+  await renderDashQueuePanel();
+  const bind=(id,key,inv)=>{const el=$(id);el.onchange=async()=>{const ok=await saveSetting(key,inv?!el.checked:el.checked);if(!ok)el.checked=!el.checked;else if(navigator.onLine)toast("Saved. Devices will update automatically.")}};
   bind("setIntroMobile","intro_mobile_enabled");bind("setIntroDesktop","intro_desktop_enabled");bind("setSwipe","swipe_enabled");bind("setTabPlaylists","show_playlists_tab");bind("setTabFavorites","show_favorites_tab");
   $("setPreviewIntro").onclick=()=>{if(window.UECF_previewIntro)window.UECF_previewIntro();else toast("Intro preview is not available.")};
   $("setNoticeSave").onclick=async()=>{if(await saveSetting("app_notice",$("setNotice").value.trim()))toast("Announcement saved.")};
-  $("setBrand").onclick=async()=>{if(await saveSetting("brand_version",String(Date.now()))){refreshBranding(state.settings.brand_version);toast("Branding refresh sent to all devices.")}};
+  $("setBrand").onclick=async()=>{if(await saveSetting("brand_version",String(Date.now()))){refreshBranding(state.settings.brand_version);toast(navigator.onLine?"Branding refresh sent to all devices.":"Branding version saved locally; pending sync.")}};
   $("tplRelearn").onclick=()=>{V30.learned=null;saSettings(p)};
   $("tplSave").onclick=async()=>{if(confirm("Use this template for every new song on every device?")&&await saveSetting("song_format_template",tpl.template))saSettings(p)};
   $("tplReset").onclick=async()=>{if(await saveSetting("song_format_template",{}))saSettings(p)};
@@ -2727,6 +2787,7 @@ function renderAdmin(){
 }
 function updateOfflineStatus(){
   const el=$("offlineStatus");if(!el)return;
+  dashQueueCount().then(count=>{const failed=V30.failedDashboard||0;if(count){el.textContent+=(failed?` • SYNC FAILED: ${failed} dashboard action(s)`:` • PENDING SYNC: ${count} dashboard action(s)`);}}).catch(()=>{});
   const pending=offlineQueue().length,logs=V30.pendingOutbox||0,on=navigator.onLine;
   const waits=[];if(pending)waits.push(pending+" song change"+(pending===1?"":"s"));if(logs)waits.push(logs+" activity record"+(logs===1?"":"s"));
   el.textContent=on?(waits.length?"ONLINE • "+waits.join(" + ")+" waiting to sync":"ONLINE • Offline library enabled"):("OFFLINE MODE • Using saved songs"+(waits.length?" • "+waits.join(" + ")+" saved on this device":""));
@@ -2821,5 +2882,14 @@ window.__uecf_test={transposeChordPro,transposeChordToken,isChordToken,transpose
 if("serviceWorker" in navigator){window.addEventListener("load",()=>navigator.serviceWorker.register("./service-worker.js").catch(e=>console.warn("Offline service worker registration failed",e)))}
 init().then(updateOfflineStatus);
 </script>
+
+
+<dialog id="installHelpDialog" aria-labelledby="installHelpTitle">
+  <div class="p-5 sm:p-6 bg-white dark:bg-slate-800 text-slate-900 dark:text-slate-100">
+    <div class="flex items-start justify-between gap-3"><div><h2 id="installHelpTitle" class="text-xl font-extrabold text-navy dark:text-amber-300">Install the Songbook</h2><p id="installHelpIntro" class="text-sm text-slate-500 dark:text-slate-300 mt-1">Follow the steps for your browser.</p></div><button type="button" id="installHelpClose" class="btn btn-ghost" aria-label="Close installation help">✕</button></div>
+    <div id="installHelpSteps" class="mt-4 text-sm leading-7"></div>
+    <div class="mt-5 flex justify-end"><button type="button" id="installHelpDone" class="btn btn-primary">Got it</button></div>
+  </div>
+</dialog>
 </body>
 </html>
