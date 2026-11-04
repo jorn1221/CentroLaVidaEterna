@@ -1905,31 +1905,42 @@ function installHelpContent(){
   intro.textContent="Install this website using your browser's built-in app installation option.";
   steps.innerHTML='<ol class="list-decimal pl-5 space-y-2"><li>Use an up-to-date Chrome or Edge browser.</li><li>Tap the install icon in the address bar or open the browser menu.</li><li>Choose <b>Install Centro La Vida Eterna Worship Songbook</b> and confirm.</li></ol><p class="mt-3 text-xs text-slate-500">The browser controls whether an automatic installation prompt is available.</p>';
 }
-async function installApp(event){
+function installApp(event){
   if(event){event.preventDefault();event.stopPropagation()}
   if(installIsStandalone()){showInstallButtons();toast("The Songbook is already installed on this device.");return}
   const button=event&&event.currentTarget;
   const originalLabel=button?button.innerHTML:"";
-  const p=A.installPrompt||window.__bip;
-  if(p&&typeof p.prompt==="function"){
+  const promptEvent=window.__bip||A.installPrompt;
+  if(promptEvent&&typeof promptEvent.prompt==="function"){
+    // IMPORTANT: invoke prompt() immediately in the original tap handler, before
+    // changing UI, awaiting a promise, or doing any asynchronous work. Android
+    // Chrome requires the transient user activation to still be active here.
+    let promptResult;
     try{
-      if(button){button.disabled=true;button.innerHTML='<i class="fa-solid fa-spinner fa-spin"></i> Opening install…'}
-      // Must be invoked synchronously from this tap; do not await before prompt().
-      const promptPromise=p.prompt();
-      await promptPromise;
-      const choice=await p.userChoice;
-      const accepted=!!(choice&&choice.outcome==="accepted");
-      await recordInstall(accepted?"prompt_accepted":"prompt_dismissed");
-      if(accepted)toast("Confirm Install in the Android dialog to add the Songbook to your phone.");
-      else toast("Installation was cancelled. Tap Install App to try again.");
+      promptResult=promptEvent.prompt();
     }catch(e){
-      console.warn("Install prompt failed",e);
+      console.warn("Install prompt could not be opened",e);
       installHelpContent();const d=$("installHelpDialog");if(d&&!d.open)d.showModal();
-    }finally{
-      A.installPrompt=null;window.__bip=null;
-      if(button){button.disabled=false;button.innerHTML=originalLabel}
-      showInstallButtons();
+      return;
     }
+    if(button){button.disabled=true;button.innerHTML='<i class="fa-solid fa-spinner fa-spin"></i> Opening install…'}
+    (async()=>{
+      try{
+        await promptResult;
+        const choice=await promptEvent.userChoice;
+        const accepted=!!(choice&&choice.outcome==="accepted");
+        await recordInstall(accepted?"prompt_accepted":"prompt_dismissed");
+        if(accepted)toast("Confirm Install in the Android dialog to add the Songbook to your phone.");
+        else toast("Installation was cancelled. Tap Install App to try again.");
+      }catch(e){
+        console.warn("Install prompt failed",e);
+        installHelpContent();const d=$("installHelpDialog");if(d&&!d.open)d.showModal();
+      }finally{
+        A.installPrompt=null;window.__bip=null;
+        if(button){button.disabled=false;button.innerHTML=originalLabel}
+        showInstallButtons();
+      }
+    })();
     return;
   }
   // Embedded Android browsers often cannot expose beforeinstallprompt. Hand off to Chrome.
@@ -1938,7 +1949,7 @@ async function installApp(event){
     openInChrome();
     return;
   }
-  // No website API can force-install if the browser did not dispatch beforeinstallprompt.
+  // Chrome controls whether beforeinstallprompt is exposed. The site cannot force it.
   installHelpContent();const d=$("installHelpDialog");if(d&&!d.open)d.showModal();
 }
 function setupInstallTracking(){
