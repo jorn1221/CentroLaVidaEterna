@@ -1,6 +1,6 @@
 try { importScripts('./brand-config.js'); } catch (e) { /* branding file missing: fall back to defaults */ }
 const BRAND = self.UECFI_BRAND || { version: '1', icons: [], images: [] };
-const CACHE_NAME = 'uecfi-songbook-v30-' + BRAND.version;
+const CACHE_NAME = 'uecfi-songbook-v32-' + BRAND.version;
 const APP_SHELL = [
   "./",
   "./index.html",
@@ -16,10 +16,10 @@ const APP_SHELL = [
   "./assets/intro/centro-intro-poster.jpg",
   "./assets/intro/centro-intro.mp4",
   "./brand-config.js",
-  "./assets/icons/centro-icon-192.png?v=2026-11-03",
-  "./assets/icons/centro-icon-512.png?v=2026-11-03",
-  "./assets/icons/centro-icon-maskable-512.png?v=2026-11-03",
-  "./assets/icons/apple-touch-icon.png?v=2026-11-03"
+  "./assets/icons/centro-icon-192.png?v=2026-11-04-v31",
+  "./assets/icons/centro-icon-512.png?v=2026-11-04-v31",
+  "./assets/icons/centro-icon-maskable-512.png?v=2026-11-04-v31",
+  "./assets/icons/apple-touch-icon.png?v=2026-11-04-v31"
 ];
 
 // Third-party files the app needs to draw itself. They are saved on the first online
