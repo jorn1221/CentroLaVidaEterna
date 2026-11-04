@@ -1,6 +1,6 @@
 try { importScripts('./brand-config.js'); } catch (e) { /* branding file missing: fall back to defaults */ }
 const BRAND = self.UECFI_BRAND || { version: '1', icons: [], images: [] };
-const CACHE_NAME = 'uecfi-songbook-v32-' + BRAND.version;
+const CACHE_NAME = 'uecfi-songbook-v33-' + BRAND.version;
 const APP_SHELL = [
   "./",
   "./index.html",
