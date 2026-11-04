@@ -1880,14 +1880,30 @@ function showInstallButtons(){
   const visible=!installIsStandalone();
   document.querySelectorAll("[data-install-btn]").forEach(b=>{b.classList.toggle("hidden",!visible);b.setAttribute("aria-hidden",visible?"false":"true")});
 }
+function isAndroidDevice(){return /Android/i.test(navigator.userAgent||"")}
+function isEmbeddedBrowser(){return /; wv\)|\bwv\b|FBAN|FBAV|Messenger|Instagram|\bGSA\//i.test(navigator.userAgent||"")}
+function openInChrome(){
+  const u=new URL(location.href);
+  const fallback=encodeURIComponent(u.href);
+  const intent='intent://'+u.host+u.pathname+u.search+u.hash+'#Intent;scheme='+u.protocol.replace(':','')+';package=com.android.chrome;S.browser_fallback_url='+fallback+';end';
+  location.href=intent;
+}
 function installHelpContent(){
   const ua=navigator.userAgent||"";
   const ios=/iPhone|iPad|iPod/i.test(ua)||(navigator.platform==="MacIntel"&&navigator.maxTouchPoints>1);
   const android=/Android/i.test(ua);
+  const embedded=isEmbeddedBrowser();
   const steps=$("installHelpSteps"),intro=$("installHelpIntro");
-  if(ios){intro.textContent="Safari on iPhone or iPad uses Add to Home Screen instead of an automatic install prompt.";steps.innerHTML='<ol class="list-decimal pl-5 space-y-2"><li>Open this songbook website in <b>Safari</b> (not an in-app browser).</li><li>Tap the <b>Share</b> button (the square with an upward arrow).</li><li>Scroll the share sheet and choose <b>Add to Home Screen</b>.</li><li>Keep the suggested name, then tap <b>Add</b>.</li><li>Open the new Centro La Vida Eterna icon from your Home Screen.</li></ol>';return}
-  if(android){intro.textContent="Use the browser installation prompt when available, or install from the browser menu.";steps.innerHTML='<ol class="list-decimal pl-5 space-y-2"><li>Open this website in <b>Chrome</b> or a supported Android browser.</li><li>If an install prompt appears, choose <b>Install</b>.</li><li>If no prompt appears, open the browser <b>⋮ menu</b> and choose <b>Install app</b> or <b>Add to Home screen</b>.</li><li>Confirm the installation, then open the songbook from your Home Screen or app list.</li></ol>';return}
-  intro.textContent="Install this website as an app using your browser's built-in installation option.";steps.innerHTML='<ol class="list-decimal pl-5 space-y-2"><li>Use an up-to-date <b>Chrome</b> or <b>Microsoft Edge</b> browser.</li><li>Look for the install icon at the right side of the address bar, or open the browser menu.</li><li>Choose <b>Install Centro La Vida Eterna Worship Songbook</b> or <b>Install this site as an app</b>.</li><li>Confirm, then launch it from your desktop or app list.</li></ol><p class="mt-3 text-xs text-slate-500">If your browser does not offer an install option, it may not support PWA installation in the current mode.</p>';
+  if(ios){intro.textContent="Sa iPhone/iPad, Safari ang kailangan para mag-install ng website bilang app.";steps.innerHTML='<ol class="list-decimal pl-5 space-y-2"><li>Buksan ang website sa <b>Safari</b>.</li><li>Pindutin ang <b>Share</b>.</li><li>Piliin ang <b>Add to Home Screen</b>, pagkatapos ay <b>Add</b>.</li></ol>';return}
+  if(android&&embedded){intro.textContent="Nasa loob ka ng Facebook, Messenger, o ibang in-app browser. Hindi nito laging ibinibigay ang PWA install prompt.";steps.innerHTML='<p class="mb-3">Buksan muna ang parehong page sa Google Chrome para lumabas ang tunay na Android install prompt.</p><button type="button" id="openChromeInstall" class="btn btn-primary w-full"><i class="fa-brands fa-chrome mr-2"></i>Open in Google Chrome</button><p class="mt-3 text-xs text-slate-500">Pagbukas sa Chrome, pindutin ulit ang Install App. Kung walang prompt, gamitin ang Chrome menu ⋮ → Install app.</p>';$ ("openChromeInstall")?.addEventListener("click",openInChrome);return}
+  if(android){
+    const controlled=!!(navigator.serviceWorker&&navigator.serviceWorker.controller);
+    intro.textContent="Chrome/Android ang browser. Kung hindi lumabas ang automatic prompt, tingnan muna ang PWA install option ng Chrome.";
+    steps.innerHTML='<ol class="list-decimal pl-5 space-y-2"><li>Siguraduhing online at updated ang Google Chrome.</li><li>I-refresh ang page pagkatapos mag-load ang service worker.</li><li>Pindutin ang <b>Install App</b> ulit. Kung walang prompt, buksan ang Chrome menu <b>⋮</b>.</li><li>Piliin ang <b>Install app</b> o <b>Add to Home screen</b>, pagkatapos kumpirmahin.</li></ol><p class="mt-3 text-xs text-slate-500">PWA service worker control: '+(controlled?'active':'not active yet')+'. Kapag hindi lumitaw ang Install app sa Chrome menu, hindi pa kinikilala ng Chrome na installable ang kasalukuyang deployment.</p>';
+    return;
+  }
+  intro.textContent="Install this website using your browser's built-in app installation option.";
+  steps.innerHTML='<ol class="list-decimal pl-5 space-y-2"><li>Use an up-to-date Chrome or Edge browser.</li><li>Tap the install icon in the address bar or open the browser menu.</li><li>Choose <b>Install Centro La Vida Eterna Worship Songbook</b> and confirm.</li></ol><p class="mt-3 text-xs text-slate-500">The browser controls whether an automatic installation prompt is available.</p>';
 }
 async function installApp(event){
   if(event){event.preventDefault();event.stopPropagation()}
@@ -1895,21 +1911,20 @@ async function installApp(event){
   const button=event&&event.currentTarget;
   const originalLabel=button?button.innerHTML:"";
   const p=A.installPrompt||window.__bip;
-  if(p){
-    // Call prompt() directly from this tap; browsers require a fresh user gesture.
+  if(p&&typeof p.prompt==="function"){
     try{
-      if(button){button.disabled=true;button.innerHTML='<i class="fa-solid fa-spinner fa-spin"></i> Opening…'}
-      const promptResult=p.prompt();
-      await promptResult;
+      if(button){button.disabled=true;button.innerHTML='<i class="fa-solid fa-spinner fa-spin"></i> Opening install…'}
+      // Must be invoked synchronously from this tap; do not await before prompt().
+      const promptPromise=p.prompt();
+      await promptPromise;
       const choice=await p.userChoice;
       const accepted=!!(choice&&choice.outcome==="accepted");
       await recordInstall(accepted?"prompt_accepted":"prompt_dismissed");
-      if(accepted)toast("Installation started. Follow the confirmation on your phone.");
-      else toast("Installation was cancelled. You can tap Install App again.");
+      if(accepted)toast("Confirm Install in the Android dialog to add the Songbook to your phone.");
+      else toast("Installation was cancelled. Tap Install App to try again.");
     }catch(e){
       console.warn("Install prompt failed",e);
-      installHelpContent();
-      const d=$("installHelpDialog");if(d&&!d.open)d.showModal();
+      installHelpContent();const d=$("installHelpDialog");if(d&&!d.open)d.showModal();
     }finally{
       A.installPrompt=null;window.__bip=null;
       if(button){button.disabled=false;button.innerHTML=originalLabel}
@@ -1917,10 +1932,14 @@ async function installApp(event){
     }
     return;
   }
-  // beforeinstallprompt is browser-controlled. If Chrome has not made the prompt
-  // available, the web page cannot force-install; provide the native browser route.
-  installHelpContent();
-  const d=$("installHelpDialog");if(d&&!d.open)d.showModal();
+  // Embedded Android browsers often cannot expose beforeinstallprompt. Hand off to Chrome.
+  if(isAndroidDevice()&&isEmbeddedBrowser()){
+    toast("Opening this Songbook in Google Chrome for installation…");
+    openInChrome();
+    return;
+  }
+  // No website API can force-install if the browser did not dispatch beforeinstallprompt.
+  installHelpContent();const d=$("installHelpDialog");if(d&&!d.open)d.showModal();
 }
 function setupInstallTracking(){
   if(window.__bip){A.installPrompt=window.__bip;recordInstall("prompt_available")}
@@ -2903,7 +2922,7 @@ $("updateLater").addEventListener("click",()=>$("updateBanner").classList.add("h
 /* read-only helpers exposed for the automated tests (no private data) */
 window.__uecf_test={transposeChordPro,transposeChordToken,isChordToken,transposedKeyLabel,searchSongs,normText,formatSongHtml,learnSongTemplate,songSig,effectiveSongTemplate,songIndex};
 
-if("serviceWorker" in navigator){window.addEventListener("load",()=>navigator.serviceWorker.register("./service-worker.js").catch(e=>console.warn("Offline service worker registration failed",e)))}
+if("serviceWorker" in navigator){window.addEventListener("load",async()=>{try{const reg=await navigator.serviceWorker.register("./service-worker.js",{scope:"./"});await navigator.serviceWorker.ready;console.info("UECFI PWA service worker ready",reg.scope)}catch(e){console.warn("UECFI PWA service worker registration failed",e)}})}
 init().then(updateOfflineStatus);
 </script>
 
