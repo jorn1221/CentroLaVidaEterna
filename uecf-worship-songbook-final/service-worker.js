@@ -1,4 +1,6 @@
-const CACHE_NAME = "uecfi-songbook-v29-intro-video-admin";
+try { importScripts('./brand-config.js'); } catch (e) { /* branding file missing: fall back to defaults */ }
+const BRAND = self.UECFI_BRAND || { version: '1', icons: [], images: [] };
+const CACHE_NAME = 'uecfi-songbook-v30-' + BRAND.version;
 const APP_SHELL = [
   "./",
   "./index.html",
@@ -12,7 +14,12 @@ const APP_SHELL = [
   "./assets/icons/centro-icon-maskable-512.png",
   "./assets/icons/apple-touch-icon.png",
   "./assets/intro/centro-intro-poster.jpg",
-  "./assets/intro/centro-intro.mp4"
+  "./assets/intro/centro-intro.mp4",
+  "./brand-config.js",
+  "./assets/icons/centro-icon-192.png?v=2026-11-03",
+  "./assets/icons/centro-icon-512.png?v=2026-11-03",
+  "./assets/icons/centro-icon-maskable-512.png?v=2026-11-03",
+  "./assets/icons/apple-touch-icon.png?v=2026-11-03"
 ];
 
 // Third-party files the app needs to draw itself. They are saved on the first online
@@ -173,4 +180,29 @@ self.addEventListener("fetch", event => {
       throw error;
     }
   })());
+});
+
+
+// ---- v30: branding refresh, background sync, update handling ----
+self.addEventListener("message", event => {
+  const d = event.data || {};
+  if (d.type === "SKIP_WAITING") { self.skipWaiting(); return; }
+  if (d.type === "REFRESH_BRANDING") {
+    event.waitUntil((async () => {
+      const cache = await caches.open(CACHE_NAME);
+      const keys = await cache.keys();
+      await Promise.all(keys.filter(r => /\/assets\/(icons\/|uecfi-logo|intro\/centro-intro-poster)/.test(r.url)).map(r => cache.delete(r)));
+      await Promise.all([].concat(BRAND.icons || [], BRAND.images || []).map(async p => {
+        try { const res = await fetch("./" + p, { cache: "reload" }); if (res && res.ok) await cache.put("./" + p, res); } catch (e) {}
+      }));
+      const cl = await self.clients.matchAll();
+      cl.forEach(c => c.postMessage({ type: "BRANDING_REFRESHED" }));
+    })());
+  }
+});
+// Background Sync (where the browser supports it): wake an open page so it uploads its saved activity/changes.
+self.addEventListener("sync", event => {
+  if (event.tag === "uecf-outbox") {
+    event.waitUntil(self.clients.matchAll().then(cs => cs.forEach(c => c.postMessage({ type: "FLUSH_OUTBOX" }))));
+  }
 });
