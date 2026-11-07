@@ -16,6 +16,8 @@ const APP_SHELL = [
   "./assets/intro/centro-intro-poster.jpg",
   "./assets/intro/centro-intro.mp4",
   "./brand-config.js",
+  "./notifications.js",
+  "./extras.js",
   "./assets/icons/centro-icon-192.png?v=2026-11-04-v35",
   "./assets/icons/centro-icon-512.png?v=2026-11-04-v35",
   "./assets/icons/centro-icon-maskable-512.png?v=2026-11-04-v35",
@@ -205,4 +207,24 @@ self.addEventListener("sync", event => {
   if (event.tag === "uecf-outbox") {
     event.waitUntil(self.clients.matchAll().then(cs => cs.forEach(c => c.postMessage({ type: "FLUSH_OUTBOX" }))));
   }
+});
+
+// ---- v36: Web Push ----
+self.addEventListener("push", event => {
+  let d = {};
+  try { d = event.data ? event.data.json() : {}; } catch (e) { d = { title: "Songbook", body: event.data ? event.data.text() : "" }; }
+  event.waitUntil(self.registration.showNotification(d.title || "UECFI Songbook", {
+    body: d.body || "", tag: d.tag || undefined, renotify: false,
+    icon: "./assets/icons/centro-icon-192.png", badge: "./assets/icons/centro-icon-192.png",
+    data: { link: d.link || "" }
+  }));
+});
+self.addEventListener("notificationclick", event => {
+  event.notification.close();
+  const link = (event.notification.data && event.notification.data.link) || "";
+  event.waitUntil((async () => {
+    const all = await self.clients.matchAll({ type: "window", includeUncontrolled: true });
+    for (const c of all) { try { await c.focus(); c.postMessage({ type: "NOTIF_CLICK", link }); return; } catch (e) {} }
+    await self.clients.openWindow("./" + (link ? "?open=" + encodeURIComponent(link.replace("#", "")) : ""));
+  })());
 });
