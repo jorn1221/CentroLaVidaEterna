@@ -1,6 +1,6 @@
 /* v36 — Notification center, signup alerts, Web Push, sound, song sharing.
    Runs after the main module. Uses window.__uecfDb (Supabase client, anon key only) and window.__uecfState. */
-const VAPID_PUBLIC_KEY = "PASTE_VAPID_PUBLIC_KEY_HERE"; // public key only; the private key stays in Supabase secrets
+const VAPID_PUBLIC_KEY = "BAvWlCGBTjbfyR4z909HFSkZEDY7QRcNSzOhW_9DoB4bLYtLdqSsua-wO0kFbG4eQx-Zb_aumkB37mfZyFo-JEw"; // public key only; the private key stays in Supabase secrets
 const $ = id => document.getElementById(id);
 const db = window.__uecfDb, S = () => window.__uecfState || {};
 const LS = { sound: "uecf_notif_sound", cache: uid => "uecf_notifs_" + uid };
