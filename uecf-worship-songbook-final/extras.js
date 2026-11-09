@@ -1,4 +1,4 @@
-/* v36 extras: Recently Viewed, reading-size memory, draft autosave + unsaved warning, duplicate-title warning,
+/* v36/v37 extras: reading-size memory, clickable stat cards, draft autosave + unsaved warning, duplicate-title warning,
    version history, Songbook Health / system status / backup, push-device management. Loaded after notifications.js. */
 const $ = id => document.getElementById(id);
 const db = window.__uecfDb, S = () => window.__uecfState || {};
@@ -13,27 +13,24 @@ const mk = (tag, cls, txt) => { const e = document.createElement(tag); if (cls) 
 /* ---- reading size (personal; never changes shared song formatting) ---- */
 (() => { const saved = Number(localStorage.getItem("uecf_read_font")); const st = S(); if (saved >= 12 && saved <= 40 && st) st.fontSize = saved; })();
 
-/* ---- recently viewed (per device, private) ---- */
-const recentKey = () => "uecf_recent_" + (S().user?.id || "guest");
-let lastSeen = null, lastFont = null, lastSongsRef = null;
-function recordRecent() {
-  const id = S().view === "song" ? S().currentSong?.id : null;
-  if (!id || id === lastSeen) return; lastSeen = id;
-  const list = [String(id), ...ls.get(recentKey(), []).filter(x => x !== String(id))].slice(0, 8); ls.set(recentKey(), list);
+/* ---- v37: "Recently viewed" removed. Old saved lists are cleaned up. ---- */
+try { Object.keys(localStorage).filter(k => k.startsWith("uecf_recent_")).forEach(k => localStorage.removeItem(k)); } catch (e) {}
+let lastFont = null, lastSongsRef = null;
+
+/* ---- v37: the four stat cards (Songs / Playlists / Favorites / Access) are real buttons ---- */
+(() => { const st = document.createElement("style"); st.textContent = "#stats [data-go]{cursor:pointer;transition:transform .12s,box-shadow .12s}#stats [data-go]:hover{transform:translateY(-2px);box-shadow:0 6px 18px #0004}#stats [data-go]:active{transform:scale(.98)}"; document.head.appendChild(st); })();
+function goStat(k) {
+  const nav = v => document.querySelector('[data-view="' + v + '"]');
+  if (k === "access") {
+    if (isSuper() || canEdit()) { (nav("admin") || {}).click?.(); return; }
+    const r = S().profile?.role; toast("Your access: " + (r === "super_admin" ? "Super Admin" : r === "editor" ? "Editor" : "Member (read-only)") + ".");
+    return;
+  }
+  nav(k)?.click();
+  if (k === "home") setTimeout(() => $("view-home")?.scrollIntoView({ behavior: "smooth", block: "start" }), 120);
 }
-function renderRecent() {
-  const home = $("view-home"); if (!home || S().view !== "home") return;
-  const songs = S().songs || [], ids = ls.get(recentKey(), []).filter(id => songs.some(s => String(s.id) === id));
-  let w = $("recentWrap");
-  if (!ids.length) { w?.remove(); return; }
-  const sig = ids.join(",");
-  if (w && w.dataset.sig === sig) return; w?.remove();
-  w = mk("div", "mb-3"); w.id = "recentWrap"; w.dataset.sig = sig;
-  w.appendChild(mk("div", "text-xs font-bold text-slate-500 mb-1", "Recently viewed"));
-  const row = mk("div", "flex gap-2 flex-wrap");
-  ids.forEach(id => { const s = songs.find(x => String(x.id) === id); const b = mk("button", "btn btn-ghost", s.title); b.type = "button"; b.onclick = () => { const c = document.querySelector('[data-open="' + CSS.escape(id) + '"]'); if (c) c.click(); else toast("Clear the search box to open this song."); }; row.appendChild(b); });
-  w.appendChild(row); home.prepend(w);
-}
+document.addEventListener("click", ev => { const c = ev.target.closest?.("#stats [data-go]"); if (c) goStat(c.dataset.go); });
+document.addEventListener("keydown", ev => { if (ev.key !== "Enter" && ev.key !== " ") return; const c = ev.target.closest?.("#stats [data-go]"); if (c) { ev.preventDefault(); goStat(c.dataset.go); } });
 
 /* ---- draft autosave + unsaved warning ---- */
 let dirty = false, timer = null;
@@ -142,21 +139,18 @@ setInterval(() => {
     const st = S(); if (!st.songs) return;
     if (st.songs !== lastSongsRef) { lastSongsRef = st.songs; if (st.songs.length) localStorage.setItem("uecf_songs_refreshed", String(Date.now())); }
     if (st.fontSize && st.fontSize !== lastFont) { lastFont = st.fontSize; localStorage.setItem("uecf_read_font", String(st.fontSize)); }
-    recordRecent(); renderRecent(); inject(); checkDraft();
+    $("recentWrap")?.remove(); inject(); checkDraft();
   } catch (e) {}
 }, 1200);
 
 /* ---- Preview before saving (song form) ---- */
 function previewSong() {
   const api = window.__uecfApi, text = $("songLyrics")?.value || ""; if (!api || !text.trim()) { toast("Type the lyrics first."); return; }
-  const id = $("songId")?.value, ex = id ? (S().songs || []).find(x => String(x.id) === String(id)) : null;
-  const auto = $("songAutoFormat")?.checked !== false; let html;
-  if (!auto) html = "<pre style='white-space:pre-wrap'></pre>";
-  else { let tpl; if (ex?.lyrics_html) { const o = api.learnSongTemplate([ex]); if (o.learnedFrom) tpl = o.template; } html = api.formatSongHtml(text, tpl); }
+  const auto = $("songAutoFormat")?.checked !== false;
   const body = dialog("previewDialog", "Preview");
-  const note = mk("p", "text-xs text-slate-500 mb-2", auto ? "This is how the song will look after saving (songbook style)." : "Auto-format is off: the song will be saved without songbook formatting.");
-  const box = mk("div", "lyrics text-lg leading-8"); if (auto) box.innerHTML = html; else box.firstChild || (box.textContent = text);
-  if (!auto) { const pre = mk("pre", "", text); pre.style.whiteSpace = "pre-wrap"; box.textContent = ""; box.appendChild(pre); }
+  const note = mk("p", "text-xs text-slate-500 mb-2", auto ? "This is how the song will look after saving (songbook style, same as the song page)." : "Auto-format is off: the song will be saved without songbook formatting.");
+  const box = mk("div", "lyrics mt-2"); box.style.fontSize = (S().fontSize || 16) + "px"; box.style.lineHeight = "2"; box.style.overflowWrap = "anywhere";
+  if (auto) box.innerHTML = api.formatSongHtml(text); else { const pre = mk("pre", "", text); pre.style.whiteSpace = "pre-wrap"; box.appendChild(pre); }
   body.append(note, box);
 }
 function injectPreview() {
