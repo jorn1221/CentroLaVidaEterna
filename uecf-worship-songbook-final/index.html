@@ -2239,13 +2239,15 @@ function formatSongHtml(chordpro,tpl){
     const bare=trimmed.replace(/^\[|\]$/g,"").replace(/:$/,"").trim();
     if((bracket||!/\[/.test(line))&&HEADING_RE.test(bare)&&bare.length<30){
       cur=sectionType(bare);const bt=(tpl.byType&&tpl.byType[cur])||{};
-      const hs=css({display:"block","text-align":align,color:bt.headingColor||tpl.heading.color,"font-weight":tpl.heading.weight,"font-size":tpl.heading.size,"letter-spacing":tpl.heading.spacing,"text-transform":tpl.heading.transform,margin:tpl.heading.margin});
+      // Enforce songbook color rule: only Verse headings are gold; all other headings are white.
+      const hs=css({display:"block","text-align":align,color:cur==="verse"?"rgb(255, 192, 0)":"#FFFFFF","font-weight":tpl.heading.weight,"font-size":tpl.heading.size,"letter-spacing":tpl.heading.spacing,"text-transform":tpl.heading.transform,margin:tpl.heading.margin});
       out.push('<strong data-section="'+esc(bare)+'" style="'+hs+'">'+esc(bare)+"</strong>");
       continue;
     }
     const bt=(tpl.byType&&tpl.byType[cur])||{};
     const body=esc(line).replace(/\[([^\]\n]{1,14})\]/g,(all,inner)=>isChordToken(inner)?'<span class="chord">['+inner+"]</span>":all);
-    const st=css({color:bt.bodyColor||tpl.body.color,"font-size":tpl.body.size,"line-height":tpl.body.lineHeight,"font-style":tpl.body.style===undefined?"italic":tpl.body.style,"font-weight":tpl.body.weight});
+    // Lyrics/body text must always remain white, regardless of saved per-type color settings.
+    const st=css({color:"#FFFFFF","font-size":tpl.body.size,"line-height":tpl.body.lineHeight,"font-style":tpl.body.style===undefined?"italic":tpl.body.style,"font-weight":tpl.body.weight});
     out.push((st?'<span style="'+st+'">'+body+"</span>":body)+"<br>");
   }
   return '<div style="text-align:'+align+'">'+out.join("")+"</div>";
