@@ -4,7 +4,7 @@ const VAPID_PUBLIC_KEY = "PASTE_VAPID_PUBLIC_KEY_HERE"; // public key only; the 
 const $ = id => document.getElementById(id);
 const db = window.__uecfDb, S = () => window.__uecfState || {};
 const LS = { sound: "uecf_notif_sound", cache: uid => "uecf_notifs_" + uid };
-let items = [], channel = null, uid = null, prefs = { signup_alerts: true, push_enabled: true };
+let items = [], tab = "all", channel = null, uid = null, prefs = { signup_alerts: true, push_enabled: true };
 
 function soundOn() { return localStorage.getItem(LS.sound) !== "off"; }
 function beep() { // short two-tone; browsers may block audio until the user has interacted with the page
@@ -27,23 +27,30 @@ function ensureUI() {
   btn.id = "notifBtn"; btn.type = "button"; btn.className = "btn btn-ghost !border-white/30 text-white hidden"; btn.setAttribute("aria-label", "Notifications");
   btn.style.position = "relative"; btn.innerHTML = '<i class="fa-solid fa-bell"></i><span id="notifBadge" class="hidden" style="position:absolute;top:-6px;right:-6px;min-width:18px;height:18px;padding:0 5px;border-radius:9px;background:#e11d48;color:#fff;font-size:11px;font-weight:800;line-height:18px;text-align:center"></span>';
   const theme = $("themeBtn"); theme.parentNode.insertBefore(btn, theme);
+  const css = document.createElement("style");
+  css.textContent = ".nf-tabs{display:flex;gap:.4rem;margin:.6rem 0}.nf-tab{border-radius:999px;padding:.3rem .85rem;font-weight:700;font-size:.85rem;border:1px solid #64748b55;background:transparent;color:inherit}.nf-tab.on{background:#f5b51b;color:#1b1400;border-color:#f5b51b}"
+    + ".nf-item{display:flex;gap:.7rem;align-items:flex-start;padding:.65rem .5rem;border-radius:12px;cursor:pointer;position:relative}.nf-item:hover{background:#64748b22}.nf-item.unread{background:#f5b51b1c}"
+    + ".nf-ic{flex:0 0 auto;width:42px;height:42px;border-radius:50%;background:#173b75;color:#fff;display:flex;align-items:center;justify-content:center}.nf-tx{flex:1;min-width:0;font-size:.92rem;line-height:1.3}.nf-tx b{display:block}.nf-ago{font-size:.75rem;color:#f5b51b;font-weight:700;margin-top:2px}.nf-dot{flex:0 0 auto;width:10px;height:10px;border-radius:50%;background:#f5b51b;margin-top:.9rem}"
+    + "#notifSettings summary{cursor:pointer;font-weight:700;font-size:.85rem;padding:.4rem 0}";
+  document.head.appendChild(css);
   const dlg = document.createElement("dialog"); dlg.id = "notifDialog";
-  dlg.innerHTML = `<div class="p-5 bg-white dark:bg-slate-800 text-slate-900 dark:text-slate-100" style="min-width:min(92vw,460px)">
+  dlg.innerHTML = `<div class="p-5 bg-white dark:bg-slate-800 text-slate-900 dark:text-slate-100" style="min-width:min(92vw,420px)">
     <div class="flex items-center justify-between gap-2"><h2 class="text-xl font-extrabold">Notifications</h2><button type="button" id="notifClose" class="text-xl" aria-label="Close">&times;</button></div>
-    <div id="notifStatus" class="text-xs text-slate-500 mt-1"></div>
-    <div class="flex gap-2 my-3 flex-wrap"><button type="button" id="notifReadAll" class="btn btn-ghost">Mark all as read</button><button type="button" id="notifClear" class="btn btn-danger">Clear history</button></div>
-    <div id="notifList" style="max-height:38vh;overflow:auto" class="space-y-2"></div>
-    <hr class="my-3"><h3 class="font-bold text-sm mb-2">Settings</h3>
+    <div class="flex items-center justify-between gap-2"><div class="nf-tabs"><button type="button" class="nf-tab on" id="nfAll">All</button><button type="button" class="nf-tab" id="nfUnread">Unread</button></div><button type="button" id="notifReadAll" class="text-sm font-bold" style="color:#f5b51b">Mark all as read</button></div>
+    <div id="notifStatus" class="text-xs text-slate-500"></div>
+    <div id="notifList" style="max-height:48vh;overflow:auto" class="mt-2"></div>
+    <button type="button" id="notifClear" class="btn btn-ghost w-full mt-3" style="color:#e11d48">Clear all notifications</button>
+    <details id="notifSettings" class="mt-3"><summary>Notification settings</summary><div class="mt-2">
     <label class="flex items-center gap-2 text-sm mb-2"><input type="checkbox" id="notifSoundChk"> In-app notification sound</label>
     <button type="button" id="notifTest" class="btn btn-ghost mb-2">Test sound</button>
     <label id="notifSignupWrap" class="flex items-center gap-2 text-sm mb-2 hidden"><input type="checkbox" id="notifSignupChk"> New signup alerts</label>
     <button type="button" id="notifPushBtn" class="btn btn-primary w-full">Enable push notifications</button>
-    <p id="notifPushMsg" class="text-xs text-slate-500 mt-2"></p>
-    <p class="text-xs text-slate-500 mt-2">Sound for push alerts when the app is closed is controlled by your device (volume, silent mode, Do Not Disturb).</p></div>`;
+    <p id="notifPushMsg" class="text-xs text-slate-500 mt-2"></p></div></details></div>`;
   document.body.appendChild(dlg);
   btn.onclick = () => { render(); dlg.showModal(); };
   $("notifClose").onclick = () => dlg.close();
   $("notifReadAll").onclick = markAll; $("notifClear").onclick = clearAll;
+  $("nfAll").onclick = () => { tab = "all"; render(); }; $("nfUnread").onclick = () => { tab = "unread"; render(); };
   $("notifTest").onclick = () => { if (!beep()) toast("Sound could not play on this device/browser."); };
   $("notifSoundChk").onchange = e => localStorage.setItem(LS.sound, e.target.checked ? "on" : "off");
   $("notifSignupChk").onchange = async e => { const v = e.target.checked; const { error } = await db.from("notification_prefs").upsert({ user_id: uid, signup_alerts: v, updated_at: new Date().toISOString() }); if (error) { e.target.checked = !v; toast("Could not save the setting."); } else prefs.signup_alerts = v; };
@@ -57,15 +64,21 @@ function render() {
   $("notifSoundChk").checked = soundOn();
   $("notifSignupWrap").classList.toggle("hidden", S().profile?.role !== "super_admin");
   $("notifSignupChk").checked = prefs.signup_alerts !== false;
+  $("nfAll").classList.toggle("on", tab === "all"); $("nfUnread").classList.toggle("on", tab === "unread");
   list.textContent = "";
-  if (!items.length) { const p = document.createElement("p"); p.className = "text-sm text-slate-500"; p.textContent = "No notifications."; list.appendChild(p); return; }
-  for (const it of items) {
-    const row = document.createElement("div"); row.className = "log-row"; row.style.cursor = "pointer"; if (!it.read_at) row.style.borderLeft = "4px solid #f5b51b";
-    const a = document.createElement("b"); a.textContent = it.title; const b = document.createElement("div"); b.className = "log-det"; b.textContent = it.body || ""; const c = document.createElement("div"); c.className = "log-det"; c.textContent = fmt(it.created_at);
-    row.append(a, b, c); row.onclick = () => openItem(it); list.appendChild(row);
+  const shown = tab === "unread" ? items.filter(x => !x.read_at) : items;
+  if (!shown.length) { const p = document.createElement("p"); p.className = "text-sm text-slate-500 py-4 text-center"; p.textContent = tab === "unread" ? "No unread notifications." : "No notifications yet."; list.appendChild(p); refreshPushUI(); return; }
+  for (const it of shown) {
+    const row = document.createElement("div"); row.className = "nf-item" + (it.read_at ? "" : " unread");
+    const ic = document.createElement("div"); ic.className = "nf-ic"; ic.innerHTML = '<i class="fa-solid ' + (/sign|account|member/i.test((it.title || "") + (it.link || "")) ? "fa-user-plus" : "fa-bell") + '"></i>';
+    const tx = document.createElement("div"); tx.className = "nf-tx"; const t = document.createElement("b"); t.textContent = it.title || ""; const bd = document.createElement("span"); bd.textContent = it.body || ""; const ag = document.createElement("div"); ag.className = "nf-ago"; ag.textContent = ago(it.created_at);
+    tx.append(t, bd, ag); row.append(ic, tx);
+    if (!it.read_at) { const dot = document.createElement("span"); dot.className = "nf-dot"; row.appendChild(dot); }
+    row.onclick = () => openItem(it); list.appendChild(row);
   }
   refreshPushUI();
 }
+function ago(d) { const s = Math.max(0, (Date.now() - new Date(d).getTime()) / 1000); if (!isFinite(s)) return ""; if (s < 60) return "Just now"; if (s < 3600) return Math.floor(s / 60) + "m"; if (s < 86400) return Math.floor(s / 3600) + "h"; if (s < 604800) return Math.floor(s / 86400) + "d"; return fmt(d); }
 async function openItem(it) {
   if (!it.read_at && navigator.onLine) { const t = new Date().toISOString(); const { error } = await db.from("notifications").update({ read_at: t }).eq("id", it.id); if (!error) { it.read_at = t; saveCache(); } }
   $("notifDialog").close(); render(); go(it.link);
@@ -81,7 +94,7 @@ async function markAll() {
 }
 async function clearAll() {
   if (!navigator.onLine) { toast("Connect to the internet to clear history."); return; }
-  if (!confirm("Clear all your notifications?\n\nThis only removes your own notification history and cannot be undone.")) return;
+  if (!(await window.uecfConfirm({ title: "Clear all notifications?", message: "This only removes your own notification history and cannot be undone.", confirmText: "Clear all", danger: true }))) return;
   const { error } = await db.from("notifications").delete().eq("user_id", uid);
   if (error) { toast("Could not clear notifications."); return; } items = []; saveCache(); render();
 }
