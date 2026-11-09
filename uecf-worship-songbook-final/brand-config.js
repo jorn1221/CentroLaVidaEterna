@@ -3,7 +3,7 @@
    (3) change the ?v= number at the end of the icon URLs in manifest.json to the same value,
    (4) deploy, then press "Refresh branding on all devices" in Super Admin -> Settings. */
 self.UECFI_BRAND={
-  version:"2026-11-07-v36",
+  version:"2026-11-09-v37",
   icons:["assets/icons/centro-icon-192.png","assets/icons/centro-icon-512.png","assets/icons/centro-icon-maskable-512.png","assets/icons/apple-touch-icon.png"],
   images:["assets/uecfi-logo.png","assets/uecfi-logo-transparent.png","assets/intro/centro-intro-poster.jpg"]
 };
