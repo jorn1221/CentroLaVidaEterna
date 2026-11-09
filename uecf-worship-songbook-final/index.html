@@ -8,6 +8,24 @@
 <meta name="application-name" content="UECFI Songbook">
 <link rel="manifest" href="manifest.json">
 <script src="brand-config.js"></script>
+<script>
+/* v37: in-app confirmation dialog. Native confirm()/prompt() are often suppressed in installed PWAs, which made Clear all / Clear history look dead. */
+window.uecfConfirm=function(o){o=o||{};return new Promise(function(res){
+  var d=document.createElement("dialog");d.setAttribute("aria-label",o.title||"Confirm");d.style.cssText="max-width:min(92vw,420px);width:100%;padding:0";
+  var b=document.createElement("div");b.style.cssText="padding:20px";
+  var t=document.createElement("h2");t.className="text-xl font-extrabold";t.textContent=o.title||"Are you sure?";
+  var p=document.createElement("p");p.className="text-sm mt-2";p.style.whiteSpace="pre-line";p.textContent=o.message||"";
+  b.appendChild(t);b.appendChild(p);if(o.render)o.render(b);
+  var row=document.createElement("div");row.style.cssText="display:flex;gap:.5rem;justify-content:flex-end;margin-top:1rem;flex-wrap:wrap";
+  var c=document.createElement("button");c.type="button";c.className="btn btn-ghost";c.textContent=o.cancelText||"Cancel";
+  var k=document.createElement("button");k.type="button";k.className=o.danger?"btn btn-danger":"btn btn-primary";k.textContent=o.confirmText||"Confirm";
+  var out=false;
+  c.onclick=function(){d.close()};
+  k.onclick=function(){out=o.collect?o.collect():true;d.close()};
+  d.addEventListener("close",function(){d.remove();res(out)});
+  row.appendChild(c);row.appendChild(k);b.appendChild(row);d.appendChild(b);document.body.appendChild(d);d.showModal();c.focus();
+})};
+</script>
 <script>window.addEventListener("beforeinstallprompt",function(e){e.preventDefault();window.__bip=e;window.dispatchEvent(new Event("uecf:bip"))});window.addEventListener("appinstalled",function(){window.__installed=true;window.dispatchEvent(new Event("uecf:installed"))});</script>
 <link rel="icon" type="image/png" sizes="192x192" href="assets/icons/centro-icon-192.png" data-brand-href="assets/icons/centro-icon-192.png">
 <link rel="apple-touch-icon" href="assets/icons/apple-touch-icon.png" data-brand-href="assets/icons/apple-touch-icon.png">
@@ -980,10 +998,10 @@ dialog.pw-dialog{padding:0;max-width:min(94vw,440px);width:100%;border-radius:20
       <img src="assets/clve-church-banner.webp" alt="Centro La Vida Eterna, Urbiztondo Pangasinan — church and Worship Songbook banner" class="hero-banner">
     </section>
     <section id="stats" class="grid grid-cols-2 lg:grid-cols-4 gap-3 mb-5">
-      <div class="card p-4"><div class="text-xs text-slate-500">Songs</div><div id="statSongs" class="text-2xl font-black mt-1">0</div></div>
-      <div class="card p-4"><div class="text-xs text-slate-500">Playlists</div><div id="statPlaylists" class="text-2xl font-black mt-1">0</div></div>
-      <div class="card p-4"><div class="text-xs text-slate-500">Favorites</div><div id="statFavorites" class="text-2xl font-black mt-1">0</div></div>
-      <div class="card p-4"><div class="text-xs text-slate-500">Access</div><div id="statAccess" class="text-sm font-bold mt-2">Read-only</div></div>
+      <div class="card p-4" data-go="home" role="button" tabindex="0" aria-label="Open Songs"><div class="text-xs text-slate-500">Songs</div><div id="statSongs" class="text-2xl font-black mt-1">0</div></div>
+      <div class="card p-4" data-go="playlists" role="button" tabindex="0" aria-label="Open Playlists"><div class="text-xs text-slate-500">Playlists</div><div id="statPlaylists" class="text-2xl font-black mt-1">0</div></div>
+      <div class="card p-4" data-go="favorites" role="button" tabindex="0" aria-label="Open Favorites"><div class="text-xs text-slate-500">Favorites</div><div id="statFavorites" class="text-2xl font-black mt-1">0</div></div>
+      <div class="card p-4" data-go="access" role="button" tabindex="0" aria-label="Open Admin or show access level"><div class="text-xs text-slate-500">Access</div><div id="statAccess" class="text-sm font-bold mt-2">Read-only</div></div>
     </section>
     <section id="view-home">
       <div class="flex flex-col lg:flex-row lg:items-end gap-3 justify-between mb-4">
@@ -1952,8 +1970,13 @@ function installApp(event){
     openInChrome();
     return;
   }
-  // Chrome controls whether beforeinstallprompt is exposed. The site cannot force it.
-  installHelpContent();const d=$("installHelpDialog");if(d&&!d.open)d.showModal();
+  // Chrome may fire its install event a moment late. Wait a few seconds (the tap is still valid), then install; only fall back to the guide if Chrome never offers it.
+  if(button){button.disabled=true;button.innerHTML='<i class="fa-solid fa-spinner fa-spin"></i> Preparing install…'}
+  const restoreBtn=()=>{if(button){button.disabled=false;button.innerHTML=originalLabel}};
+  let settled=false,tm=0;
+  const onBip=()=>{if(settled)return;settled=true;clearTimeout(tm);restoreBtn();installApp({preventDefault(){},stopPropagation(){},currentTarget:button})};
+  tm=setTimeout(()=>{if(settled)return;settled=true;window.removeEventListener("uecf:bip",onBip);restoreBtn();installHelpContent();const d=$("installHelpDialog");if(d&&!d.open)d.showModal()},3000);
+  window.addEventListener("uecf:bip",onBip,{once:true});
 }
 function setupInstallTracking(){
   if(window.__bip){A.installPrompt=window.__bip;recordInstall("prompt_available")}
@@ -2156,11 +2179,11 @@ function renderSongs(){
 
 /* ---------- Auto-formatting template (centered songbook style) ---------- */
 const HEADING_RE=/^(verse|chorus|bridge|pre[\s-]?chorus|intro|outro|tag|coda|refrain|interlude|ending|instrumental|hook)\b[^\n]{0,24}$/i;
-const DEFAULT_SONG_TEMPLATE={align:"center",heading:{color:"#d99a00",weight:"700",size:"",spacing:".08em",transform:"uppercase",margin:"1.1em 0 .25em"},body:{color:"",size:"",lineHeight:""},byType:{}};
+const DEFAULT_SONG_TEMPLATE={align:"center",heading:{color:"#d99a00",weight:"700",size:"",spacing:".08em",transform:"uppercase",margin:"1.1em 0 .25em"},body:{color:"",size:"",lineHeight:"",style:"italic",weight:""},byType:{}};
 function sectionType(label){const m=String(label).toLowerCase().match(/^(verse|chorus|bridge|pre[\s-]?chorus|intro|outro|tag|coda|refrain|interlude|ending|instrumental|hook)/);return m?m[1].replace(/[\s-]/g,""):"other"}
 function learnSongTemplate(songs){
   // Looks at songs that already have saved formatting (lyrics_html) and copies their most common style.
-  const votes={align:{},hColor:{},hWeight:{},hSize:{},hSpacing:{},hTransform:{},bColor:{},bSize:{},bLine:{},byType:{}};
+  const votes={align:{},hColor:{},hWeight:{},hSize:{},hSpacing:{},hTransform:{},bColor:{},bSize:{},bLine:{},bStyle:{},bWeight:{},byType:{}};
   const vote=(o,k)=>{if(k)o[k]=(o[k]||0)+1};const top=o=>{let b="",n=0;for(const k in o)if(o[k]>n){b=k;n=o[k]}return b};
   let used=0;
   for(const s of(songs||[]).slice(0,60)){
@@ -2178,7 +2201,7 @@ function learnSongTemplate(songs){
         cur=sectionType(own);
         if(st){vote(votes.hColor,st.color);vote(votes.hWeight,st.fontWeight);vote(votes.hSize,st.fontSize);vote(votes.hSpacing,st.letterSpacing);vote(votes.hTransform,st.textTransform);
           votes.byType[cur]=votes.byType[cur]||{h:{},b:{}};vote(votes.byType[cur].h,st.color)}
-      }else if(st){vote(votes.bColor,st.color);vote(votes.bSize,st.fontSize);vote(votes.bLine,st.lineHeight);
+      }else if(st){vote(votes.bColor,st.color);vote(votes.bSize,st.fontSize);vote(votes.bLine,st.lineHeight);vote(votes.bStyle,st.fontStyle||(el.closest("i,em")?"italic":""));vote(votes.bWeight,st.fontWeight);
         votes.byType[cur]=votes.byType[cur]||{h:{},b:{}};vote(votes.byType[cur].b,st.color)}
     }
   }
@@ -2192,7 +2215,7 @@ function learnSongTemplate(songs){
   if(top(votes.hTransform))t.heading.transform=top(votes.hTransform);
   if(top(votes.bColor))t.body.color=top(votes.bColor);
   if(top(votes.bSize))t.body.size=top(votes.bSize);
-  if(top(votes.bLine))t.body.lineHeight=top(votes.bLine);
+  if(top(votes.bLine))t.body.lineHeight=top(votes.bLine);if(top(votes.bStyle))t.body.style=top(votes.bStyle);if(top(votes.bWeight))t.body.weight=top(votes.bWeight);
   for(const k in votes.byType){const e={};const hc=top(votes.byType[k].h),bc=top(votes.byType[k].b);if(hc)e.headingColor=hc;if(bc)e.bodyColor=bc;if(hc||bc)t.byType[k]=e}
   return{template:t,learnedFrom:used};
 }
@@ -2222,7 +2245,7 @@ function formatSongHtml(chordpro,tpl){
     }
     const bt=(tpl.byType&&tpl.byType[cur])||{};
     const body=esc(line).replace(/\[([^\]\n]{1,14})\]/g,(all,inner)=>isChordToken(inner)?'<span class="chord">['+inner+"]</span>":all);
-    const st=css({color:bt.bodyColor||tpl.body.color,"font-size":tpl.body.size,"line-height":tpl.body.lineHeight});
+    const st=css({color:bt.bodyColor||tpl.body.color,"font-size":tpl.body.size,"line-height":tpl.body.lineHeight,"font-style":tpl.body.style===undefined?"italic":tpl.body.style,"font-weight":tpl.body.weight});
     out.push((st?'<span style="'+st+'">'+body+"</span>":body)+"<br>");
   }
   return '<div style="text-align:'+align+'">'+out.join("")+"</div>";
@@ -2715,9 +2738,9 @@ async function saLogs(p){
   // user filter (from the accounts table, names only)
   if(navigator.onLine){try{const {data}=await db.from("profiles").select("id,full_name,role").order("full_name");const u=$("logUser");(data||[]).forEach(x=>{const o=document.createElement("option");o.value=x.id;o.textContent=(x.full_name||x.id.slice(0,8))+" ("+(ROLE_LABEL[x.role]||x.role)+")";if(logState.user===x.id)o.selected=true;u.appendChild(o)})}catch(e){}}
   const read=()=>{logState.search=$("logSearch").value.trim();logState.group=$("logGroup").value;logState.type=$("logType").value;logState.user=$("logUser").value;logState.from=$("logFrom").value;logState.to=$("logTo").value};
-  $("logApply").onclick=()=>{read();logState.page=0;loadLogs()};
+  $("logApply").onclick=()=>{read();logState.page=0;loadLogs();toast("Filters applied.")};
   $("logSearch").addEventListener("keydown",e=>{if(e.key==="Enter"){read();logState.page=0;loadLogs()}});
-  $("logReset").onclick=()=>{Object.assign(logState,{page:0,search:"",group:"",type:"",user:"",from:"",to:""});saLogs(p)};
+  $("logReset").onclick=()=>{Object.assign(logState,{page:0,search:"",group:"",type:"",user:"",from:"",to:""});saLogs(p);toast("Filters reset.")};
   $("logClear").onclick=clearLogsFlow;
   loadLogs();
 }
@@ -2736,10 +2759,12 @@ async function loadLogs(){
   $("logPrev").onclick=()=>{logState.page--;loadLogs()};$("logNext").onclick=()=>{logState.page++;loadLogs()};
 }
 async function clearLogsFlow(){
-  const days=prompt("Clear activity history.\n\nType how many days of NEWEST history to KEEP (example: 30 deletes everything older than 30 days).\nType 0 to delete ALL history.\n\nThis cannot be undone.","30");
-  if(days===null)return;const d=Number(days);if(!Number.isFinite(d)||d<0){toast("Invalid number.");return}
-  const word=prompt(`Final confirmation.\n\nYou are about to delete ${d===0?"ALL activity history":"history older than "+d+" days"}.\nType CLEAR to confirm.`,"");
-  if(word!=="CLEAR"){toast("Cancelled. History was not changed.");return}
+  let sel;
+  const r=await uecfConfirm({title:"Clear activity history?",message:"Choose what to delete. This cannot be undone.",confirmText:"Clear history",danger:true,
+    render(box){sel=document.createElement("select");sel.className="field";sel.style.marginTop=".6rem";sel.style.width="100%";[["0","All history"],["7","Older than 7 days"],["30","Older than 30 days"],["90","Older than 90 days"]].forEach(([v,l])=>{const o=document.createElement("option");o.value=v;o.textContent=l;sel.appendChild(o)});box.appendChild(sel)},
+    collect(){return sel.value}});
+  if(r===false)return;
+  const d=Number(r);
   const before=d===0?null:new Date(Date.now()-d*864e5).toISOString();
   const {data,error}=await db.rpc("admin_clear_activity_logs",{p_confirm:"CLEAR",p_before:before});
   if(error){toast(error.message);return}
@@ -2753,16 +2778,15 @@ async function saPasswords(p){
   const {data,error}=await db.rpc("admin_list_password_resets",{p_limit:50,p_offset:0});
   if(error){p.innerHTML=saMigrationBanner()+`<div class="acct-note">${esc(error.message)}</div>`;return}
   const rows=data.rows||[];
-  p.innerHTML=saMigrationBanner()+`<div class="acct-note">“Email accepted” means the request was accepted, not that the email was delivered.</div>
-  <div class="text-xs text-slate-500 mb-2">${data.total} request${data.total===1?"":"s"} (showing latest ${rows.length})</div>
+  p.innerHTML=saMigrationBanner()+`<div id="pwCount" class="text-xs text-slate-500 mb-2">${data.total} request${data.total===1?"":"s"} (showing latest ${rows.length})</div>
   ${rows.length?rows.map(r=>`<div class="log-row"><div class="log-top"><b>${esc(r.email)}</b><span class="log-when">${esc(fmtWhen(r.requested_at))}</span></div>
    <div class="log-meta"><span class="st-badge ${r.account_found?"st-approved":"st-rejected"}">${r.account_found?"Account found":"No account"}</span>
    <span class="st-badge ${r.email_status==="accepted"?"st-approved":r.email_status==="failed"?"st-rejected":"st-pending"}">Email ${esc(r.email_status==="accepted"?"accepted by Supabase":r.email_status)}</span>
    <span class="st-badge ${r.password_changed_at?"st-approved":"st-pending"}">${r.password_changed_at?"Password changed "+esc(fmtWhen(r.password_changed_at)):"Password not changed (yet)"}</span></div>
    ${r.error_message?`<div class="log-det">${esc(r.error_message)}</div>`:""}</div>`).join(""):'<p class="text-sm text-slate-500">No password reset requests yet.</p>'}`;
-  if(rows.length){const bar=document.createElement("div");bar.className="acct-actions";bar.style.margin=".4rem 0";bar.innerHTML='<button type="button" class="btn btn-danger" id="pwClearAll"><i class="fa-solid fa-trash mr-1"></i>Clear all</button>';p.querySelector(".acct-note")?.after(bar);
-   p.querySelectorAll(".log-row").forEach((row,i)=>{const r=rows[i];if(!r)return;const b=document.createElement("button");b.type="button";b.className="btn btn-ghost";b.textContent="Delete record";b.onclick=async()=>{if(!confirm("Delete this reset request record?\n\nOnly the history record is removed. The account and its password are not affected."))return;const {error:e}=await db.rpc("admin_delete_password_reset_log",{p_id:r.id});if(e){toast("Unable to delete the record.");return}toast("Record deleted.");saPasswords(p)};row.appendChild(b)});
-   $("pwClearAll").onclick=async()=>{if(!confirm("Clear all password reset history?\n\nThis removes only the request records (email, status, time). Accounts and passwords are not affected. This cannot be undone."))return;if(prompt("Type CLEAR to confirm.")!=="CLEAR"){toast("Cancelled. Nothing was deleted.");return}const {data:n,error:e}=await db.rpc("admin_clear_password_reset_logs",{p_confirm:"CLEAR"});if(e){toast("Unable to clear the history.");return}toast(n+" record(s) cleared.");saPasswords(p)}}
+  if(rows.length){const bar=document.createElement("div");bar.className="acct-actions";bar.style.margin=".4rem 0";bar.innerHTML='<button type="button" class="btn btn-danger" id="pwClearAll"><i class="fa-solid fa-trash mr-1"></i>Clear all</button>';p.querySelector("#pwCount")?.before(bar);
+   p.querySelectorAll(".log-row").forEach((row,i)=>{const r=rows[i];if(!r)return;const b=document.createElement("button");b.type="button";b.className="btn btn-ghost";b.textContent="Delete record";b.onclick=async()=>{if(!(await uecfConfirm({title:"Delete this record?",message:"Only the history record is removed. The account and its password are not affected.",confirmText:"Delete record",danger:true})))return;const {error:e}=await db.rpc("admin_delete_password_reset_log",{p_id:r.id});if(e){toast("Unable to delete the record.");return}toast("Record deleted.");saPasswords(p)};row.appendChild(b)});
+   $("pwClearAll").onclick=async()=>{if(!(await uecfConfirm({title:"Clear all password reset history?",message:"This removes only the request records (email, status, time). Accounts and passwords are not affected.\n\nThis cannot be undone.",confirmText:"Clear all",danger:true})))return;const {data:n,error:e}=await db.rpc("admin_clear_password_reset_logs",{p_confirm:"CLEAR"});if(e){toast("Unable to clear the history.");return}toast(n+" record(s) cleared.");saPasswords(p)}}
 }
 
 /* ---------- Recycle Bin ---------- */
@@ -2870,8 +2894,8 @@ V30.songFormSubmit=async e=>{
   const auto=$("songAutoFormat")?$("songAutoFormat").checked:true;
   const changedLyrics=!existing||String(existing.lyrics_chordpro||"").trim()!==row.lyrics_chordpro;
   if(!id||changedLyrics){
-    if(auto&&existing&&existing.lyrics_html&&!confirm("The lyrics changed. Re-apply the songbook style?\n\nOK = re-format using this song's own verse/chorus colors.\nCancel = stop; nothing is saved."))return;
-    let tpl;if(auto&&existing&&existing.lyrics_html){const own=learnSongTemplate([existing]);if(own.learnedFrom)tpl=own.template}
+    if(auto&&existing&&existing.lyrics_html&&!(await uecfConfirm({title:"Re-apply songbook style?",message:"The lyrics changed. The song will be re-formatted to the standard songbook style.\n\nCancel = nothing is saved.",confirmText:"Re-format and save"})))return;
+    let tpl;
     row.lyrics_html=auto?formatSongHtml(row.lyrics_chordpro,tpl):null}
   const localId=id||uuid();
   try{
